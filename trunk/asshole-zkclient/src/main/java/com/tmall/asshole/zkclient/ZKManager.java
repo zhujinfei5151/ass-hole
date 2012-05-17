@@ -1,4 +1,4 @@
-package com.tmall.assole.zkclient;
+package com.tmall.asshole.zkclient;
 
 import java.util.ArrayList;
 import java.util.List;

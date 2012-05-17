@@ -1,4 +1,4 @@
-package com.tmall.assole.zkclient;
+package com.tmall.asshole.zkclient;
 
 public class ZKConfig {
 	

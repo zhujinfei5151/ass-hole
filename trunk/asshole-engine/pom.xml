@@ -22,5 +22,17 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+	    <dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>asshole-zkclient</artifactId>
+		</dependency>
+	    <dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>asshole-schedule</artifactId>
+		</dependency>
+		  <dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>asshole-event</artifactId>
+		</dependency>
 	</dependencies>
 </project>

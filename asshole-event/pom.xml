@@ -30,5 +30,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring</artifactId>
 		</dependency>
+		   <dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>asshole-zkclient</artifactId>
+		</dependency>
+	    <dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>asshole-schedule</artifactId>
+		</dependency>
 	</dependencies>
 </project>

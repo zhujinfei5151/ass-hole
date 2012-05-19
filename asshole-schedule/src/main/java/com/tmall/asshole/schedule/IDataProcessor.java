@@ -1,8 +1,5 @@
 package com.tmall.asshole.schedule;
 
-import java.util.List;
-
-
 /***
  * @author jiuxian.tjo
  */
@@ -14,6 +11,6 @@ public interface IDataProcessor<T> {
 	 * @param data
 	 * @throws SchedulerException
 	 */
-	public abstract void process(List<T> data) throws Exception;
+	public abstract void process(T data) throws Exception;
 
 }

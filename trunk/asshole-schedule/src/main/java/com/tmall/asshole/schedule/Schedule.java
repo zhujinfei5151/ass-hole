@@ -19,6 +19,8 @@ public class Schedule<T> extends Job {
 	protected SchedulerThreadPoolExecutor threadPool;
 	protected final IDataLoader<T> dataLoader;
 	protected final IDataProcessor<T> dataProcessor;
+	
+	// 考虑远程变量推送
 	public boolean dealWithReceiveMsg = true;
 	private int schedulingPollingTime;
 	protected int maxHashNum;
@@ -106,7 +108,13 @@ public class Schedule<T> extends Job {
 			Runnable task = new Runnable() {
 				public void run() {
 					try {
-						dataProcessor.process(dataList);
+						for (T t : dataList) {
+							try {
+								dataProcessor.process(t);
+							} catch (Throwable e) {
+							   logger.error(" process error taskName: ["+ taskName+ "] data: [ " + t + " ]", e);
+							}
+						}
 					} catch (Exception e) {
 						logger.error("Scheduler[" + taskName + "]threadPool.execute error dataProcessor.process dealDataList:["
 								+ ToStringBuilder.reflectionToString(dataList) + "]", e);

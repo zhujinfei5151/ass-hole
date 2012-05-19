@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
 import com.tmall.asshole.event.filter.codec.ProtocolDecoder;
 import com.tmall.asshole.event.filter.codec.ProtocolEncoder;
 /****
@@ -16,7 +17,7 @@ import com.tmall.asshole.event.filter.codec.ProtocolEncoder;
  *
  * @param <T>
  */
-public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>{
+public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>,ProtocolCodecFactory<T>{
 	public T decode(byte[] bytes,Class<? extends T> clz)throws Exception {
 		T object = clz.getConstructor().newInstance();
 		String json =new String(bytes);
@@ -86,6 +87,12 @@ public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>{
 			}
 		}
 		return false;
+	}
+	public ProtocolEncoder<T> getEncoder() throws Exception {
+		return this;
+	}
+	public ProtocolDecoder<T> getDecoder() throws Exception {
+		return this;
 	}
 
 }

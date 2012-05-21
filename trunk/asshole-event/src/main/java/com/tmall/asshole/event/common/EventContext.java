@@ -6,5 +6,14 @@ package com.tmall.asshole.event.common;
  *
  */
 public class EventContext {
+	private EventStatus status;
+
+	public EventStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(EventStatus status) {
+		this.status = status;
+	}
 
 }

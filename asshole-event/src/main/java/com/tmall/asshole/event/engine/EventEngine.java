@@ -3,6 +3,9 @@ package com.tmall.asshole.event.engine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.tmall.asshole.event.common.Event;
+import com.tmall.asshole.event.common.EventContext;
+
 
 /***
  * 
@@ -11,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @param <Event>
  * @param <EventContext>
  */
-public class EventEngine<Event,EventContext> implements IEngine<Event,EventContext> {
+public class EventEngine implements IEngine<Event,EventContext> {
 	private static transient Log logger = LogFactory.getLog(EventEngine.class);
 	
 	@Autowired
@@ -27,7 +30,16 @@ public class EventEngine<Event,EventContext> implements IEngine<Event,EventConte
 			String eventName = event.getClass().getName();
 			IHandler handler = handlerLocator.lookup(eventName);
 			try {
-				flg = handler.handle(event, context);
+			  // PowerEventEngine 不是一般的 EventEngine ， 需要用AbstractHandler
+			  if(!(handler instanceof AbstractHandler)){
+				  context.setMemo("高级的PowerEventEngine 使用不了哦~"+handler.getClass()+"不是继承AbstractHandler");
+				  return false;
+			  }
+			    AbstractHandler abstractHandler = (AbstractHandler) handler;
+			    boolean before = abstractHandler.beforeHandle(event, context);
+			    boolean now = abstractHandler.handle(event, context);
+			    boolean after = abstractHandler.afterHandle(event, context);
+				flg = before && now && after;
 			} catch (Exception e) {
 				logger.debug("Event process error name:" + eventName + " content:" + event.toString(), e);
 				throw e;

@@ -43,7 +43,7 @@ public class Schedule<T> extends Job {
 		
 		
 		//根据配置决定选择 scheduleFgetcPolicy
-		scheduleFgetcPolicyFactory.create(config.getAlgorithmType());
+		scheduleFgetcPolicy=scheduleFgetcPolicyFactory.create(config.getAlgorithmType());
 		
 	}
 	

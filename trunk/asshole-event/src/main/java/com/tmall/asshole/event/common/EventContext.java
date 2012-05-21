@@ -6,14 +6,30 @@ package com.tmall.asshole.event.common;
  *
  */
 public class EventContext {
-	private EventStatus status;
+	
+	private String memo;
+	
+	private String operator;
 
-	public EventStatus getStatus() {
-		return status;
+	public String getMemo() {
+		return memo;
 	}
 
-	public void setStatus(EventStatus status) {
-		this.status = status;
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
+
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+	
+	
+	
+	
+
 
 }

@@ -26,6 +26,8 @@ public class Event {
 	private String operator;
 	
 	private int hash_num;
+	
+	private int exec_count;
 
 	public EventStatus getStatus() {
 		return status;
@@ -100,6 +102,16 @@ public class Event {
 	public void setHash_num(int hash_num) {
 		this.hash_num = hash_num;
 	}
+
+	public int getExec_count() {
+		return exec_count;
+	}
+
+	public void setExec_count(int exec_count) {
+		this.exec_count = exec_count;
+	}
+	
+	
 	
 	
 	

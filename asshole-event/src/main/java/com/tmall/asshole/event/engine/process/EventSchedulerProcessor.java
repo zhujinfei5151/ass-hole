@@ -7,6 +7,7 @@ import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,17 +70,25 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.ev
 	}
 
 	public void process(Event data) throws Exception {
+		EventContext context = new EventContext();
 		try {
-			EventContext context = new EventContext();
 		     if (eventEngine.fire(data, context)) {
-		         data.setStatus(EventStatus.EVENT_STATUS_SUCCESS);
-		         
-		    	 
-		    	 
-		     }
-			
+		           data.setStatus(EventStatus.EVENT_STATUS_SUCCESS);
+		           data.setMemo(StringUtils.isBlank(context.getMemo())?"":context.getMemo());
+	               data.setOperator(context.getOperator());
+		     } else {
+	                data.setExec_count(data.getExec_count() + 1);
+	                data.setStatus(EventStatus.EVENT_STATUS_FAILED);
+	                data.setMemo(StringUtils.isBlank(context.getMemo())?"":context.getMemo());
+	                data.setOperator(context.getOperator());
+	          }
 			
 		} catch (Exception e) {
+			   data.setExec_count(data.getExec_count()+1);
+	            data.setStatus(EventStatus.EVENT_STATUS_EXCEPTION);
+	            data.setMemo(StringUtils.isBlank(context.getMemo())?"":context.getMemo());
+	            data.setOperator(context.getOperator());
+			    
 
 			if (logger.isErrorEnabled()) {
 				logger.error("update status failed", e);

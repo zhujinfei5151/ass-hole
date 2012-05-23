@@ -2,13 +2,13 @@ package com.tmall.asshole.event.common;
 
 public enum EventStatus {
 	
-	EVENT_STATUS_FAILED(-1,"执行失败"),
-	EVENT_STATUS_UNEXECUTED(0,"未执行"),
-	EVENT_STATUS_SUCCESS(1,"执行成功"),
-	EVENT_STATUS_DELETED(2,"执行被删除"),
-	EVENT_STATUS_PARAMETER_ERROR(3,"参数异常"),
-	EVENT_STATUS_LOADED(9,"执行中"),
-	EVENT_STATUS_EXCEPTION(10,"执行异常");
+	EVENT_STATUS_FAILED(-1,"ִ��ʧ��"),
+	EVENT_STATUS_UNEXECUTED(0,"δִ��"),
+	EVENT_STATUS_SUCCESS(1,"ִ�гɹ�"),
+	EVENT_STATUS_DELETED(2,"ִ�б�ɾ��"),
+	EVENT_STATUS_PARAMETER_ERROR(3,"�����쳣"),
+	EVENT_STATUS_LOADED(9,"ִ����"),
+	EVENT_STATUS_EXCEPTION(10,"ִ���쳣");
   	
 
 	private int code;

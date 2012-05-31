@@ -3,31 +3,66 @@ package com.tmall.asshole.event.common;
 import java.util.Date;
 
 /****
- * 
+ *
  * @author tangjinou
  *
  */
 public class Event {
-	
+
+	public Event(Event e) {
+		super();
+		this.id = e.getId();
+		this.status = e.status;
+		this.env = e.env;
+		this.memo = e.memo;
+		this.type_class = e.type_class;
+		this.content = e.content;
+		this.execute_machine_ip = e.execute_machine_ip;
+		this.execute_machine_hash_range = e.execute_machine_hash_range;
+		this.gmt_create = e.gmt_create;
+		this.gmt_modify = e.gmt_modify;
+		this.operator = e.operator;
+		this.hash_num = e.hash_num;
+		this.exec_count = e.exec_count;
+	}
+
+	public Event() {
+
+	}
+
+	private Long id;
+
 	private EventStatus status;
-	
+
 	private EventEnv env;
-	
+
 	private String memo;
-	
+
+	private String type_class;
+
+	private String content;
+
 	private String execute_machine_ip;
-	
+
 	private String execute_machine_hash_range;
-	
+
 	private Date gmt_create;
-	
+
 	private Date gmt_modify;
-	
+
 	private String operator;
-	
+
 	private int hash_num;
-	
+
 	private int exec_count;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public EventStatus getStatus() {
 		return status;
@@ -52,8 +87,6 @@ public class Event {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-
-	
 
 	public String getOperator() {
 		return operator;
@@ -110,14 +143,21 @@ public class Event {
 	public void setExec_count(int exec_count) {
 		this.exec_count = exec_count;
 	}
-	
-	
-	
-	
-	
-	
 
-	
-	
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getType_class() {
+		return type_class;
+	}
+
+	public void setType_class(String type_class) {
+		this.type_class = type_class;
+	}
 
 }

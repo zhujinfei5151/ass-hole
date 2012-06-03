@@ -13,6 +13,5 @@ import com.tmall.asshole.zkclient.data.NodeData;
 public interface INodeChange {
 	
 	void onChange(NodeData data,NodeData parentNodeData,List<String> machines,WatchedEvent event);
-	
 
 }

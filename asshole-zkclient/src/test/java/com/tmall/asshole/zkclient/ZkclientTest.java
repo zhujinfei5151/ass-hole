@@ -1,0 +1,176 @@
+package com.tmall.asshole.zkclient;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.zookeeper.WatchedEvent;
+
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
+import com.tmall.asshole.zkclient.data.ChangeData;
+import com.tmall.asshole.zkclient.data.NodeData;
+
+/***
+ * 
+ * @author tangjinou
+ *
+ */
+public class ZkclientTest  extends TestCase{
+	
+	static ZKConfig zkConfig1;
+	
+	static ZKConfig zkConfig2;
+	
+	static  ZKConfig zkConfig3;
+	
+	
+	static{
+		ZKServerUtil.start();	
+	
+		zkConfig1=new ZKConfig();
+		zkConfig1.setRootPath("/test");
+		zkConfig1.setZkConnectString("localhost:2181");
+		zkConfig1.setZkSessionTimeout(2000);
+		zkConfig1.setLocalIPAddressForTest("192.168.1.");
+		
+		zkConfig2=new ZKConfig();
+		zkConfig2.setRootPath("/test");
+		zkConfig2.setZkConnectString("localhost:2181");
+		zkConfig2.setZkSessionTimeout(2000);
+		zkConfig2.setLocalIPAddressForTest("192.168.1.42");
+		
+		zkConfig3=new ZKConfig();
+		zkConfig3.setRootPath("/test");
+		zkConfig3.setZkConnectString("localhost:2181");
+		zkConfig3.setZkSessionTimeout(2000);
+		zkConfig3.setLocalIPAddressForTest("192.168.1.43");
+		
+		
+	}
+
+	protected List<ChangeData> changeDatas1=new ArrayList<ChangeData>();
+	
+	protected List<ChangeData> changeDatas2=new ArrayList<ChangeData>();
+	
+	protected List<ChangeData> changeDatas3=new ArrayList<ChangeData>();
+	
+	public void testBasicZkClientRun(){
+		 ZKClient client1 = null;
+    
+		try {
+		
+			client1 = new ZKClient(new INodeChange() {
+			public void onChange(NodeData data, NodeData parentNodeData,
+					List<String> machines,WatchedEvent event) {
+				changeDatas1.add(new ChangeData(data, parentNodeData, machines, event));
+			}
+		}, zkConfig1);
+		
+			client1.start();
+			Thread.sleep(10000);
+			
+			Assert.assertEquals(1, changeDatas1.size());
+			
+			Assert.assertNotNull(changeDatas1.get(0).getMachines());
+			
+			Assert.assertNotNull(changeDatas1.get(0).getNodeData());
+			
+			
+		} catch (Exception e) {
+		   fail();
+		} finally{
+			changeDatas1.clear();
+			client1.close();
+		}
+	}
+
+	public void testBasicMutiZkClientRun(){
+    
+		final ZKClient client1 = new ZKClient(new INodeChange() {
+			public void onChange(NodeData data, NodeData parentNodeData,
+					List<String> machines,WatchedEvent event) {
+				changeDatas1.add(new ChangeData(data, parentNodeData, machines, event));
+			}
+		}, zkConfig1);
+		
+		
+		final ZKClient client2 = new ZKClient(new INodeChange() {
+			public void onChange(NodeData data, NodeData parentNodeData,
+					List<String> machines,WatchedEvent event) {
+				 changeDatas2.add(new ChangeData(data, parentNodeData, machines,event));
+			}
+		}, zkConfig2);
+		
+		final ZKClient client3 = new ZKClient(new INodeChange() {
+			public void onChange(NodeData data, NodeData parentNodeData,
+					List<String> machines,WatchedEvent event) {
+				 changeDatas3.add(new ChangeData(data, parentNodeData, machines,event));
+			}
+		}, zkConfig3);
+		
+		
+		try {
+			//第一台机器已经启动起来
+			client1.start();
+			Thread.sleep(3000);
+			//第二台机器已经启动起来
+			client2.start();
+			Thread.sleep(5000);
+			
+			Assert.assertEquals(2 , changeDatas1.size());
+			
+			Assert.assertEquals(1, changeDatas2.size());
+
+			Assert.assertEquals(2, changeDatas1.get(1).getMachines().size());
+
+			Assert.assertEquals(2, changeDatas2.get(0).getMachines().size());
+			
+			//关闭第一台机器
+			client1.close();
+			Thread.sleep(5000);
+			//第二台机器收到变更消息 目前收到两个消息一个是根节点发送的 一个是子节点发送的
+			Assert.assertEquals(2, changeDatas2.size());
+			Assert.assertEquals(1, changeDatas2.get(1).getMachines().size());
+			
+			//重新将第一台机器打开
+			client1.start();
+			Thread.sleep(5000);
+			Assert.assertEquals(3, changeDatas2.size());
+			
+			
+			//再关闭第一台机器
+			client1.close();
+			Thread.sleep(5000);
+			Assert.assertEquals(4, changeDatas2.size());
+			
+			
+			//重新开启第一台机器和第三台机器
+			client1.start();
+			client3.start();
+			Thread.sleep(5000);
+			//目前线上有三台机器
+			Assert.assertEquals(3, changeDatas2.get(changeDatas2.size()-1).getMachines().size());
+			Assert.assertEquals(6, changeDatas2.size());
+			
+			
+			
+			
+
+		} catch (Exception e) {
+		   fail();
+		} finally{
+			changeDatas1.clear();
+			changeDatas2.clear();
+			changeDatas2.clear();
+			client1.close();
+			client2.close();
+			client3.close();
+		}
+		
+	}
+	
+	
+	
+
+}

@@ -6,20 +6,25 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 
 public class ZKTools {
 
-	public static void createPath(ZooKeeper zk, String path,CreateMode createMode, List<ACL> acl) throws Exception {
+	public static void createPath(ZooKeeper zk, String path,byte[] datas,CreateMode createMode, List<ACL> acl) throws Exception {
 		String[] list = path.split("/");
 		String zkPath = "";
 		for (String str : list) {
 			if (str.equals("") == false) {
 				zkPath = zkPath + "/" + str;
 				if (zk.exists(zkPath, false) == null) {
-					zk.create(zkPath, null, acl, createMode);
+					if(zkPath.trim().equals(path)){
+						 zk.create(zkPath, datas, acl==null?Ids.OPEN_ACL_UNSAFE:acl, createMode);
+					}else{
+					     zk.create(zkPath, null, acl==null?Ids.OPEN_ACL_UNSAFE:acl, createMode);
+					}
 				}
 			}
 		}

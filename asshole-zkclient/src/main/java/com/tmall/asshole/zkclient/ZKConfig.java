@@ -1,13 +1,32 @@
 package com.tmall.asshole.zkclient;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+
+/***
+ * @author tangjinou
+ */
 public class ZKConfig {
 	
+	//默认不做权限校验 利于测试
+	private Boolean usePermissions=false;
 	private String username;
 	private String password;
 	private String zkConnectString;
 	private int zkSessionTimeout;
 	private String rootPath;
+	private String localIPAddress;
+
 	
+	public Boolean getUsePermissions() {
+		return usePermissions;
+	}
+	public void setUsePermissions(Boolean usePermissions) {
+		this.usePermissions = usePermissions;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -39,6 +58,47 @@ public class ZKConfig {
 	public void setZkSessionTimeout(int zkSessionTimeout) {
 		this.zkSessionTimeout = zkSessionTimeout;
 	}
+	
+	public String getLocalIPAddress(){
+		    if(localIPAddress==null){
+		    	   try {
+		               Enumeration<?> e1 = (Enumeration<?>) NetworkInterface.getNetworkInterfaces();
+		               while (e1.hasMoreElements()) {
+		                      NetworkInterface ni = (NetworkInterface) e1.nextElement();
+		                      Enumeration<?> e2 = ni.getInetAddresses();
+		                      while (e2.hasMoreElements()) {
+		                             InetAddress ia = (InetAddress) e2.nextElement();
+		                             // ip = ia.getHostAddress ();
+		                             if (!ia.isLoopbackAddress()) {
+		                                    if (ia instanceof Inet4Address) {
+		                                    	  localIPAddress = ia.getHostAddress();
+		                                    }
+		                             }
+		                      }
+		               }
+
+		        } catch (SocketException e) {
+		        }
+		    }
+	        return localIPAddress;
+	 }
+	
+	/****
+	 * 默认给测试使用
+	 * 
+	 * @param localIPAddress
+	 */
+	public void setLocalIPAddressForTest(String localIPAddress) {
+		this.localIPAddress = localIPAddress;
+	}
+	public String getFullPath(){
+		  return  this.rootPath+"/"+getLocalIPAddress();
+	}
+	
+	public String getMyPath(){
+		return  "/"+getLocalIPAddress();
+	}
+	
 	
 	
 

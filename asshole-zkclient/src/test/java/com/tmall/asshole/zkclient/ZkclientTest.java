@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import com.tmall.asshole.zkclient.data.ChangeData;
+import com.tmall.asshole.zkclient.data.Data;
 import com.tmall.asshole.zkclient.data.NodeData;
 
 /***
@@ -76,6 +77,21 @@ public class ZkclientTest  extends TestCase{
 			
 			Assert.assertNotNull(changeDatas1.get(0).getNodeData());
 			
+			Data data = new Data("1",Boolean.TRUE);
+			
+			List<Data> dataL = new ArrayList<Data>();
+			
+			dataL.add(data);
+					
+			client1.reSetNodeData(dataL);
+			
+			Thread.sleep(2000);
+			
+			List<Data> newDataL = client1.getNodeDatas();
+			
+			Assert.assertEquals(1, newDataL.size());
+			
+			Assert.assertEquals(Boolean.TRUE, newDataL.get(0).getT());
 			
 		} catch (Exception e) {
 		   fail();
@@ -152,8 +168,6 @@ public class ZkclientTest  extends TestCase{
 			//目前线上有三台机器
 			Assert.assertEquals(3, changeDatas2.get(changeDatas2.size()-1).getMachines().size());
 			Assert.assertEquals(6, changeDatas2.size());
-			
-			
 			
 			
 

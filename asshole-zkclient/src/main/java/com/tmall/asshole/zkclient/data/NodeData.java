@@ -42,6 +42,12 @@ public class NodeData  implements Serializable{
 	public List<Data> getDatas() {
 		return datas;
 	}
+
+	public void setDatas(List<Data> datas) {
+		this.datas = datas;
+	}
+	
+   	
 	
 	
 	

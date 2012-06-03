@@ -22,6 +22,11 @@ public class ChangeData {
 		this.machines=machines;
 		this.event = event;
 	}
+	
+	public ChangeData(List<String> machines){
+		this.machines=machines;
+	}
+	
 
 	public NodeData getNodeData() {
 		return nodeData;

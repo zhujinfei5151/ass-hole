@@ -2,9 +2,6 @@ package com.tmall.asshole.zkclient;
 
 import java.util.List;
 
-import org.apache.zookeeper.WatchedEvent;
-
-import com.tmall.asshole.zkclient.data.NodeData;
 
 /****
  *  
@@ -12,6 +9,6 @@ import com.tmall.asshole.zkclient.data.NodeData;
  */
 public interface INodeChange {
 	
-	void onChange(NodeData data,NodeData parentNodeData,List<String> machines,WatchedEvent event);
+	void onChange(List<String> machines);
 
 }

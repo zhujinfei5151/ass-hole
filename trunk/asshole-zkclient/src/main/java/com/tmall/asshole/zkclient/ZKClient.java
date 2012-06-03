@@ -11,6 +11,7 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tmall.asshole.zkclient.data.Data;
 import com.tmall.asshole.zkclient.data.NodeData;
 import com.tmall.asshole.zkclient.data.PersistenceUtil;
 
@@ -211,8 +212,31 @@ public class ZKClient  implements Watcher {
 	public void setVersion(ZKClientVersion version) {
 		this.version = version;
 	}
-
 	
+	public void reSetNodeData(List<Data> dataL)  throws Exception{
+		NodeData nodeData = getNodeData();
+		nodeData.setDatas(dataL);
+		byte[] datas = PersistenceUtil.serializable(nodeData);
+		zKManager.getZk().setData(zKConfig.getFullPath(), datas, -1);
+	}
+	
+	private NodeData getNodeData() throws Exception{
+		  return PersistenceUtil.deSerializable(zKManager.getZk().getData(zKConfig.getFullPath(), false, null));  
+	}
+	
+	private NodeData getParentNodeData() throws Exception{
+		  return PersistenceUtil.deSerializable(zKManager.getZk().getData(zKConfig.getRootPath(), false, null));  
+	}
+	
+	public List<Data> getNodeDatas() throws Exception{
+		  return getNodeData().getDatas();  
+	}
+	
+	public List<Data> getParentNodeDatas() throws Exception{
+		  return getParentNodeData().getDatas();  
+	}
+
+
 		
 
 }

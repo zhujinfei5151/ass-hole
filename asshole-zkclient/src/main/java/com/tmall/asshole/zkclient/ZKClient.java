@@ -149,28 +149,7 @@ public class ZKClient  implements Watcher {
 			
 			if(zKConfig.getRootPath().trim().equals(path)){
 				children = zKManager.getZk().getChildren(zKConfig.getRootPath(), false);
-				
-				//自己节点上的数据
-				
-				NodeData  nodeData = null;
-				
-				NodeData parentNodeData = null;
-			
-			   try{		
-			      nodeData=PersistenceUtil.deSerializable(zKManager.getZk().getData(zKConfig.getFullPath(), false, null));
-			   }catch (Exception e) {
-				log.error(e);
-			   }
-			
-			   //父节点上的数据
-			   try{
-				  parentNodeData=PersistenceUtil.deSerializable(zKManager.getZk().getData(zKConfig.getRootPath(), false, null));
-			   }catch (NullPointerException e) {
-				   // null pointer 说明根节点数据为空
-			   }catch (Exception e) {
-				   log.error(e);
-			   }
-			    iNodeChange.onChange(nodeData,parentNodeData,children,event);
+			    iNodeChange.onChange(children);
 		   }
 			
 	   }	    

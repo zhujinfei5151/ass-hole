@@ -62,9 +62,8 @@ public class ZkclientTest  extends TestCase{
 		try {
 		
 			client1 = new ZKClient(new INodeChange() {
-			public void onChange(NodeData data, NodeData parentNodeData,
-					List<String> machines,WatchedEvent event) {
-				changeDatas1.add(new ChangeData(data, parentNodeData, machines, event));
+			public void onChange(List<String> machines) {
+				changeDatas1.add(new ChangeData(machines));
 			}
 		}, zkConfig1);
 		
@@ -74,8 +73,6 @@ public class ZkclientTest  extends TestCase{
 			Assert.assertEquals(1, changeDatas1.size());
 			
 			Assert.assertNotNull(changeDatas1.get(0).getMachines());
-			
-			Assert.assertNotNull(changeDatas1.get(0).getNodeData());
 			
 			Data data = new Data("1",Boolean.TRUE);
 			
@@ -104,24 +101,21 @@ public class ZkclientTest  extends TestCase{
 	public void testBasicMutiZkClientRun(){
     
 		final ZKClient client1 = new ZKClient(new INodeChange() {
-			public void onChange(NodeData data, NodeData parentNodeData,
-					List<String> machines,WatchedEvent event) {
-				changeDatas1.add(new ChangeData(data, parentNodeData, machines, event));
+			public void onChange(List<String> machines) {
+				changeDatas1.add(new ChangeData(machines));
 			}
 		}, zkConfig1);
 		
 		
 		final ZKClient client2 = new ZKClient(new INodeChange() {
-			public void onChange(NodeData data, NodeData parentNodeData,
-					List<String> machines,WatchedEvent event) {
-				 changeDatas2.add(new ChangeData(data, parentNodeData, machines,event));
+			public void onChange(List<String> machines) {
+				changeDatas2.add(new ChangeData(machines));
 			}
 		}, zkConfig2);
 		
 		final ZKClient client3 = new ZKClient(new INodeChange() {
-			public void onChange(NodeData data, NodeData parentNodeData,
-					List<String> machines,WatchedEvent event) {
-				 changeDatas3.add(new ChangeData(data, parentNodeData, machines,event));
+			public void onChange(List<String> machines) {
+				changeDatas3.add(new ChangeData(machines));
 			}
 		}, zkConfig3);
 		

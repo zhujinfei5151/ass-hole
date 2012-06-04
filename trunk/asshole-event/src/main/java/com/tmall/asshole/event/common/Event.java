@@ -1,5 +1,6 @@
 package com.tmall.asshole.event.common;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /****
@@ -7,7 +8,7 @@ import java.util.Date;
  * @author tangjinou
  *
  */
-public class Event {
+public class Event implements Serializable {
 
 	public Event(Event e) {
 		super();
@@ -31,6 +32,12 @@ public class Event {
 	}
 
 	private Long id;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3356840467368327481L;
+
 
 	private EventStatus status;
 
@@ -56,6 +63,33 @@ public class Event {
 
 	private int exec_count;
 
+
+	
+	private Long identifier;
+	
+	private Long parent_biz_order_id;
+	
+	private Long biz_order_id;
+	
+	private Long workcard_id;
+	
+	
+	private String type;
+	
+	
+
+	
+	private Integer source;
+	
+	private Date event_time;
+	
+	private Long buyer_id;
+	
+
+	public Integer getStatus() {
+		return status.getCode();
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -64,20 +98,40 @@ public class Event {
 		this.id = id;
 	}
 
-	public EventStatus getStatus() {
+	public EventStatus getEventStatus() {
 		return status;
 	}
-
-	public void setStatus(EventStatus status) {
+	/**
+	 * 重载 用于ibatis数据库更新
+	 * @param status
+	 */
+	public void setStatus(Integer status) {
+		
+		this.status = EventStatus.getEventStatusByCode(status);
+	}
+	/**
+	 * 重载
+	 * @param status
+	 */
+	public void setStatus(EventStatus status)	{
 		this.status = status;
+		
 	}
 
-	public EventEnv getEnv() {
-		return env;
+	public Integer getEnv() {
+		return env.getCode();
 	}
 
 	public void setEnv(EventEnv env) {
 		this.env = env;
+	}
+	
+	/**
+	 * 重载 用于ibatis数据库更新
+	 * @param env
+	 */
+	public void setEnv(Integer env) {
+		this.env = EventEnv.getEventEnvByCode(env);
 	}
 
 	public String getMemo() {
@@ -87,7 +141,6 @@ public class Event {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-
 	public String getOperator() {
 		return operator;
 	}
@@ -136,16 +189,84 @@ public class Event {
 		this.hash_num = hash_num;
 	}
 
-	public int getExec_count() {
+	
+
+	public Long getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(Long identifier) {
+		this.identifier = identifier;
+	}
+
+	public Long getParent_biz_order_id() {
+		return parent_biz_order_id;
+	}
+
+	public void setParent_biz_order_id(Long parent_biz_order_id) {
+		this.parent_biz_order_id = parent_biz_order_id;
+	}
+
+	public Long getBiz_order_id() {
+		return biz_order_id;
+	}
+
+	public void setBiz_order_id(Long biz_order_id) {
+		this.biz_order_id = biz_order_id;
+	}
+
+	public Long getWorkcard_id() {
+		return workcard_id;
+	}
+
+	public void setWorkcard_id(Long workcard_id) {
+		this.workcard_id = workcard_id;
+	}
+
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	
+
+	public Integer getExec_count() {
 		return exec_count;
 	}
 
-	public void setExec_count(int exec_count) {
+	public void setExec_count(Integer exec_count) {
 		this.exec_count = exec_count;
 	}
 
+	public Integer getSource() {
+		return source;
+	}
 	public String getContent() {
 		return content;
+	}
+
+	public void setSource(Integer source) {
+		this.source = source;
+	}
+
+	public Date getEvent_time() {
+		return event_time;
+	}
+
+	public void setEvent_time(Date event_time) {
+		this.event_time = event_time;
+	}
+
+	public Long getBuyer_id() {
+		return buyer_id;
+	}
+
+	public void setBuyer_id(Long buyer_id) {
+		this.buyer_id = buyer_id;
 	}
 
 	public void setContent(String content) {

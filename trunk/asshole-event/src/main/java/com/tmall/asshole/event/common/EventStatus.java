@@ -1,21 +1,20 @@
 package com.tmall.asshole.event.common;
 
 public enum EventStatus {
-	
-	EVENT_STATUS_FAILED(-1,"Ö´ÐÐÊ§°Ü"),
-	EVENT_STATUS_UNEXECUTED(0,"Î´Ö´ÐÐ"),
-	EVENT_STATUS_SUCCESS(1,"Ö´ÐÐ³É¹¦"),
-	EVENT_STATUS_DELETED(2,"Ö´ÐÐ±»É¾³ý"),
-	EVENT_STATUS_PARAMETER_ERROR(3,"²ÎÊýÒì³£"),
-	EVENT_STATUS_LOADED(9,"Ö´ÐÐÖÐ"),
-	EVENT_STATUS_EXCEPTION(10,"Ö´ÐÐÒì³£");
-  	
+
+	EVENT_STATUS_FAILED(-1, "Ö´ï¿½ï¿½Ê§ï¿½ï¿½"),
+	EVENT_STATUS_UNEXECUTED(0, "Î´Ö´ï¿½ï¿½"),
+	EVENT_STATUS_SUCCESS(1, "Ö´ï¿½Ð³É¹ï¿½"), 
+	EVENT_STATUS_DELETED(2, "Ö´ï¿½Ð±ï¿½É¾ï¿½ï¿½"), 
+	EVENT_STATUS_PARAMETER_ERROR(3, "ï¿½ï¿½ï¿½ï¿½ï¿½ì³£"), 
+	EVENT_STATUS_LOADED(9, "Ö´ï¿½ï¿½ï¿½ï¿½"), 
+	EVENT_STATUS_EXCEPTION(10, "Ö´ï¿½ï¿½ï¿½ì³£");
 
 	private int code;
-	
+
 	private String name;
-	
-	private EventStatus(int code, String name){
+
+	private EventStatus(int code, String name) {
 		this.code = code;
 		this.name = name;
 	}
@@ -35,8 +34,16 @@ public enum EventStatus {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 
-	
+	public static final EventStatus getEventStatusByCode(Integer code) {
+
+		EventStatus es = null;
+		for (EventStatus temp : EventStatus.values())
+			if (temp.getCode() == code) {
+				es = temp;
+				break;
+			}
+		return es;
+	}
+
 }

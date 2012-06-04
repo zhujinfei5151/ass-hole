@@ -16,24 +16,24 @@ import com.tmall.asshole.zkclient.data.NodeData;
 import com.tmall.asshole.zkclient.data.PersistenceUtil;
 
 /****
- * ZKClient  Dema线程
+ * ZKClient  
  * 
  *  基本结构如图
  *  
  *                   --- path1(10.12.32.12)
  *                                   |
- *                               NodeData
+ *                               NodeData(非持久化)
  *   rootPath   
  *       |            ---- path2(122.23.2.32)
  *       |                            |
- *                               NodeData
- *   NodeData 
+ *                               NodeData(非持久化)
+ *   NodeData（持久化） 
  *                  ---- path3(121.234.223)
  *                                  |
- *                              NodeData
+ *                              NodeData(非持久化)
  *       
  * 
- *   NodeData  --     Data1
+ *   NodeData  --      Data1
  *                            Data2
  *                            Data3
  *                 

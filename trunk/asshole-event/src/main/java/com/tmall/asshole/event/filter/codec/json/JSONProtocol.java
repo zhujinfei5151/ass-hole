@@ -72,7 +72,7 @@ public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>,P
 				for (Field field : fields) {
 					String key = field.getName();
 					field.setAccessible(true);
-					Object value = field.get(clz);
+					Object value = field.get(t);
 					map.put(key, value);
 				}
 			}

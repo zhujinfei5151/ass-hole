@@ -33,8 +33,13 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy , INodeCha
 	private List<String> _machines=new ArrayList<String>();
 	
 	private Lock lock = new ReentrantLock();
-
 	
+	public ZKConfig getZKConfig() {
+		return zKConfig;
+	}
+	public void setZKConfig(ZKConfig zKConfig) {
+		this.zKConfig = zKConfig;
+	}
 	public BasicScheduleFgetcPolicy(ZKConfig zKConfig){
 		 this.zKConfig = zKConfig;
 	}
@@ -73,6 +78,10 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy , INodeCha
 	}
 
 	private void onChange() {
+		//for test
+		if(zKConfig==null){
+			zKConfig = new ZKConfig();
+		}
 		int machine_num = _machines.size();
 		int index = _machines.indexOf(zKConfig.getLocalIPAddress());
 		int hash_range= max_hash_num/machine_num;

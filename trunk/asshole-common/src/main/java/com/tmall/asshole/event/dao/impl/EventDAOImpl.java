@@ -13,9 +13,9 @@ import com.taobao.common.dao.persistence.exception.DAOException;
 import com.tmall.asshole.event.common.Event;
 import com.tmall.asshole.event.common.EventConstant;
 import com.tmall.asshole.event.common.EventStatus;
-import com.tmall.asshole.event.dao.EventDAO;
+import com.tmall.asshole.event.dao.IEventDAO;
 
-public class EventDAOImpl extends SqlMapClientDaoSupport implements EventDAO {
+public class EventDAOImpl extends SqlMapClientDaoSupport implements IEventDAO {
 
 	public Long insertEventDO(Event eventDo) throws DAOException{
 		Object id = getSqlMapClientTemplate().insert("Event.insert", eventDo);

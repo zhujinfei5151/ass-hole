@@ -5,7 +5,7 @@ import java.util.List;
 import com.taobao.common.dao.persistence.exception.DAOException;
 import com.tmall.asshole.event.common.Event;
 
-public interface EventDAO {
+public interface IEventDAO {
 
 	/**
 	 * 插入数据

@@ -6,16 +6,16 @@ package com.tmall.asshole.event.common;
  */
 public class EventContext {
 	
-	private String memo;
+	private String process_logs;
 	
 	private String operator;
 
-	public String getMemo() {
-		return memo;
+	public String getProcessLogs() {
+		return process_logs;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setProcessLogs(String process_logs) {
+		this.process_logs = process_logs;
 	}
 
 	public String getOperator() {

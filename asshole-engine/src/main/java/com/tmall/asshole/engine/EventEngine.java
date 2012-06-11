@@ -23,6 +23,11 @@ public class EventEngine implements IEngine<Event,EventContext> {
 	public void setHandlerLocator(IHandlerLocator<Event, EventContext> handlerLocator) {
 		this.handlerLocator = handlerLocator;
 	}
+	
+	public void init(){
+		 
+	}
+	
 
 	public boolean fire(Event event, EventContext context) throws Exception {
 		boolean flg = false;

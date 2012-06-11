@@ -32,7 +32,16 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.ev
 	private static transient Log logger = LogFactory
 			.getLog(EventSchedulerProcessor.class);
 	
-	IEngine<Event, EventContext> eventEngine;
+	@Autowired
+	private IEngine<Event, EventContext> eventEngine;
+
+	public IEngine<Event, EventContext> getEventEngine() {
+		return eventEngine;
+	}
+
+	public void setEventEngine(IEngine<Event, EventContext> eventEngine) {
+		this.eventEngine = eventEngine;
+	}
 
 	@Autowired
 	private ProtocolCodecFactory protocolCodecFactory;

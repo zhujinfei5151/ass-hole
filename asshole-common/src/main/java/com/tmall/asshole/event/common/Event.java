@@ -232,56 +232,12 @@ public class Event implements Serializable {
 	}
 
 	
-
-	public Long getIdentifier() {
-		return identifier;
+	public String getType_class() {
+		return type_class;
 	}
 
-	public void setIdentifier(Long identifier) {
-		this.identifier = identifier;
-	}
-
-	public Long getParent_biz_order_id() {
-		return parent_biz_order_id;
-	}
-
-	public void setParent_biz_order_id(Long parent_biz_order_id) {
-		this.parent_biz_order_id = parent_biz_order_id;
-	}
-
-	public Long getBiz_order_id() {
-		return biz_order_id;
-	}
-
-	public void setBiz_order_id(Long biz_order_id) {
-		this.biz_order_id = biz_order_id;
-	}
-
-	public Long getWorkcard_id() {
-		return workcard_id;
-	}
-
-	public void setWorkcard_id(Long workcard_id) {
-		this.workcard_id = workcard_id;
-	}
-
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	
-
-	public Integer getExec_count() {
-		return exec_count;
-	}
-
-	public void setExec_count(Integer exec_count) {
-		this.exec_count = exec_count;
+	public void setType_class(String type_class) {
+		this.type_class = type_class;
 	}
 
 	public Integer getSource() {
@@ -292,30 +248,10 @@ public class Event implements Serializable {
 		this.source = source;
 	}
 
-	public Date getEvent_time() {
-		return event_time;
+	public int getExec_count() {
+		return exec_count;
 	}
-
-	public void setEvent_time(Date event_time) {
-		this.event_time = event_time;
-	}
-
-	public Long getBuyer_id() {
-		return buyer_id;
-	}
-
-	public void setBuyer_id(Long buyer_id) {
-		this.buyer_id = buyer_id;
-	}
-
 	
-
-	public String getType_class() {
-		return type_class;
-	}
-
-	public void setType_class(String type_class) {
-		this.type_class = type_class;
-	}
+	
 
 }

@@ -10,6 +10,14 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 	default-autowire="byName">
 	<context:annotation-config />
+	
+	
+	
+	<bean id="protocolCodecFactory" class="com.tmall.asshole.event.filter.codec.json.JSONProtocol" />
+	
+	<bean id="eventSchedulerProcessor" class="com.tmall.asshole.engine.process.EventSchedulerProcessor" />
+	
+	<bean id="eventEngine" class="com.tmall.asshole.engine.EventEngine" />
 
      <!-- 必须注入的工具类 -->
     <bean id="applicationUtils" class="com.tmall.asshole.util.ApplicationUtils"/>

@@ -16,7 +16,7 @@ public interface IEventDAO {
      */
     public Integer insertServiceEventDO(Event dao);
     
-    public List<Event> queryEvent(int start, int end, int count, String env);
+    public List<Event> queryEvent(int start, int end, int count, String env, boolean isDalayExec, int source);
     
     public Integer updateServiceEventDO(Event dao);
     

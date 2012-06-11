@@ -37,7 +37,7 @@ public class EventEngine implements IEngine<Event,EventContext> {
 			try {
 			  // PowerEventEngine 不是一般的 EventEngine ， 需要用AbstractHandler
 			  if(!(handler instanceof AbstractHandler)){
-				  context.setMemo("高级的PowerEventEngine 使用不了哦~"+handler.getClass()+"不是继承AbstractHandler");
+				  context.setProcessLogs("高级的PowerEventEngine 使用不了哦~"+handler.getClass()+"不是继承AbstractHandler");
 				  return false;
 			  }
 			    AbstractHandler abstractHandler = (AbstractHandler) handler;

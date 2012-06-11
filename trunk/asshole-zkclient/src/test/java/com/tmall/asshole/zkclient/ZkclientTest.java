@@ -33,7 +33,7 @@ public class ZkclientTest  extends TestCase{
 		zkConfig1.setRootPath("/test");
 		zkConfig1.setZkConnectString("localhost:2181");
 		zkConfig1.setZkSessionTimeout(2000);
-		zkConfig1.setLocalIPAddressForTest("192.168.1.");
+		zkConfig1.setLocalIPAddressForTest("192.168.1.1");
 		
 		zkConfig2=new ZKConfig();
 		zkConfig2.setRootPath("/test");

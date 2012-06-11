@@ -83,19 +83,19 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.ev
 		try {
 		     if (eventEngine.fire(data, context)) {
 		           data.setStatus(EventStatus.EVENT_STATUS_SUCCESS);
-		           data.setMemo(StringUtils.isBlank(context.getMemo())?"":context.getMemo());
+		           data.setProcess_logs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	               data.setOperator(context.getOperator());
 		     } else {
 	                data.setExec_count(data.getExec_count() + 1);
 	                data.setStatus(EventStatus.EVENT_STATUS_FAILED);
-	                data.setMemo(StringUtils.isBlank(context.getMemo())?"":context.getMemo());
+	                data.setProcess_logs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	                data.setOperator(context.getOperator());
 	          }
 			
 		} catch (Exception e) {
 			   data.setExec_count(data.getExec_count()+1);
 	            data.setStatus(EventStatus.EVENT_STATUS_EXCEPTION);
-	            data.setMemo(StringUtils.isBlank(context.getMemo())?"":context.getMemo());
+	            data.setProcess_logs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	            data.setOperator(context.getOperator());
 			    
 

@@ -17,6 +17,16 @@
 	</parent>
 
 	<dependencies>
+	    <dependency>
+			<groupId>com.tmall.asshole</groupId>
+			<artifactId>asshole-zkclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.tmall.asshole</groupId>
+			<artifactId>asshole-common</artifactId>
+		</dependency>
+	
+	
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -43,13 +53,15 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.tmall.asshole</groupId>
-			<artifactId>asshole-zkclient</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.tmall.asshole</groupId>
-			<artifactId>asshole-common</artifactId>
-		</dependency>
 	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
 </project>

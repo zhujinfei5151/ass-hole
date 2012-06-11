@@ -6,10 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.springframework.context.ApplicationContext;
-import org.unitils.UnitilsJUnit4;
-import org.unitils.spring.annotation.SpringApplicationContext;
-
-import com.taobao.hsf.hsfunit.HSFEasyStarter;
 
 public abstract class TestBase extends UnitilsJUnit4 {
 

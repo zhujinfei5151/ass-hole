@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.dao.DataAccessException;
-import org.unitils.spring.annotation.SpringBeanByName;
 
 import com.taobao.common.dao.persistence.exception.DAOException;
 import com.tmall.asshole.event.common.Event;

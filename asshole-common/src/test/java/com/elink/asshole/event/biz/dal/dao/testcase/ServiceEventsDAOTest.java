@@ -1,10 +1,10 @@
 package com.elink.asshole.event.biz.dal.dao.testcase;
 
-import com.elink.asshole.event.biz.dal.dao.ServiceEventsDAO;
-import com.elink.asshole.event.biz.dal.dataobject.ServiceEventsDO;
-import com.elink.asshole.event.biz.dal.query.ServiceEventsQuery;
+
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,35 +19,35 @@ public class ServiceEventsDAOTest  {
     @Before
     public void insertServiceEventsDOTest() {
         ServiceEventsDO serviceEventsDO = new ServiceEventsDO();
-        //FIXME AutoDAO×Ô¶¯Éú³ÉµÄ´úÂë£¬ÇëÔÚ´Ë´¦²¹³ä²âÊÔÊý¾Ý
+        //FIXME AutoDAOï¿½Ô¶ï¿½ï¿½ï¿½ÉµÄ´ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         id = serviceEventsDAO.insertServiceEventsDO( serviceEventsDO );
     }
 
     @Test
     public void countServiceEventsDOByExampleTest() {
         ServiceEventsDO serviceEventsDO = new ServiceEventsDO();
-        //FIXME AutoDAO×Ô¶¯Éú³ÉµÄ´úÂë£¬ÇëÔÚ´Ë´¦²¹³ä²âÊÔÊý¾Ý
+        //FIXME AutoDAOï¿½Ô¶ï¿½ï¿½ï¿½ÉµÄ´ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Assert.assertTrue( serviceEventsDAO.countServiceEventsDOByExample( serviceEventsDO ) > 0 );
     }
 
     @Test
     public void countServiceEventsQueryByExampleTest() {
         ServiceEventsQuery serviceEventsQuery = new ServiceEventsQuery();
-        //FIXME AutoDAO×Ô¶¯Éú³ÉµÄ´úÂë£¬ÇëÔÚ´Ë´¦²¹³ä²âÊÔÊý¾Ý
+        //FIXME AutoDAOï¿½Ô¶ï¿½ï¿½ï¿½ÉµÄ´ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Assert.assertTrue( serviceEventsDAO.countServiceEventsQueryByExample( serviceEventsQuery ) > 0 );
     }
 
     @Test
     public void updateServiceEventsDOTest() {
         ServiceEventsDO serviceEventsDO = new ServiceEventsDO();
-        //FIXME AutoDAO×Ô¶¯Éú³ÉµÄ´úÂë£¬ÇëÔÚ´Ë´¦²¹³ä²âÊÔÊý¾Ý
+        //FIXME AutoDAOï¿½Ô¶ï¿½ï¿½ï¿½ÉµÄ´ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Assert.assertTrue( serviceEventsDAO.updateServiceEventsDO( serviceEventsDO ) > 0 );
     }
 
     @Test
     public void findListServiceEventsDOByExampleTest() {
         ServiceEventsDO serviceEventsDO = new ServiceEventsDO();
-        //FIXME AutoDAO×Ô¶¯Éú³ÉµÄ´úÂë£¬ÇëÔÚ´Ë´¦²¹³ä²âÊÔÊý¾Ý
+        //FIXME AutoDAOï¿½Ô¶ï¿½ï¿½ï¿½ÉµÄ´ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         List<ServiceEventsDO> resultList = serviceEventsDAO.findListByExample( serviceEventsDO );
         Assert.assertNotNull( resultList );
         Assert.assertTrue( resultList.size() > 0 );
@@ -56,7 +56,7 @@ public class ServiceEventsDAOTest  {
     @Test
     public void findListServiceEventsQueryByExampleTest() {
         ServiceEventsQuery serviceEventsQuery = new ServiceEventsQuery();
-        //FIXME AutoDAO×Ô¶¯Éú³ÉµÄ´úÂë£¬ÇëÔÚ´Ë´¦²¹³ä²âÊÔÊý¾Ý
+        //FIXME AutoDAOï¿½Ô¶ï¿½ï¿½ï¿½ÉµÄ´ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         List<ServiceEventsQuery> resultList = serviceEventsDAO.findListByExample( serviceEventsQuery );
         Assert.assertNotNull( resultList );
         Assert.assertTrue( resultList.size() > 0 );

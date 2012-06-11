@@ -28,8 +28,8 @@ public class Schedule<T> extends Job {
 	protected String taskName;
 	protected String groupingName;
 	protected IScheduleFgetcPolicy scheduleFgetcPolicy;
-	@Autowired
-	protected ScheduleFgetcPolicyFactory scheduleFgetcPolicyFactory;
+//	@Autowired
+//	protected ScheduleFgetcPolicyFactory scheduleFgetcPolicyFactory;
 	
 	
 	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T> dataProcessor, SchedulerConfig config) {
@@ -43,10 +43,17 @@ public class Schedule<T> extends Job {
 		
 		
 		//根据配置决定选择 scheduleFgetcPolicy
-		scheduleFgetcPolicy=scheduleFgetcPolicyFactory.create(config.getAlgorithmType());
+		scheduleFgetcPolicy=ScheduleFgetcPolicyFactory.create(config.getAlgorithmType());
 		
 	}
 	
+	
+	public IScheduleFgetcPolicy getScheduleFgetcPolicy() {
+		return scheduleFgetcPolicy;
+	}
+
+
+
 	public void init() {
 		// 订阅
 		// 发布

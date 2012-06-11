@@ -11,16 +11,27 @@ public class EPProxyTest {
 	@Test
 	public void  testCreateProcessInstanceID() throws SecurityException, NoSuchMethodException{
 		try{
-		
+	   
 		EPProxy  proxy = new EPProxy();
+			
+		Method method = EPProxy.class.getDeclaredMethod("createProcessInstanceID");
 		
-		Method method = EPProxy.class.getMethod("createProcessInstanceID", null);
+		method.setAccessible(true);
 		
 		Assert.assertNotNull(method);
 		
-//		System.out.println(proxy);
-//		
-//		Assert.assertEquals(expected, actual);
+		Object o1 = method.invoke(proxy);
+		
+		Object o2 = method.invoke(proxy);
+		
+		Object o3 = method.invoke(proxy);
+		
+		System.out.println(o1);
+		System.out.println(o2);
+		System.out.println(o3);
+		
+		Assert.assertNotSame(o1, o2);
+		Assert.assertNotSame(o2, o3);
 		
 		}catch (Exception e) {
 			Assert.fail();

@@ -3,10 +3,10 @@ package com.tmall.asshole.schedule;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tmall.asshole.zkclient.ZKConfig;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
+
+import com.tmall.asshole.zkclient.ZKConfig;
 
 public class BasicScheduleFgetcPolicyTest extends TestCase{
 	static ZKConfig zkConfig1;

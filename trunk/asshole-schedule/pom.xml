@@ -44,11 +44,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.tmall</groupId>
+			<groupId>com.tmall.asshole</groupId>
 			<artifactId>asshole-zkclient</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.tmall</groupId>
+			<groupId>com.tmall.asshole</groupId>
 			<artifactId>asshole-event</artifactId>
 		</dependency>
 	</dependencies>

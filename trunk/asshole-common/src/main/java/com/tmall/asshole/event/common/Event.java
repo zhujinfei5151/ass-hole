@@ -10,29 +10,8 @@ import java.util.Date;
  */
 public class Event implements Serializable {
 
-	public Event(Event e) {
-		super();
-		this.id = e.getId();
-		this.status = e.status;
-		this.env = e.env;
-		this.memo = e.memo;
-		this.type_class = e.type_class;
-		this.content = e.content;
-		this.execute_machine_ip = e.execute_machine_ip;
-		this.execute_machine_hash_range = e.execute_machine_hash_range;
-		this.gmt_create = e.gmt_create;
-		this.gmt_modify = e.gmt_modify;
-		this.operator = e.operator;
-		this.hash_num = e.hash_num;
-		this.exec_count = e.exec_count;
-	}
-
-	public Event() {
-
-	}
 
 	private Long id;
-
 	/**
 	 * 
 	 */
@@ -42,12 +21,20 @@ public class Event implements Serializable {
 	private EventStatus status;
 
 	private EventEnv env;
-
+	
+	/**
+	 * 执行log
+	 */
+	private String process_logs;
+    
+	/***
+	 * 备注暂时不用
+	 */
 	private String memo;
 
 	private String type_class;
 
-	private String content;
+	private String context;
 
 	private String execute_machine_ip;
 
@@ -63,29 +50,59 @@ public class Event implements Serializable {
 
 	private int exec_count;
 	
-	private Long identifier;
-	
-	private Long parent_biz_order_id;
-	
-	private Long biz_order_id;
-
-	private Long workcard_id;
-	
-	private String type;
-	
 	private Long process_instance_id;
 	
 	private Integer source;
-	
-	private Date event_time;
-	
-	private Long buyer_id;
 	
 	private String process_name;
 	
 	private String current_name;
 	
+	/**
+	 *  执行开始时间 主要给活动使用 
+	 */
+	private Date  exec_start_time;
 	
+	/***
+	 *  是否延期支持 对于活动需要延期
+	 */
+	private boolean is_delay_exec;
+	
+	public Date getExec_start_time() {
+		return exec_start_time;
+	}
+
+	public void setExec_start_time(Date exec_start_time) {
+		this.exec_start_time = exec_start_time;
+	}
+
+	public boolean isIs_delay_exec() {
+		return is_delay_exec;
+	}
+
+	public void setIs_delay_exec(boolean is_delay_exec) {
+		this.is_delay_exec = is_delay_exec;
+	}
+
+	public void setExec_count(int exec_count) {
+		this.exec_count = exec_count;
+	}
+
+	public String getContext() {
+		return context;
+	}
+
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	public String getProcess_logs() {
+		return process_logs;
+	}
+
+	public void setProcess_logs(String process_logs) {
+		this.process_logs = process_logs;
+	}
 
 	public String getCurrent_name() {
 		return current_name;
@@ -270,9 +287,6 @@ public class Event implements Serializable {
 	public Integer getSource() {
 		return source;
 	}
-	public String getContent() {
-		return content;
-	}
 
 	public void setSource(Integer source) {
 		this.source = source;
@@ -294,9 +308,7 @@ public class Event implements Serializable {
 		this.buyer_id = buyer_id;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+	
 
 	public String getType_class() {
 		return type_class;

@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.tmall.asshole.zkclient.INodeChange;
+import com.tmall.asshole.zkclient.ZKConfig;
+
 /******
  * 
  * @author tangjinou

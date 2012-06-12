@@ -19,6 +19,7 @@ import com.tmall.asshole.engine.IEngine;
 import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
 import com.tmall.asshole.schedule.IDataLoader;
 import com.tmall.asshole.schedule.IDataProcessor;
+import com.tmall.asshole.schedule.IDataProducer;
 
 
 /****
@@ -27,7 +28,7 @@ import com.tmall.asshole.schedule.IDataProcessor;
  * 
  * @param <Event>
  */
-public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.common.Event>,IDataProcessor<com.tmall.asshole.common.Event> {
+public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.common.Event>,IDataProcessor<com.tmall.asshole.common.Event>,IDataProducer<com.tmall.asshole.common.Event> {
 
 	private static transient Log logger = LogFactory
 			.getLog(EventSchedulerProcessor.class);
@@ -110,6 +111,11 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.co
 			   }
 		}
 	    return noErrorLst;
+	}
+
+	@Override
+	public void addData(Event event) {
+		eventDAO.insertServiceEventDO(event);
 	}
 
 }

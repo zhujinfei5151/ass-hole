@@ -1,8 +1,8 @@
 package com.tmall.asshole.ep;
 
+import com.tmall.asshole.common.Event;
+import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.engine.AbstractHandler;
-import com.tmall.asshole.event.common.Event;
-import com.tmall.asshole.event.common.EventContext;
 
 public class TestHandler1 extends AbstractHandler {
 

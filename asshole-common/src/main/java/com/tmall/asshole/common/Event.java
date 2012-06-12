@@ -1,6 +1,5 @@
 package com.tmall.asshole.common;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /****
@@ -8,15 +7,10 @@ import java.util.Date;
  * @author tangjinou
  *
  */
-public class Event implements Serializable {
+public class Event {
 
 
 	private Long id;
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3356840467368327481L;
-
 
 	private EventStatus status;
 

@@ -48,12 +48,11 @@ public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>,P
 		}
 		return  o;
 	}
-	public byte[] encode(T t,Class<? extends T> clz) throws Exception {
+	public byte[] encode(T t) throws Exception {
 			//Field[] fields = clz.getDeclaredFields();
-	        Class<?> parent =  clz;
+	        Class<?> parent =  t.getClass();
 			List<Field> fields = new ArrayList<Field>(); 
-			
-			Field[] _fields = clz.getDeclaredFields();
+			Field[] _fields =  t.getClass().getDeclaredFields();
 			for (Field f : _fields) {
 				fields.add(f);
 			}

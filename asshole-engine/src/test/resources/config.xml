@@ -12,8 +12,6 @@
 	<context:annotation-config />
 	
 	
-	
-	
 	<bean id="eventDAO" class="com.tmall.asshole.mock.dao.MockEventDAO" />
 	
 	<bean id="protocolCodecFactory" class="com.tmall.asshole.event.filter.codec.json.JSONProtocol" />

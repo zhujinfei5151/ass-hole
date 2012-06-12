@@ -8,6 +8,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tmall.asshole.common.EventEnv;
+import com.tmall.asshole.common.ScheduleType;
+
 
 /****
  * 
@@ -28,6 +31,11 @@ public class Schedule<T> extends Job {
 	protected String taskName;
 	protected String groupingName;
 	protected IScheduleFgetcPolicy scheduleFgetcPolicy;
+	
+	private String scheduleType;
+
+	
+	
 //	@Autowired
 //	protected ScheduleFgetcPolicyFactory scheduleFgetcPolicyFactory;
 	
@@ -35,13 +43,12 @@ public class Schedule<T> extends Job {
 	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T> dataProcessor, SchedulerConfig config) {
 		this.dataLoader = dataLoader;
 		this.dataProcessor = dataProcessor;
-		this.threadPool = new SchedulerThreadPoolExecutor();
 		this.envionmentGroup = config.getEnvionmentGroup();
 		this.taskName = config.getTaskName();
 		this.groupingName = config.getGroupingName();
 		this.schedulingPollingTime = config.getSchedulingPollingTime();
-		
-		
+		this.scheduleType=config.getScheduleType();
+		this.threadPool = new SchedulerThreadPoolExecutor(config.getCorePoolSize(),config.getMaxPoolSize(),config.getKeepAliveTime());
 		//根据配置决定选择 scheduleFgetcPolicy
 		scheduleFgetcPolicy=ScheduleFgetcPolicyFactory.create(config.getAlgorithmType());
 		
@@ -82,7 +89,7 @@ public class Schedule<T> extends Job {
 			if (threadPool.isAllThreadFree()) {
 				if (scheduleFgetcPolicy.getStartIndex() < scheduleFgetcPolicy.getEndIndex()) {
 					dataList = dataLoader.getDataList(scheduleFgetcPolicy.getStartIndex(), scheduleFgetcPolicy.getEndIndex(),
-							scheduleFgetcPolicy.getRowNum(), envionmentGroup);
+							scheduleFgetcPolicy.getRowNum(), EventEnv.valueOf(envionmentGroup), ScheduleType.valueOf(scheduleType));
 				} else {
 					logger.warn("Scheduler[" + taskName + "]  scheduleFgetcPolicy.getStartIndex[" + scheduleFgetcPolicy.getStartIndex()
 							+ "]>scheduleFgetcPolicy.getEndIndex");

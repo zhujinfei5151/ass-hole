@@ -35,6 +35,21 @@ public class SchedulerConfig {
 	 */
 	private int maxHashNum;
 	
+	/***
+	 *  详细类型见 ScheduleType 枚举类
+	 */
+	private String scheduleType;
+	
+	
+	/** *线程池维护线程的最少数量 */
+	private int corePoolSize = 20;
+
+	/** *线程池维护线程的最大数量 */
+	private int maxPoolSize = 20;
+
+	/** *线程池维护线程所允许的空闲时间 */
+	private int keepAliveTime = 0;
+	
 
 	public String getEnvionmentGroup() {
 		return envionmentGroup;
@@ -83,7 +98,38 @@ public class SchedulerConfig {
 	public void setMaxHashNum(int maxHashNum) {
 		this.maxHashNum = maxHashNum;
 	}
-	
+
+	public String getScheduleType() {
+		return scheduleType;
+	}
+
+	public void setScheduleType(String scheduleType) {
+		this.scheduleType = scheduleType;
+	}
+
+	public int getCorePoolSize() {
+		return corePoolSize;
+	}
+
+	public void setCorePoolSize(int corePoolSize) {
+		this.corePoolSize = corePoolSize;
+	}
+
+	public int getMaxPoolSize() {
+		return maxPoolSize;
+	}
+
+	public void setMaxPoolSize(int maxPoolSize) {
+		this.maxPoolSize = maxPoolSize;
+	}
+
+	public int getKeepAliveTime() {
+		return keepAliveTime;
+	}
+
+	public void setKeepAliveTime(int keepAliveTime) {
+		this.keepAliveTime = keepAliveTime;
+	}
 	
 	
 	

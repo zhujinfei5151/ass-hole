@@ -49,10 +49,10 @@ public class SchedulerThreadPoolExecutor {
 
 	private ThreadPoolExecutor threadPool;
 
-	public SchedulerThreadPoolExecutor() {
-		// startScheduledFuture();
-		// initThreadPoolExecutor();
-	}
+//	public SchedulerThreadPoolExecutor() {
+//		// startScheduledFuture();
+//		// initThreadPoolExecutor();
+//	}
 
 	public SchedulerThreadPoolExecutor(int corePoolSize, int maxPoolSize, int keepAliveTime) {
 		this.corePoolSize = corePoolSize;

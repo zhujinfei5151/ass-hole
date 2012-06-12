@@ -1,10 +1,5 @@
 package com.tmall.asshole.engine.process;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,10 +7,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tmall.asshole.common.Event;
+import com.tmall.asshole.common.EventContext;
+import com.tmall.asshole.common.EventEnv;
+import com.tmall.asshole.common.EventStatus;
+import com.tmall.asshole.common.IEventDAO;
+import com.tmall.asshole.common.ScheduleType;
 import com.tmall.asshole.engine.IEngine;
-import com.tmall.asshole.event.common.Event;
-import com.tmall.asshole.event.common.EventContext;
-import com.tmall.asshole.event.common.EventStatus;
 import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
 import com.tmall.asshole.schedule.IDataLoader;
 import com.tmall.asshole.schedule.IDataProcessor;
@@ -27,13 +25,22 @@ import com.tmall.asshole.schedule.IDataProcessor;
  * 
  * @param <Event>
  */
-public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.event.common.Event>,IDataProcessor<com.tmall.asshole.event.common.Event> {
+public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.common.Event>,IDataProcessor<com.tmall.asshole.common.Event> {
 
 	private static transient Log logger = LogFactory
 			.getLog(EventSchedulerProcessor.class);
 	
+	
 	@Autowired
 	private IEngine<Event, EventContext> eventEngine;
+	
+	@Autowired
+	private IEventDAO eventDAO;
+	
+
+	public void setEventDAOForTest(IEventDAO eventDAO) {
+		this.eventDAO = eventDAO;
+	}
 
 	public IEngine<Event, EventContext> getEventEngine() {
 		return eventEngine;
@@ -45,37 +52,10 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.ev
 
 	@Autowired
 	private ProtocolCodecFactory protocolCodecFactory;
+	
 
-	/****
-	 * 获取本地的IP
-	 * 
-	 * @return
-	 */
-	private String getLocalIPAddress() {
-		String ip = "";
-		try {
-			Enumeration<?> e1 = (Enumeration<?>) NetworkInterface
-					.getNetworkInterfaces();
-			while (e1.hasMoreElements()) {
-				NetworkInterface ni = (NetworkInterface) e1.nextElement();
-				Enumeration<?> e2 = ni.getInetAddresses();
-				while (e2.hasMoreElements()) {
-					InetAddress ia = (InetAddress) e2.nextElement();
-					// ip = ia.getHostAddress ();
-					if (!ia.isLoopbackAddress()) {
-						if (ia instanceof Inet4Address) {
-							ip = ia.getHostAddress();
-						}
-					}
-				}
-			}
-
-		} catch (SocketException e) {
-			e.printStackTrace();
-
-		}
-		return ip;
-
+	public void setProtocolCodecFactoryForTest(ProtocolCodecFactory protocolCodecFactory) {
+		this.protocolCodecFactory = protocolCodecFactory;
 	}
 
 	public void process(Event data) throws Exception {
@@ -93,22 +73,22 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.ev
 	          }
 			
 		} catch (Exception e) {
-			   data.setExec_count(data.getExec_count()+1);
+			    data.setExec_count(data.getExec_count()+1);
 	            data.setStatus(EventStatus.EVENT_STATUS_EXCEPTION);
 	            data.setProcess_logs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	            data.setOperator(context.getOperator());
-			    
-
 			if (logger.isErrorEnabled()) {
 				logger.error("update status failed", e);
 			}
 			throw e;
+		}  finally{
+			eventDAO.updateServiceEventDO(data);
 		}
 	}
 
 	public List<Event> getDataList(int start, int end, int rownum,
-			String envionmentGroup) throws Exception {
-		return null;
+			EventEnv envionmentGroup, ScheduleType scheduleType) throws Exception{
+		return eventDAO.queryEvent(start, end, rownum,envionmentGroup.getCode(),scheduleType.getCode());
 	}
 
 }

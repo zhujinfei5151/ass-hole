@@ -3,7 +3,7 @@ package com.tmall.asshole.event.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.tmall.asshole.event.common.Event;
+import com.tmall.asshole.common.Event;
 import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
 
 /***
@@ -20,7 +20,7 @@ public class MessageUtil {
 	
 	
 	public void sendInternalMessage(Event event) throws Exception{
-		byte[] encode = protocolCodecFactory.getEncoder().encode(event, event.getClass());
+		byte[] encode = protocolCodecFactory.getEncoder().encode(event);
 	}
 	
 

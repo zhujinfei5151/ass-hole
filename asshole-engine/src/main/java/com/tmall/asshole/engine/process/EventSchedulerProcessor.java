@@ -1,5 +1,6 @@
 package com.tmall.asshole.engine.process;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -8,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tmall.asshole.common.Event;
+import com.tmall.asshole.common.EventConstant;
 import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.common.EventEnv;
 import com.tmall.asshole.common.EventStatus;
@@ -51,10 +53,10 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.co
 	}
 
 	@Autowired
-	private ProtocolCodecFactory protocolCodecFactory;
+	private ProtocolCodecFactory<Event> protocolCodecFactory;
 	
 
-	public void setProtocolCodecFactoryForTest(ProtocolCodecFactory protocolCodecFactory) {
+	public void setProtocolCodecFactoryForTest(ProtocolCodecFactory<Event> protocolCodecFactory) {
 		this.protocolCodecFactory = protocolCodecFactory;
 	}
 
@@ -87,8 +89,27 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.co
 	}
 
 	public List<Event> getDataList(int start, int end, int rownum,
-			EventEnv envionmentGroup, ScheduleType scheduleType) throws Exception{
-		return eventDAO.queryEvent(start, end, rownum,envionmentGroup.getCode(),scheduleType.getCode());
+			EventEnv envionmentGroup, ScheduleType scheduleType, String executeMachineAlias) throws Exception{
+		List<Event> l = eventDAO.queryEvent(start, end, rownum,envionmentGroup.getCode(),scheduleType.getCode());
+		List<Event> noErrorLst = new ArrayList<Event>();
+	    for (Event data : l) {
+	    	   try{
+	    	      Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), data);
+	    	  	  noErrorLst.add(event);
+	    	  	  event.setStatus(EventConstant.EVENT_STATUS_LOADED);
+	    	      event.setExec_count(event.getExec_count() + 1);
+	    	  	  event.setExecute_machine_hash_range(start+"--"+end);
+	    	  	  event.setExecute_machine_ip(executeMachineAlias);
+				  eventDAO.updateServiceEventDO(event);
+	    	   } catch (Exception e) {
+	    		    logger.error(e.getStackTrace());
+	    		    data.setStatus(EventConstant.EVENT_STATUS_PARAMETER_ERROR);
+	    			eventDAO.updateServiceEventDO(data);
+					continue;
+	    		    // 一条记录的失败 不影响全局
+			   }
+		}
+	    return noErrorLst;
 	}
 
 }

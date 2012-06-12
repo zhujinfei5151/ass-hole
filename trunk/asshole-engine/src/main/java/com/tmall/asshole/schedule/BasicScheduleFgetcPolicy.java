@@ -94,9 +94,11 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy , INodeCha
 			startIndex = index * hash_range;
 			endIndex = (index+1) * hash_range -1;
 		}
-		
-		
 		  
+	}
+	@Override
+	public String getExecuteMachineAlias() {
+		return zKConfig.getLocalIPAddress()==null?"": zKConfig.getLocalIPAddress();
 	}
 
 	

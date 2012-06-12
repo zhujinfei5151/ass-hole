@@ -1,16 +1,11 @@
 package com.tmall.asshole.schedule.process;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.tmall.asshole.common.Event;
-import com.tmall.asshole.common.IEventDAO;
 import com.tmall.asshole.engine.process.EventSchedulerProcessor;
 import com.tmall.asshole.mock.ep.TestEvent1;
 

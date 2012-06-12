@@ -1,4 +1,4 @@
-package com.tmall.asshole.ep;
+package com.tmall.asshole.mock.ep;
 
 import com.tmall.asshole.common.Event;
 

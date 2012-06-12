@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.tmall.asshole.ep.TestHandler1;
+import com.tmall.asshole.mock.ep.TestHandler1;
 
 public class EventHandlerLocatorTest {
 	/***

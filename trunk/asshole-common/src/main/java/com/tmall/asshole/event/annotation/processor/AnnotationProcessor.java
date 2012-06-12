@@ -5,7 +5,7 @@ package com.tmall.asshole.event.annotation.processor;
 
 import java.util.Map;
 
-import com.tmall.asshole.event.common.Event;
+import com.tmall.asshole.common.Event;
 
 /**
  * @author hemaodong

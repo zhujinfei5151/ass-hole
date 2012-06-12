@@ -16,7 +16,7 @@ public interface IEventDAO {
      */
     public Integer insertServiceEventDO(Event dao);
     
-    public List<Event> queryEvent(int start, int end, int count, String env, int scheduleType);
+    public List<Event> queryEvent(int start, int end, int count, int env, int scheduleType);
     
     public Integer updateServiceEventDO(Event dao);
     

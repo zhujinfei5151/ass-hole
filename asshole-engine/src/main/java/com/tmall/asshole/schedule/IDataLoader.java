@@ -14,11 +14,11 @@ public interface IDataLoader<T> {
 	/**
 	 * 获取需要处理的数据列表
 	 * @param scheduleType TODO
-	 * 
+	 * @param executeMachineAlias TODO
 	 * @return
 	 * @throws LoaderException
 	 */
 	public List<T> getDataList(int start, int end,int rownum,
-			EventEnv envionmentGroup, ScheduleType scheduleType) throws Exception;
+			EventEnv envionmentGroup, ScheduleType scheduleType, String executeMachineAlias) throws Exception;
 
 }

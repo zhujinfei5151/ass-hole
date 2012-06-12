@@ -28,5 +28,11 @@ public interface IScheduleFgetcPolicy {
 	 */
 	int getRowNum();
 	
+	/***
+	 *  获取本地IP地址
+	 * @return
+	 */
+	String getExecuteMachineAlias();
+	
 
 }

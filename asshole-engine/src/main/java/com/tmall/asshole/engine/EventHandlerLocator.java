@@ -3,8 +3,8 @@ package com.tmall.asshole.engine;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tmall.asshole.event.common.Event;
-import com.tmall.asshole.event.common.EventContext;
+import com.tmall.asshole.common.Event;
+import com.tmall.asshole.common.EventContext;
 
 public class EventHandlerLocator implements IHandlerLocator<Event, EventContext> ,IHandlerRegister<String, Event, EventContext>{
 	private Map<String, IHandler<Event, EventContext>> HANDLER_MAP = new HashMap<String, IHandler<Event, EventContext>>();

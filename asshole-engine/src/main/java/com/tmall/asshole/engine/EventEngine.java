@@ -3,8 +3,9 @@ package com.tmall.asshole.engine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.tmall.asshole.event.common.Event;
-import com.tmall.asshole.event.common.EventContext;
+
+import com.tmall.asshole.common.Event;
+import com.tmall.asshole.common.EventContext;
 
 
 /***

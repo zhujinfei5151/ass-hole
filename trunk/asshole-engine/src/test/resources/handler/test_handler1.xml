@@ -8,9 +8,9 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 	default-autowire="byName">
 	<context:annotation-config />
-	<bean id="testHandler1" class="com.tmall.asshole.ep.TestHandler1" >
+	<bean id="testHandler1" class="com.tmall.asshole.mock.ep.TestHandler1" >
 	   <property name="HANDLER_MAP_KEY">
-	        <value>com.tmall.asshole.ep.TestEvent1</value> 
+	        <value>com.tmall.asshole.mock.ep.TestEvent1</value> 
 	   </property>
 	</bean>
 </beans>

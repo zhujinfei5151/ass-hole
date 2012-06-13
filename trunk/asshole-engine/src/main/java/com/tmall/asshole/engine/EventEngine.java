@@ -35,6 +35,7 @@ public class EventEngine implements IEngine<Event,EventContext> {
 		if (event != null) {
 			String eventName = event.getClass().getName();
 			IHandler handler = handlerLocator.lookup(eventName);
+		
 			try {
 			  // PowerEventEngine 不是一般的 EventEngine ， 需要用AbstractHandler
 			  if(!(handler instanceof AbstractHandler)){

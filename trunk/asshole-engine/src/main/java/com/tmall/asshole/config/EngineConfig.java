@@ -1,11 +1,11 @@
-package com.tmall.asshole.schedule;
+package com.tmall.asshole.config;
 
 /****
  * 
  * @author jiuxian.tjo
  *
  */
-public class SchedulerConfig {
+public class EngineConfig {
     /***
      *  调度算法类型
      */

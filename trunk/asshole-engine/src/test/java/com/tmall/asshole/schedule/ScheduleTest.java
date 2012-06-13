@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.tmall.asshole.config.EngineConfig;
 import com.tmall.asshole.engine.process.EventSchedulerProcessor;
 import com.tmall.asshole.zkclient.ZKConfig;
 
@@ -15,7 +16,7 @@ public class ScheduleTest {
 	
 	EventSchedulerProcessor processor = new  EventSchedulerProcessor();
 	
-	SchedulerConfig config = new SchedulerConfig();
+	EngineConfig config = new EngineConfig();
 	
 	
 	

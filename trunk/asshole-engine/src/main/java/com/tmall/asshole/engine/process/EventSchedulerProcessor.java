@@ -80,9 +80,7 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.co
 	            data.setStatus(EventStatus.EVENT_STATUS_EXCEPTION);
 	            data.setProcess_logs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	            data.setOperator(context.getOperator());
-			if (logger.isErrorEnabled()) {
-				logger.error("update status failed", e);
-			}
+				logger.error("update status failed,"+e.getMessage());
 			throw e;
 		}  finally{
 			eventDAO.updateServiceEventDO(data);
@@ -114,7 +112,8 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.co
 	}
 
 	@Override
-	public void addData(Event event) {
+	public void addData(Event event) throws Exception{
+		event.setContext(new String(protocolCodecFactory.getEncoder().encode(event)));
 		eventDAO.insertServiceEventDO(event);
 	}
 

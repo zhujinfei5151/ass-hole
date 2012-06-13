@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tmall.asshole.common.EventEnv;
 import com.tmall.asshole.common.ScheduleType;
+import com.tmall.asshole.config.EngineConfig;
 
 
 /****
@@ -39,7 +40,7 @@ public class Schedule<T> extends Job {
 //	protected ScheduleFgetcPolicyFactory scheduleFgetcPolicyFactory;
 	
 	
-	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T> dataProcessor, SchedulerConfig config) {
+	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T> dataProcessor, EngineConfig config) {
 		this.dataLoader = dataLoader;
 		this.dataProcessor = dataProcessor;
 		this.envionmentGroup = config.getEnvionmentGroup();

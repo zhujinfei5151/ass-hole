@@ -2,11 +2,13 @@ package com.tmall.asshole.schedule;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.engine.IAfterHandler;
+import com.tmall.asshole.engine.process.EventSchedulerProcessor;
 import com.tmall.asshole.schedule.node.EventNode;
 /****
  * 
@@ -18,6 +20,17 @@ public class EPProxy implements IAfterHandler<Event,EventContext>{
 	 *  流程模版图
 	 */
 	private Map<String, LinkedList<EventNode>> processTemplateMap = new HashMap<String, LinkedList<EventNode>>();
+	
+	private List<EventSchedulerProcessor> eventSchedulerProcessors;
+	
+	public List<EventSchedulerProcessor> getEventSchedulerProcessors() {
+		return eventSchedulerProcessors;
+	}
+
+	public void setEventSchedulerProcessors(
+			List<EventSchedulerProcessor> eventSchedulerProcessors) {
+		this.eventSchedulerProcessors = eventSchedulerProcessors;
+	}
 
 	@Override
 	public boolean afterHandle(Event event, EventContext context) {

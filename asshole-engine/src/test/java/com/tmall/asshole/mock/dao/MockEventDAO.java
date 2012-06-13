@@ -2,12 +2,15 @@ package com.tmall.asshole.mock.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.IEventDAO;
-import com.tmall.asshole.mock.ep.TestEvent1;
 
 public class MockEventDAO implements IEventDAO{
+	
+	Stack<Event> s =new Stack<Event>();
+	
 	@Override
 	public Integer updateServiceEventDO(Event dao) {
 		return 1;
@@ -21,8 +24,8 @@ public class MockEventDAO implements IEventDAO{
 	
 	@Override
 	public Integer insertServiceEventDO(Event dao) {
-		// 暂时不需要
-		return null;
+	    boolean result = s.add(dao);
+	    return result==true?1:0;
 	}
 	
 	@Override
@@ -41,7 +44,7 @@ public class MockEventDAO implements IEventDAO{
 	public List<Event> queryEvent(int start, int end, int count,
 			int env, int scheduleType) {
 		List<Event> l= new ArrayList<Event>();
-		l.add(new TestEvent1());
+		l.add(s.pop());
 		return l;
 	}
 }

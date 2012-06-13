@@ -21,14 +21,14 @@ public class EventHandlerLocator implements IHandlerLocator<Event, EventContext>
 	public IHandler<Event, EventContext> lookup(String queryCriteria) throws EngineException {
 		IHandler<Event, EventContext> handler = null;
 		if (queryCriteria == null || "".equals(queryCriteria.trim())) {
-			throw new EngineException("0001", queryCriteria);
+			throw new EngineException("queryCriteria can't be null");
 		}
 		String queryStr = queryCriteria.trim();
 		if (HANDLER_MAP.containsKey(queryStr)) {
 			handler = HANDLER_MAP.get(queryStr);
 		}
 		if (handler == null) {
-			throw new EngineException("0010", queryStr);
+			throw new EngineException("can't find the handler for "+queryCriteria);
 		}
 		return handler;
 	}

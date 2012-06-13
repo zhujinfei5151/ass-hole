@@ -23,12 +23,14 @@ public class EventSchedulerProcessorTest {
 	/***
 	 * 测试需要启动Spring容器
 	 */
+	static ApplicationContext context = new ClassPathXmlApplicationContext(
+			"config.xml");
+	static EventSchedulerProcessor processor = (EventSchedulerProcessor) context
+			.getBean("eventSchedulerProcessor");
+	
+	
 	@Test
 	public void testEventSchedulerProcessor() {
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"config.xml");
-		EventSchedulerProcessor processor = (EventSchedulerProcessor) context
-				.getBean("eventSchedulerProcessor");
 
 		try {
 			processor.process(new TestEvent1());
@@ -36,14 +38,11 @@ public class EventSchedulerProcessorTest {
 			e.printStackTrace();
 			Assert.fail();
 		}
+		
 	}
    
 	@Test
 	public void testGetDataList() {
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"config.xml");
-		EventSchedulerProcessor processor = (EventSchedulerProcessor) context
-				.getBean("eventSchedulerProcessor");
 		try {
 			TestEvent1 testEvent1 = new TestEvent1();
 			testEvent1.setTestVar1("hello");

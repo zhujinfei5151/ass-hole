@@ -24,6 +24,8 @@ import com.tmall.asshole.schedule.node.Transition;
 import com.tmall.asshole.schedule.node.helper.ProcessTemplateHelper;
 import com.tmall.asshole.util.BeanCopyUtil;
 import com.tmall.asshole.util.Initialize;
+import com.tmall.asshole.zkclient.INodeChange;
+import com.tmall.asshole.zkclient.ZKClient;
 /****
  * 
  * @author tangjinou
@@ -126,6 +128,20 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	public void init() throws Exception {
 		//加载流程模版
 		ProcessTemplateHelper.deploy(engineConfig.getProcessTemplateFolders());
+		
+		List<INodeChange> iNodeChanges = new ArrayList<INodeChange>();
+		
+		for (EventSchedulerProcessor processor : eventSchedulerProcessors) {
+			iNodeChanges.add(processor.getSchedule().getScheduleFgetcPolicy());
+		}
+		
+		if(!engineConfig.getStartZK()){
+			logger.error("no need to start zookeeper client, pls check the var of startZK  in EngineConfig");
+			return;
+		}  
+		  logger.info("start the the  zookeeper client");
+		  ZKClient client = new ZKClient(iNodeChanges);
+		  client.start();
 	}
   	
 

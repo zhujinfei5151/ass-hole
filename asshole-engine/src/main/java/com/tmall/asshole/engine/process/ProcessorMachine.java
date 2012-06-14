@@ -71,14 +71,18 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 
 	public void callback(Event event,EventContext context) throws Exception {
 		Node n = ProcessTemplateHelper.find(event.getProcessName(), event.getCurrentName());
+		if(n.transitions==null || n.transitions.size()==0){
+			logger.info("no transitions ,procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
+			return;
+		}
+		
 		for (Transition transition : n.transitions) {
 			if(trigger(context,transition.exp)){
 				
 				if(StringUtils.isBlank( transition.to) || transition.to.trim().toLowerCase().equals("end")){
 					logger.info("procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
-					break;
+					return;
 				}
-				
 				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
 		        EventSchedulerProcessor processor = getEventSchedulerProcessor(nextN.getScheduleType());
 		        Class<?> eventName = Class.forName(nextN.getClassname());

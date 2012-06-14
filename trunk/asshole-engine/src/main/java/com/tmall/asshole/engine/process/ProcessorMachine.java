@@ -10,17 +10,19 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.config.EngineConfig;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
+import com.tmall.asshole.schedule.Schedule;
 import com.tmall.asshole.schedule.node.Node;
 import com.tmall.asshole.schedule.node.Transition;
 import com.tmall.asshole.schedule.node.helper.ProcessTemplateHelper;
 import com.tmall.asshole.util.BeanCopyUtil;
-import com.tmall.asshole.util.BeanCopyUtilTest;
 import com.tmall.asshole.util.Initialize;
 /****
  * 
@@ -28,6 +30,8 @@ import com.tmall.asshole.util.Initialize;
  *
  */
 public class ProcessorMachine implements IDataProcessorCallBack<Event,EventContext>,Initialize{
+	
+	private static transient Log logger = LogFactory.getLog(Schedule.class);
 	
 	private ScriptEngineManager factory;
 	
@@ -69,14 +73,18 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		Node n = ProcessTemplateHelper.find(event.getProcessName(), event.getCurrentName());
 		for (Transition transition : n.transitions) {
 			if(trigger(context,transition.exp)){
+				
+				if(StringUtils.isBlank( transition.to) || transition.to.trim().toLowerCase().equals("end")){
+					logger.info("procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
+					break;
+				}
+				
 				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
 		        EventSchedulerProcessor processor = getEventSchedulerProcessor(nextN.getScheduleType());
 		        Class<?> eventName = Class.forName(nextN.getClassname());
 		        Object newInstance = eventName.newInstance();
-		        
 		        Map<String, Object> map = context.getMap();
 		        BeanCopyUtil.copy(newInstance, map);
-		        
 		        processor.addData((Event)newInstance);
 				//目前业务场景 下一个节点只有1个会执行,不排除以后多个执行
 				break;
@@ -91,6 +99,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 				  return processor;
 			}
 		}
+		logger.error("can't find the processor, scheduleType="+scheduleType);
 		throw new NullPointerException("can't find the processor, scheduleType="+scheduleType);
 	}
 	
@@ -105,6 +114,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			Boolean result = (Boolean) scriptEngine.eval(exec);
 		    return result;
 		} catch (ScriptException e) {
+			logger.error("execute the script error :" +e.getStackTrace());
 		    return false;
 		}
 	}

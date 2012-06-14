@@ -6,7 +6,9 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.mock.ep.TestEvent1;
+import com.tmall.asshole.mock.ep.TestEvent2;
 import com.tmall.asshole.schedule.node.ProcessTemplate;
 import com.tmall.asshole.schedule.node.helper.ProcessTemplateHelper;
 
@@ -41,8 +43,6 @@ public class ProcessorMachineTest {
 			
 			Assert.assertEquals(processTemplate.nodes.get(0).getName(), "order_create");
 			
-			Assert.assertEquals(processTemplate.nodes.get(2).getName(), "order_end");
-			
 			TestEvent1 event1 = new TestEvent1();
 			
 			event1.setTestVar1("testVar1");
@@ -51,6 +51,22 @@ public class ProcessorMachineTest {
 			
 			Thread.sleep(3000);
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testCallBack(){
+		TestEvent1 event1 = new TestEvent1();
+		event1.setTestVar1("testing");
+		event1.setCurrentName("order_create");
+		event1.setProcessName("order_card");
+		
+		EventContext e_context = new EventContext(); 
+		try {
+			machine.callback(event1, e_context);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();

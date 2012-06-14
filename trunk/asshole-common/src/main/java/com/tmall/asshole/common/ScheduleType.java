@@ -5,9 +5,9 @@ package com.tmall.asshole.common;
  */
 public enum ScheduleType {
      //正常调度器
-	BASIC_SCHEDULE(0, "正常调度器l"), 
-	
-	DELAY_SCHEDULE(1, "延期调度器");
+	BASIC_SCHEDULE(0, "BASIC_SCHEDULE"), 
+	//延期调度器
+	DELAY_SCHEDULE(1, "DELAY_SCHEDULE");
 
 	private int code;
 	private String name;

@@ -9,6 +9,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tmall.asshole.common.Event;
@@ -18,6 +19,8 @@ import com.tmall.asshole.schedule.IDataProcessorCallBack;
 import com.tmall.asshole.schedule.node.Node;
 import com.tmall.asshole.schedule.node.Transition;
 import com.tmall.asshole.schedule.node.helper.ProcessTemplateHelper;
+import com.tmall.asshole.util.BeanCopyUtil;
+import com.tmall.asshole.util.BeanCopyUtilTest;
 import com.tmall.asshole.util.Initialize;
 /****
  * 
@@ -55,7 +58,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			throw new NullPointerException("can't find the event, type="+event.getClass()+" in the processs, name="+processName);
 		}
 		Node n = nodes.get(0);
-		event.setProcess_name(processName);
+		event.setProcessName(processName);
 		event.setProcess_instance_id(ProcessTemplateHelper.createProcessInstanceID());
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(n.getScheduleType());
 		eventSchedulerProcessor.addData(event);
@@ -63,19 +66,19 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
     
 
 	public void callback(Event event,EventContext context) throws Exception {
-		Node n = ProcessTemplateHelper.find(event.getProcess_name(), event.getProcess_name());
+		Node n = ProcessTemplateHelper.find(event.getProcessName(), event.getCurrentName());
 		for (Transition transition : n.transitions) {
 			if(trigger(context,transition.exp)){
-				Node nextN = ProcessTemplateHelper.find(event.getProcess_name(), transition.to);
+				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
 		        EventSchedulerProcessor processor = getEventSchedulerProcessor(nextN.getScheduleType());
 		        Class<?> eventName = Class.forName(nextN.getClassname());
 		        Object newInstance = eventName.newInstance();
 		        
 		        //TODO: 需要数据拷贝 
 		        Map<String, Object> map = context.getMap();
-		        //BeanUtils.copyProperties(newInstance, orig);
+		        BeanCopyUtil.copy(newInstance, map);
 		        
-		        processor.addData(event);
+		        processor.addData((Event)newInstance);
 				//目前业务场景 下一个节点只有1个会执行,不排除以后多个执行
 				break;
 			}
@@ -97,6 +100,9 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			scriptEngine.put(entry.getKey(), entry.getValue());
 		}
 		try {
+			if(StringUtils.isBlank(exec)){
+				return true;
+			}
 			Boolean result = (Boolean) scriptEngine.eval(exec);
 		    return result;
 		} catch (ScriptException e) {

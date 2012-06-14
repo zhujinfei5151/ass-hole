@@ -12,6 +12,7 @@ public class BeanCopyUtil {
 		
 		for (Entry<String, Object> entry :map.entrySet()) {
 				try{
+					// 现在只拷贝一级
 					Field field = o.getClass().getDeclaredField(entry.getKey());
 					Object value = entry.getValue();
 					//只有名字和类型一直时候才拷贝

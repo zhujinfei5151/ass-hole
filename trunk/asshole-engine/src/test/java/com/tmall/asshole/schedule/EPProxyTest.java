@@ -6,15 +6,17 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.tmall.asshole.engine.process.ProcessorMachine;
+
 public class EPProxyTest {
 	
 	@Test
 	public void  testCreateProcessInstanceID() throws SecurityException, NoSuchMethodException{
 		try{
 	   
-		EPProxy  proxy = new EPProxy();
+		ProcessorMachine  proxy = new ProcessorMachine();
 			
-		Method method = EPProxy.class.getDeclaredMethod("createProcessInstanceID");
+		Method method = ProcessorMachine.class.getDeclaredMethod("createProcessInstanceID");
 		
 		method.setAccessible(true);
 		

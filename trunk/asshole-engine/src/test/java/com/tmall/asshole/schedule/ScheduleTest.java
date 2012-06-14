@@ -42,7 +42,7 @@ public class ScheduleTest {
 		  zKConfig.setLocalIPAddressForTest("192.168.1.23");
 		  scheduleFgetcPolicy.setZKConfig(zKConfig);
 		  scheduleFgetcPolicy.onChange(machines);
-		  schedule.init();
+		  schedule.strart();
 		  Assert.assertTrue(scheduleFgetcPolicy.getEndIndex() > 0);
 		  Thread.sleep(3000);
 		}catch (Exception e) {

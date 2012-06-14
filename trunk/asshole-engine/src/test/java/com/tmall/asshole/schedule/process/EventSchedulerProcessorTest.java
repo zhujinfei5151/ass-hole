@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.tmall.asshole.common.Event;
+import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.common.EventEnv;
 import com.tmall.asshole.common.ScheduleType;
 import com.tmall.asshole.engine.process.EventSchedulerProcessor;
@@ -27,31 +28,44 @@ public class EventSchedulerProcessorTest {
 			"config.xml");
 	static EventSchedulerProcessor processor = (EventSchedulerProcessor) context
 			.getBean("eventSchedulerProcessor");
-	
-	
+
 	@Test
 	public void testEventSchedulerProcessor() {
 
 		try {
-			processor.process(new TestEvent1());
+			processor.process(new TestEvent1(),new EventContext());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
-		
+
 	}
-   
+
 	@Test
 	public void testGetDataList() {
 		try {
 			TestEvent1 testEvent1 = new TestEvent1();
 			testEvent1.setTestVar1("hello");
 			processor.addData(testEvent1);
-			List<Event> dataList = processor.getDataList(0, 3333, 10, EventEnv.LOCAL, ScheduleType.BASIC_SCHEDULE, "192.168.1.1");
-			Assert.assertTrue(dataList.size()>0);
-			TestEvent1 newTestEvent1 = (TestEvent1)dataList.get(0);
-			Assert.assertEquals(testEvent1.getTestVar1(), newTestEvent1.getTestVar1());
-			
+			List<Event> dataList = processor.getDataList(0, 3333, 10,
+					EventEnv.LOCAL, ScheduleType.BASIC_SCHEDULE, "192.168.1.1");
+			Assert.assertTrue(dataList.size() > 0);
+			TestEvent1 newTestEvent1 = (TestEvent1) dataList.get(0);
+			Assert.assertEquals(testEvent1.getTestVar1(),
+					newTestEvent1.getTestVar1());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void testStart() {
+		try {
+			processor.init();
+			Thread.sleep(3000);
+			processor.stopSchedule();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();

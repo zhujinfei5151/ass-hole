@@ -15,11 +15,13 @@ import com.tmall.asshole.common.EventEnv;
 import com.tmall.asshole.common.EventStatus;
 import com.tmall.asshole.common.IEventDAO;
 import com.tmall.asshole.common.ScheduleType;
+import com.tmall.asshole.config.EngineConfig;
 import com.tmall.asshole.engine.IEngine;
 import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
 import com.tmall.asshole.schedule.IDataLoader;
 import com.tmall.asshole.schedule.IDataProcessor;
 import com.tmall.asshole.schedule.IDataProducer;
+import com.tmall.asshole.schedule.Schedule;
 
 
 /****
@@ -28,17 +30,38 @@ import com.tmall.asshole.schedule.IDataProducer;
  * 
  * @param <Event>
  */
-public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.common.Event>,IDataProcessor<com.tmall.asshole.common.Event>,IDataProducer<com.tmall.asshole.common.Event> {
+public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event> {
 
 	private static transient Log logger = LogFactory
 			.getLog(EventSchedulerProcessor.class);
-	
 	
 	@Autowired
 	private IEngine<Event, EventContext> eventEngine;
 	
 	@Autowired
 	private IEventDAO eventDAO;
+	
+	@Autowired
+	private EngineConfig engineConfig;
+	
+	private Schedule<Event,EventContext> schedule;
+	
+	private String schedule_type;
+	
+	
+	public Schedule<Event,EventContext> getSchedule() {
+		return schedule;
+	}
+
+	public void init(){
+		   schedule = new Schedule<Event,EventContext>(this, this, engineConfig);
+		   schedule.strart();
+		   schedule_type = engineConfig.getScheduleType();
+	}
+	
+	public void stopSchedule(){
+		schedule.stopSchedule();
+	}
 	
 
 	public void setEventDAOForTest(IEventDAO eventDAO) {
@@ -53,6 +76,10 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.co
 		this.eventEngine = eventEngine;
 	}
 
+	public String getScheduleType() {
+		return schedule_type;
+	}
+
 	@Autowired
 	private ProtocolCodecFactory<Event> protocolCodecFactory;
 	
@@ -61,8 +88,7 @@ public class EventSchedulerProcessor implements IDataLoader<com.tmall.asshole.co
 		this.protocolCodecFactory = protocolCodecFactory;
 	}
 
-	public void process(Event data) throws Exception {
-		EventContext context = new EventContext();
+	public void process(Event data,EventContext context) throws Exception {
 		try {
 		     if (eventEngine.fire(data, context)) {
 		           data.setStatus(EventStatus.EVENT_STATUS_SUCCESS);

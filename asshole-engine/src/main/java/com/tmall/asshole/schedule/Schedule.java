@@ -1,12 +1,13 @@
 package com.tmall.asshole.schedule;
 
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tmall.asshole.common.EventEnv;
 import com.tmall.asshole.common.ScheduleType;
@@ -18,11 +19,13 @@ import com.tmall.asshole.config.EngineConfig;
  * @author jiuxian.tjo
  *
  */
-public class Schedule<T> extends Job {
+public class Schedule<T,C> extends Job {
 	private static transient Log logger = LogFactory.getLog(Schedule.class);
 	protected SchedulerThreadPoolExecutor threadPool;
 	protected final IDataLoader<T> dataLoader;
-	protected final IDataProcessor<T> dataProcessor;
+	protected final IDataProcessor<T,C> dataProcessor;
+	
+	protected IDataProcessorCallBack<T,C> dataProcessorCallBack;
 	
 	// 考虑远程变量推送
 	public boolean dealWithReceiveMsg = true;
@@ -35,12 +38,13 @@ public class Schedule<T> extends Job {
 	
 	private String scheduleType;
 	
+	private AtomicBoolean stop=new AtomicBoolean(false);
 	
 //	@Autowired
 //	protected ScheduleFgetcPolicyFactory scheduleFgetcPolicyFactory;
 	
 	
-	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T> dataProcessor, EngineConfig config) {
+	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T,C> dataProcessor, EngineConfig config) {
 		this.dataLoader = dataLoader;
 		this.dataProcessor = dataProcessor;
 		this.envionmentGroup = config.getEnvionmentGroup();
@@ -56,17 +60,26 @@ public class Schedule<T> extends Job {
 	}
 	
 	
+	public void setDataProcessorCallBack(IDataProcessorCallBack<T,C> dataProcessorCallBack) {
+		this.dataProcessorCallBack = dataProcessorCallBack;
+	}
+
+
 	public IScheduleFgetcPolicy getScheduleFgetcPolicy() {
 		return scheduleFgetcPolicy;
 	}
 
 
 
-	public void init() {
+	public synchronized void strart() {
 		// 订阅
 		// 发布
 		this.threadPool.init(taskName);
-		this.start();
+		super.start();
+	}
+	
+	public synchronized void stopSchedule(){
+		this.stop.set(true);
 	}
 	
 	public void run() {
@@ -76,6 +89,10 @@ public class Schedule<T> extends Job {
 					processQueue();
 				} else {
 					logger.debug("Scheduler[" + taskName + "] thread suspend ");
+				}
+				if(stop.get()==true){
+					logger.error("Scheduler[" + taskName + "] thread suspend , stop="+stop);
+					break;
 				}
 
 			} catch (Throwable e) {
@@ -124,10 +141,20 @@ public class Schedule<T> extends Job {
 				public void run() {
 					try {
 						for (T t : dataList) {
+							   Class<C> entityClass = (Class<C>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+					           C c = entityClass.newInstance();
 							try {
-								dataProcessor.process(t);
+								dataProcessor.process(t,c);
 							} catch (Throwable e) {
-							   logger.error(" process error taskName: ["+ taskName+ "] data: [ " + t + " ]", e);
+							   logger.error("dataProcessor, process error taskName: ["+ taskName+ "] data: [ " + t + " ]", e);
+							}finally{
+								try{
+								if(dataProcessorCallBack!=null){
+								    dataProcessorCallBack.callback(t,c);
+								}
+								}catch (Exception e) {
+									   logger.error(" dataProcessorCallBack ,process error taskName: ["+ taskName+ "] data: [ " + t + " ] ", e);
+								}
 							}
 						}
 					} catch (Exception e) {

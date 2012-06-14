@@ -74,7 +74,6 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		        Class<?> eventName = Class.forName(nextN.getClassname());
 		        Object newInstance = eventName.newInstance();
 		        
-		        //TODO: 需要数据拷贝 
 		        Map<String, Object> map = context.getMap();
 		        BeanCopyUtil.copy(newInstance, map);
 		        

@@ -1,5 +1,7 @@
 package com.tmall.asshole.config;
 
+import java.util.List;
+
 /****
  * 
  * @author jiuxian.tjo
@@ -49,6 +51,11 @@ public class EngineConfig {
 
 	/** *线程池维护线程所允许的空闲时间 */
 	private int keepAliveTime = 0;
+	
+	/***
+	 *   流程模版的路径
+	 */
+	private List<String> processTemplateFolders;
 	
 
 	public String getEnvionmentGroup() {
@@ -130,8 +137,14 @@ public class EngineConfig {
 	public void setKeepAliveTime(int keepAliveTime) {
 		this.keepAliveTime = keepAliveTime;
 	}
-	
-	
+
+	public List<String> getProcessTemplateFolders() {
+		return processTemplateFolders;
+	}
+
+	public void setProcessTemplateFolders(List<String> processTemplateFolders) {
+		this.processTemplateFolders = processTemplateFolders;
+	}
 	
 	
 	

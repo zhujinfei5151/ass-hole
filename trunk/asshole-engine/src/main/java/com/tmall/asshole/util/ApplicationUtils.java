@@ -14,6 +14,8 @@ import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.engine.AbstractHandler;
 import com.tmall.asshole.engine.EventHandlerLocator;
 import com.tmall.asshole.engine.IHandler;
+import com.tmall.asshole.engine.process.EventSchedulerProcessor;
+import com.tmall.asshole.engine.process.ProcessorMachine;
 
 public class ApplicationUtils extends ApplicationObjectSupport implements ApplicationListener{
 	private static ApplicationUtils stools = null;
@@ -53,16 +55,46 @@ public class ApplicationUtils extends ApplicationObjectSupport implements Applic
 		ApplicationUtils.getInstance().setApplicationContext(getApplicationContext());
 	}
     
-	private boolean handlerMapLoaded;
+	private boolean loaded;
 
 	public void onApplicationEvent(ApplicationEvent event) {
-		 if(event instanceof ContextRefreshedEvent && handlerMapLoaded == false){
-			 handlerMapLoaded = true;
-			 loadAllHandlerMap();
+		 if(event instanceof ContextRefreshedEvent && loaded == false){
+			 loaded = true;
+			 try{
+			   loadAllHandlerMap();
+			   loadEventSchedulerProcessors();
+			    init();
+			 }catch (Exception e) {
+				 logger.error("can't load the applation composites l"+e);
+				 System.exit(-1);
+			}
 		 }
 	}
 	
-	
+	private void init() throws Exception{
+		String[] names = getApplicationContext().getBeanNamesForType(Initialize.class);
+        for (String name : names) {
+        	Initialize  initialize = (Initialize)getApplicationContext().getBean(name);
+        	initialize.init();
+		}
+		
+	}
+
+	private void loadEventSchedulerProcessors() {
+		String[] processorProxy_names = getApplicationContext().getBeanNamesForType(ProcessorMachine.class);
+		ProcessorMachine proxy = null;
+		if(processorProxy_names.length == 1){
+			proxy= (ProcessorMachine)getApplicationContext().getBean(processorProxy_names[0]);
+			String[] processor_names = ApplicationUtils.getInstance().getApplicationContext().getBeanNamesForType(EventSchedulerProcessor.class);
+	    	for (String processor_name : processor_names) {
+	    		EventSchedulerProcessor processor = (EventSchedulerProcessor)ApplicationUtils.getInstance().getApplicationContext().getBean(processor_name);
+	    		proxy.getEventSchedulerProcessors().add(processor);
+	    		processor.init();
+	    		processor.getSchedule().setDataProcessorCallBack(proxy);
+	    	}
+		}
+	}
+
 	private void loadAllHandlerMap() throws BeansException{
 		String[] names = getApplicationContext().getBeanNamesForType(EventHandlerLocator.class);
 		EventHandlerLocator locator = null;

@@ -49,7 +49,7 @@ public class ProcessorMachineTest {
 			
 			machine.createEventProcess(event1, "order_card");
 			
-			Thread.sleep(10000);
+			Thread.sleep(3000);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

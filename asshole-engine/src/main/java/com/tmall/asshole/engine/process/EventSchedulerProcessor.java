@@ -22,6 +22,7 @@ import com.tmall.asshole.schedule.IDataLoader;
 import com.tmall.asshole.schedule.IDataProcessor;
 import com.tmall.asshole.schedule.IDataProducer;
 import com.tmall.asshole.schedule.Schedule;
+import com.tmall.asshole.util.Initialize;
 
 
 /****
@@ -30,7 +31,7 @@ import com.tmall.asshole.schedule.Schedule;
  * 
  * @param <Event>
  */
-public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event> {
+public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event>,Initialize {
 
 	private static transient Log logger = LogFactory
 			.getLog(EventSchedulerProcessor.class);
@@ -46,7 +47,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	
 	private Schedule<Event,EventContext> schedule;
 	
-	private String schedule_type;
+	private String scheduleType;
 	
 	
 	public Schedule<Event,EventContext> getSchedule() {
@@ -56,7 +57,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	public void init(){
 		   schedule = new Schedule<Event,EventContext>(this, this, engineConfig);
 		   schedule.strart();
-		   schedule_type = engineConfig.getScheduleType();
+		   scheduleType = engineConfig.getScheduleType();
 	}
 	
 	public void stopSchedule(){
@@ -77,7 +78,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	}
 
 	public String getScheduleType() {
-		return schedule_type;
+		return scheduleType;
 	}
 
 	@Autowired
@@ -114,8 +115,8 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	}
 
 	public List<Event> getDataList(int start, int end, int rownum,
-			EventEnv envionmentGroup, ScheduleType scheduleType, String executeMachineAlias) throws Exception{
-		List<Event> l = eventDAO.queryEvent(start, end, rownum,envionmentGroup.getCode(),scheduleType.getCode());
+			EventEnv envionmentGroup,String executeMachineAlias) throws Exception{
+		List<Event> l = eventDAO.queryEvent(start, end, rownum,envionmentGroup.getCode(),ScheduleType.valueOf(scheduleType).getCode());
 		List<Event> noErrorLst = new ArrayList<Event>();
 	    for (Event data : l) {
 	    	   try{

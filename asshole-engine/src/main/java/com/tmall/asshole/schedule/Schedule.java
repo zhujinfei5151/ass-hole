@@ -36,7 +36,6 @@ public class Schedule<T,C> extends Job {
 	protected String groupingName;
 	protected IScheduleFgetcPolicy scheduleFgetcPolicy;
 	
-	private String scheduleType;
 	
 	private AtomicBoolean stop=new AtomicBoolean(false);
 	
@@ -51,7 +50,6 @@ public class Schedule<T,C> extends Job {
 		this.taskName = config.getTaskName();
 		this.groupingName = config.getGroupingName();
 		this.schedulingPollingTime = config.getSchedulingPollingTime();
-		this.scheduleType=config.getScheduleType();
 		
 		this.threadPool = new SchedulerThreadPoolExecutor(config.getCorePoolSize(),config.getMaxPoolSize(),config.getKeepAliveTime());
 		//根据配置决定选择 scheduleFgetcPolicy
@@ -107,7 +105,7 @@ public class Schedule<T,C> extends Job {
 			if (threadPool.isAllThreadFree()) {
 				if (scheduleFgetcPolicy.getStartIndex() < scheduleFgetcPolicy.getEndIndex()) {
 					dataList = dataLoader.getDataList(scheduleFgetcPolicy.getStartIndex(), scheduleFgetcPolicy.getEndIndex(),
-							scheduleFgetcPolicy.getRowNum(), EventEnv.valueOf(envionmentGroup), ScheduleType.valueOf(scheduleType), scheduleFgetcPolicy.getExecuteMachineAlias());
+							scheduleFgetcPolicy.getRowNum(), EventEnv.valueOf(envionmentGroup),scheduleFgetcPolicy.getExecuteMachineAlias());
 				} else {
 					logger.warn("Scheduler[" + taskName + "]  scheduleFgetcPolicy.getStartIndex[" + scheduleFgetcPolicy.getStartIndex()
 							+ "]>scheduleFgetcPolicy.getEndIndex");

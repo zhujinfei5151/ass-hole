@@ -44,7 +44,7 @@ public class ScheduleTest {
 		  scheduleFgetcPolicy.onChange(machines);
 		  schedule.strart();
 		  Assert.assertTrue(scheduleFgetcPolicy.getEndIndex() > 0);
-		  Thread.sleep(3000);
+		  Thread.sleep(300000);
 		}catch (Exception e) {
 			Assert.fail();
 		}

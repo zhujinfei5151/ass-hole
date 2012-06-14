@@ -36,6 +36,7 @@ public class ProcessTemplateHelperTest {
 		 try {
 			ProcessTemplateHelper.deploy(folders);
 			Assert.assertEquals(2, ProcessTemplateHelper.processes.size());
+			
 		 
 		 } catch (Exception e) {
 			  Assert.fail();

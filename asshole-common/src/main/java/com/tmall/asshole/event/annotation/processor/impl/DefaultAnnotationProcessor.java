@@ -5,9 +5,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.tmall.asshole.common.Event;
 import com.tmall.asshole.event.annotation.mapper.AnnotationConfiguration;
 import com.tmall.asshole.event.annotation.processor.AnnotationProcessor;
-import com.tmall.asshole.event.common.Event;
 
 public class DefaultAnnotationProcessor implements AnnotationProcessor {
 

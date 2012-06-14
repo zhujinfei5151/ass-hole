@@ -21,9 +21,9 @@ public class EventHandlerLocatorTest {
 		
 		Assert.assertNotNull(handlerLocator);
 		
-		Assert.assertNotNull(handlerLocator.getHANDLER_MAP().get("com.tmall.asshole.ep.TestEvent1"));
+		Assert.assertNotNull(handlerLocator.getHANDLER_MAP().get(TestHandler1.class.getName()));
 		
-		Assert.assertTrue(handlerLocator.getHANDLER_MAP().get("com.tmall.asshole.ep.TestEvent1")  instanceof  TestHandler1);
+		Assert.assertTrue(handlerLocator.getHANDLER_MAP().get(TestHandler1.class.getName())  instanceof  TestHandler1);
     	
     }
 }

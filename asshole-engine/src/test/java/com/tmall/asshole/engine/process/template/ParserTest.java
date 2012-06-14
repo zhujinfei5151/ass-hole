@@ -18,9 +18,6 @@ public class ParserTest extends TestCase {
 		
 		Assert.assertNotNull(process);
 		
-		
-		Assert.assertNotNull(Parser.parse(this.getClass().getResourceAsStream("/process/fake.xml")));
-		
 		Assert.assertTrue(process.nodes.size()>0);
 		
 		 Assert.assertEquals(process.nodes.get(0).getName()

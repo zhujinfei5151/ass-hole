@@ -52,6 +52,8 @@ public class EngineConfig {
 	/** *线程池维护线程所允许的空闲时间 */
 	private int keepAliveTime = 0;
 	
+	private boolean startZK=true;
+	
 	/***
 	 *   流程模版的路径
 	 */
@@ -144,6 +146,14 @@ public class EngineConfig {
 
 	public void setProcessTemplateFolders(List<String> processTemplateFolders) {
 		this.processTemplateFolders = processTemplateFolders;
+	}
+
+	public boolean getStartZK() {
+		return startZK;
+	}
+
+	public void setStartZK(boolean startZK) {
+		this.startZK = startZK;
 	}
 	
 	

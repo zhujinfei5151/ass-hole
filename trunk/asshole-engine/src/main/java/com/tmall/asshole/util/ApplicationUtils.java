@@ -16,6 +16,7 @@ import com.tmall.asshole.engine.EventHandlerLocator;
 import com.tmall.asshole.engine.IHandler;
 import com.tmall.asshole.engine.process.EventSchedulerProcessor;
 import com.tmall.asshole.engine.process.ProcessorMachine;
+import com.tmall.asshole.zkclient.ZKClient;
 
 public class ApplicationUtils extends ApplicationObjectSupport implements ApplicationListener{
 	private static ApplicationUtils stools = null;
@@ -63,7 +64,7 @@ public class ApplicationUtils extends ApplicationObjectSupport implements Applic
 			 try{
 			   loadAllHandlerMap();
 			   loadEventSchedulerProcessors();
-			    init();
+			   init();
 			 }catch (Exception e) {
 				 logger.error("can't load the applation composites l"+e);
 				 System.exit(-1);
@@ -71,6 +72,7 @@ public class ApplicationUtils extends ApplicationObjectSupport implements Applic
 		 }
 	}
 	
+
 	private void init() throws Exception{
 		String[] names = getApplicationContext().getBeanNamesForType(Initialize.class);
         for (String name : names) {

@@ -8,7 +8,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.mock.ep.TestEvent1;
-import com.tmall.asshole.mock.ep.TestEvent2;
 import com.tmall.asshole.schedule.node.ProcessTemplate;
 import com.tmall.asshole.schedule.node.helper.ProcessTemplateHelper;
 

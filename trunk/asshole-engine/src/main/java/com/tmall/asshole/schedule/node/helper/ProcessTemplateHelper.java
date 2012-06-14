@@ -11,6 +11,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tmall.asshole.common.Event;
 import com.tmall.asshole.engine.process.template.Parser;
 import com.tmall.asshole.exception.NodeNotFountException;
 import com.tmall.asshole.exception.ProcessTemplateNotFoundException;
@@ -100,6 +101,24 @@ public class ProcessTemplateHelper {
 		logger.error("can't find the node, name="+node+" in the processTemplate, name="+processName);
 		throw new NodeNotFountException("can't find the node, name="+node+" in the processTemplate, name="+processName);
 	}
+	/**
+	 * find list<Node> by processName and className
+	 * 
+	 * @param className
+	 * @return
+	 * @throws Exception
+	 */
+	public static List<Node> find(String processName,Class<? extends Event> className) throws Exception{
+		List<Node> l  = new ArrayList<Node>();
+		ProcessTemplate processTemplate = ProcessTemplateHelper.getProcessTemplate(processName);
+		for (Node node :processTemplate.nodes) {
+			  if(node.getClassname().equals(className.getName())){
+				   l.add(node);
+			  }
+		}
+		return l;
+	}
+	
 	
 	/****
 	 * 获取流程的ID

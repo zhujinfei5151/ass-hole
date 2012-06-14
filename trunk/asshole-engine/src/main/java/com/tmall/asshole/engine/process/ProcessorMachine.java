@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.Resource;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
@@ -29,7 +30,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	
 	private ScriptEngine scriptEngine;
 	
-	@Resource
+	@Autowired
 	private EngineConfig engineConfig;
 	
 	
@@ -48,7 +49,12 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	
 	
 	public void createEventProcess(Event event,String processName) throws Exception{
-		Node n = ProcessTemplateHelper.find(processName, event.getCurrent_name());
+		//根据类型反找到节点
+		List<Node> nodes = ProcessTemplateHelper.find(processName, event.getClass());
+		if(nodes.size()==0){
+			throw new NullPointerException("can't find the event, type="+event.getClass()+" in the processs, name="+processName);
+		}
+		Node n = nodes.get(0);
 		event.setProcess_name(processName);
 		event.setProcess_instance_id(ProcessTemplateHelper.createProcessInstanceID());
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(n.getScheduleType());

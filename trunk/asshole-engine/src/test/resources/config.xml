@@ -36,6 +36,9 @@
 		 <property name="scheduleType">
 			<value>BASIC_SCHEDULE</value>
 		 </property>
+		 <property name="processTemplateFolders">
+			<value>/process/ProcessorMachine</value>
+		 </property>
 	</bean>
 	
 	<bean id="processorMachine" class="com.tmall.asshole.engine.process.ProcessorMachine" />

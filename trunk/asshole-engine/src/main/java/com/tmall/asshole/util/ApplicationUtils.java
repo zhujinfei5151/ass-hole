@@ -81,10 +81,10 @@ public class ApplicationUtils extends ApplicationObjectSupport implements Applic
 	}
 
 	private void loadEventSchedulerProcessors() {
-		String[] processorProxy_names = getApplicationContext().getBeanNamesForType(ProcessorMachine.class);
+		String[] processorMachine_names = getApplicationContext().getBeanNamesForType(ProcessorMachine.class);
 		ProcessorMachine proxy = null;
-		if(processorProxy_names.length == 1){
-			proxy= (ProcessorMachine)getApplicationContext().getBean(processorProxy_names[0]);
+		if(processorMachine_names.length == 1){
+			proxy= (ProcessorMachine)getApplicationContext().getBean(processorMachine_names[0]);
 			String[] processor_names = ApplicationUtils.getInstance().getApplicationContext().getBeanNamesForType(EventSchedulerProcessor.class);
 	    	for (String processor_name : processor_names) {
 	    		EventSchedulerProcessor processor = (EventSchedulerProcessor)ApplicationUtils.getInstance().getApplicationContext().getBean(processor_name);

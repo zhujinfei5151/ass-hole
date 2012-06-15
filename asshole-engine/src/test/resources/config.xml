@@ -39,6 +39,10 @@
 		 <property name="processTemplateFolders">
 			<value>/process/ProcessorMachine</value>
 		 </property>
+		 <!-- 测试不需要启动 zk client -->
+		  <property name="startZK">
+			<value>false</value>
+		 </property>
 	</bean>
 	
 	<bean id="processorMachine" class="com.tmall.asshole.engine.process.ProcessorMachine" />

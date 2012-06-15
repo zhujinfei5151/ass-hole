@@ -22,7 +22,6 @@ import com.tmall.asshole.schedule.IDataLoader;
 import com.tmall.asshole.schedule.IDataProcessor;
 import com.tmall.asshole.schedule.IDataProducer;
 import com.tmall.asshole.schedule.Schedule;
-import com.tmall.asshole.util.Initialize;
 
 
 /****
@@ -31,7 +30,7 @@ import com.tmall.asshole.util.Initialize;
  * 
  * @param <Event>
  */
-public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event>,Initialize {
+public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event> {
 
 	private static transient Log logger = LogFactory
 			.getLog(EventSchedulerProcessor.class);
@@ -54,7 +53,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		return schedule;
 	}
 
-	public void init(){
+	public void start(){
 		   schedule = new Schedule<Event,EventContext>(this, this, engineConfig);
 		   schedule.strart();
 		   scheduleType = engineConfig.getScheduleType();

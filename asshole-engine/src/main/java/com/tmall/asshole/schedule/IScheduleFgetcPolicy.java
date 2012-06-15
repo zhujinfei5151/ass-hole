@@ -1,10 +1,12 @@
 package com.tmall.asshole.schedule;
+
+import com.tmall.asshole.zkclient.INodeChange;
 /***
  * 
  * @author jiuxian.tjo
  *
  */
-public interface IScheduleFgetcPolicy {
+public interface IScheduleFgetcPolicy extends INodeChange{
 	
 	/**
 	 * 读取线程需要要抓取的数据范围 de 开始index

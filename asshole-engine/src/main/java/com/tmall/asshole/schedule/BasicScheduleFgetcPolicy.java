@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.tmall.asshole.zkclient.INodeChange;
 import com.tmall.asshole.zkclient.ZKConfig;
 
 /******
@@ -17,7 +17,9 @@ import com.tmall.asshole.zkclient.ZKConfig;
  * @author tangjinou
  *
  */
-public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy , INodeChange{
+public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
+	private static transient Log logger = LogFactory
+			.getLog(BasicScheduleFgetcPolicy.class);
 	
 	private int startIndex;
 	
@@ -58,6 +60,14 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy , INodeCha
 	}
 
 	public void onChange(List<String> machines) {
+		  if(machines==null){
+			  this.startIndex=0;
+			  this.endIndex=0;
+			  this.rownum=0;
+			  logger.info("machines == null , so change startIndex=0,endIndex=0,rownum=0");
+			  return;
+		  }
+		
 	      Collections.sort(machines);
 	      try{
 	      lock.lock();

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.engine.process.template.Parser;
+import com.tmall.asshole.exception.FolderNotFountException;
 import com.tmall.asshole.exception.NodeNotFountException;
 import com.tmall.asshole.exception.ProcessTemplateNotFoundException;
 import com.tmall.asshole.schedule.node.Node;
@@ -48,7 +49,16 @@ public class ProcessTemplateHelper {
 	public static void deploy(List<String> folders)  throws Exception {
 	    List<String> paths= new ArrayList<String>();
 		for (String folder : folders) {
-			URL resource = ProcessTemplateHelper.class.getResource(folder);
+			URL resource = null;
+			try{
+				   resource = ProcessTemplateHelper.class.getResource(folder);
+			}catch (Exception e) {
+				  throw new FolderNotFountException("can't find the folder, name="+folder);
+			}
+			if(resource == null){
+				  throw new FolderNotFountException("can't find the folder, name="+folder);
+			}
+			
 			File f = new File(resource.getPath());
 			String[] subfilenames = f.list();
 			for (String subfilename : subfilenames) {

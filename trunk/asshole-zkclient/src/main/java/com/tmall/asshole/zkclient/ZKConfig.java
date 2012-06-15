@@ -19,8 +19,22 @@ public class ZKConfig {
 	private int zkSessionTimeout;
 	private String rootPath;
 	private String localIPAddress;
-
 	
+	public ZKConfig(){
+		
+	}
+	
+	public ZKConfig(Boolean usePermissions, String username, String password,
+			String zkConnectString, int zkSessionTimeout, String rootPath,
+			String localIPAddress) {
+		this.usePermissions = usePermissions;
+		this.username = username;
+		this.password = password;
+		this.zkConnectString = zkConnectString;
+		this.zkSessionTimeout = zkSessionTimeout;
+		this.rootPath = rootPath;
+		this.localIPAddress = localIPAddress;
+	}
 	public Boolean getUsePermissions() {
 		return usePermissions;
 	}

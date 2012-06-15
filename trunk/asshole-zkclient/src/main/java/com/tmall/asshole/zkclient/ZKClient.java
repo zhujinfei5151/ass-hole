@@ -1,5 +1,6 @@
 package com.tmall.asshole.zkclient;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -18,19 +19,19 @@ import com.tmall.asshole.zkclient.data.PersistenceUtil;
 /****
  * ZKClient  
  * 
- *  »ù±¾½á¹¹ÈçÍ¼
+ *  ï¿½ï¿½á¹¹ï¿½ï¿½Í¼
  *  
  *                   --- path1(10.12.32.12)
  *                                   |
- *                               NodeData(·Ç³Ö¾Ã»¯)
+ *                               NodeData(ï¿½Ç³Ö¾Ã»ï¿½)
  *   rootPath   
  *       |            ---- path2(122.23.2.32)
  *       |                            |
- *                               NodeData(·Ç³Ö¾Ã»¯)
- *   NodeData£¨³Ö¾Ã»¯£© 
+ *                               NodeData(ï¿½Ç³Ö¾Ã»ï¿½)
+ *   NodeDataï¿½ï¿½ï¿½Ö¾Ã»ï¿½ï¿½ï¿½ 
  *                  ---- path3(121.234.223)
  *                                  |
- *                              NodeData(·Ç³Ö¾Ã»¯)
+ *                              NodeData(ï¿½Ç³Ö¾Ã»ï¿½)
  *       
  * 
  *   NodeData  --      Data1
@@ -52,11 +53,10 @@ public class ZKClient  implements Watcher {
 	
 	private ZKManager zKManager;
 	
-	//Õâ¸öÊ±¼ä×îºÃºÜ³¤ ²»È»ÈÝÒ×ÈÃ·þÎñÆ÷µÄÑ¹Á¦Ôö´ó   Ä¿Ç°Îª10·ÖÖÓ
+	//ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ÃºÜ³ï¿½ ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   Ä¿Ç°Îª10ï¿½ï¿½ï¿½ï¿½
 	private long defaultRegisterWatchTime = 600000;
 	
-	@Autowired
-	private INodeChange iNodeChange;
+	private List<INodeChange> iNodeChanges = new ArrayList<INodeChange>();
 	
 	private boolean shutdown;
 	
@@ -67,16 +67,18 @@ public class ZKClient  implements Watcher {
 	
 	private Lock lock = new ReentrantLock();
 	
-	public ZKClient(INodeChange iNodeChange){
-        this.iNodeChange = iNodeChange;
-	}
+//	public ZKClient(INodeChange iNodeChange){
+//		iNodeChanges.add(iNodeChange);
+//	}
 	
 	public ZKClient(INodeChange iNodeChange, ZKConfig zKConfig){
 		this.zKConfig = zKConfig;
-        this.iNodeChange = iNodeChange;
+		iNodeChanges.add(iNodeChange);
 	}
 	
-	public ZKClient() {
+	public ZKClient(List<INodeChange> iNodeChanges,ZKConfig zKConfig) {
+		this.zKConfig = zKConfig;
+		this.iNodeChanges.addAll(iNodeChanges);
 	}
 	
 	
@@ -84,8 +86,8 @@ public class ZKClient  implements Watcher {
 		lock.lock();
 		try{
 		shutdown = false;
-		if(iNodeChange==null){
-			  throw new Exception("iNodeChange can't be null");
+		if(iNodeChanges.size()==0){
+			  throw new Exception("iNodeChange can't be o");
 		}
 		if(zKConfig==null){
 			throw new Exception("zKConfig can't be null");
@@ -98,7 +100,7 @@ public class ZKClient  implements Watcher {
 		thread = new Thread(new Runnable() {
 			public void run() {
 				while (true) {
-				    //  Èç¹û³¤Ê±¼äÃ»ÓÐ¼àÌýµ½·þÎñÆ÷µÄÍÆËÍÏûÏ¢, Ö÷¶¯´¦ÀíÒ»ÏÂ
+				    //  ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ã»ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 					try {
 						if(shutdown){
 							log.error("close the protected thread of zkClient");
@@ -113,6 +115,7 @@ public class ZKClient  implements Watcher {
 				}
 			}
 		});
+		thread.setName("zkClient");
 		thread.start();
 		}catch (Exception e) {
 			throw e;
@@ -123,16 +126,24 @@ public class ZKClient  implements Watcher {
 	
 
 	public void process(WatchedEvent event) {
-		//ÐèÒª¿¼ÂÇ     Disconnected    SyncConnected NodeDataChanged
+		//ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½     Disconnected    SyncConnected NodeDataChanged
 		List<String> children = null;
 		
 		try {
 			String path = event.getPath();
 			
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½ 
+			if( event.getState() ==KeeperState.Disconnected ||   event.getState() ==KeeperState.Expired){
+				log.info("ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+				for (INodeChange  iNodeChange: iNodeChanges) {
+					iNodeChange.onChange(children);
+				}
+				return;
+			}
 			
-			//³õ´ÎÓëserverÁ¬½Ó ´´½¨PathData ÒÑ¾­ÔÚ ZKManagerÍê³É
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½serverï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½PathData ï¿½Ñ¾ï¿½ï¿½ï¿½ ZKManagerï¿½ï¿½ï¿½
 			if(path==null && event.getState() ==KeeperState.SyncConnected  && event.getType() == Event.EventType.None){
-			    log.info("½¨Á¢ÁËÓë·þÎñÆ÷µÄÁ¬½Ó");
+			    log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 				return;
 			}
 			
@@ -141,15 +152,14 @@ public class ZKClient  implements Watcher {
 			}
 			
 			
-			//Óë·þÎñÆ÷¶Ï¿ªÁ¬½Ó 
-			if( event.getState() ==KeeperState.Disconnected ||   event.getState() ==KeeperState.Expired){
-			    log.info("¶Ï¿ªÓë·þÎñÆ÷µÄÁ¬½Ó");
-				return;
-			}
 			
 			if(zKConfig.getRootPath().trim().equals(path)){
 				children = zKManager.getZk().getChildren(zKConfig.getRootPath(), false);
-			    iNodeChange.onChange(children);
+				
+				for (INodeChange  iNodeChange: iNodeChanges) {
+					iNodeChange.onChange(children);
+				}
+				
 		   }
 			
 	   }	    

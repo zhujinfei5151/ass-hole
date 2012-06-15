@@ -6,6 +6,7 @@ import java.util.List;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import com.tmall.asshole.schedule.fgetcplolicy.BasicScheduleFgetcPolicy;
 import com.tmall.asshole.zkclient.ZKConfig;
 
 public class BasicScheduleFgetcPolicyTest extends TestCase{

@@ -22,6 +22,7 @@ import com.tmall.asshole.schedule.IDataLoader;
 import com.tmall.asshole.schedule.IDataProcessor;
 import com.tmall.asshole.schedule.IDataProducer;
 import com.tmall.asshole.schedule.Schedule;
+import com.tmall.asshole.util.Initialize;
 
 
 /****
@@ -30,7 +31,7 @@ import com.tmall.asshole.schedule.Schedule;
  * 
  * @param <Event>
  */
-public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event> {
+public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event>{
 
 	private static transient Log logger = LogFactory
 			.getLog(EventSchedulerProcessor.class);

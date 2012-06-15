@@ -6,108 +6,98 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.dao.DataAccessException;
+import org.unitils.spring.annotation.SpringBeanByName;
 
-import com.taobao.common.dao.persistence.exception.DAOException;
-import com.tmall.asshole.event.common.Event;
-import com.tmall.asshole.event.common.EventEnv;
-import com.tmall.asshole.event.common.EventStatus;
-import com.tmall.asshole.event.dao.EventDAO;
+import com.tmall.asshole.common.Event;
+import com.tmall.asshole.common.EventEnv;
+import com.tmall.asshole.common.EventStatus;
+import com.tmall.asshole.common.IEventDAO;
+
 
 public class TestEventDAO extends TestBase {
 
-	        		
 	@SpringBeanByName
-    private EventDAO eventDao ;
-
-   
+    private IEventDAO EventDAO ;
 	@Ignore
-    @Test
-    public void insertTest() throws DAOException {
-    	
+	@Test
+    public void insertTest() throws Exception {
+    	//pass
     	Event eventDO = new Event();
-        eventDO.setId(0000001L);
-        eventDO.setEnv(EventEnv.PRE.getCode());
-        eventDO.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED);
+        eventDO.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode());        
+        eventDO.setEnv(EventEnv.LOCAL.getCode());        
+        eventDO.setOperator("chuzheng");     
+        eventDO.setType_class("com.elink.asshole.event.biz.dal.dao.testcase.TestEventDAO");
+        eventDO.setProcess_logs("good moring");
+        eventDO.setMemo("testOnly");  
+        eventDO.setContext("context");
+        eventDO.setExecute_machine_ip("192.168.1.1");
+        eventDO.setExecute_machine_hash_range("1000");
+        eventDO.setHash_num(1000);
+        eventDO.setExec_count(1);
+        eventDO.setSource(0);  
+        eventDO.setProcess_name("ibatis");
+        eventDO.setProcess_instance_id(1L);
+        eventDO.setCurrent_name("ib");
+        eventDO.setExec_start_time(new Date());
+        eventDO.setIs_delay_exec(true);
+        eventDO.setSchedule_type(0);
         
-        eventDO.setMemo("testOnly");
-        eventDO.setContent("only for test do not");
-        eventDO.setOperator("chuzheng");
-        eventDO.setIdentifier(0L);
-        eventDO.setBiz_order_id(0L);
-        eventDO.setType("");
-        eventDO.setType_class("TestClass");
-        eventDO.setExec_count(0);
-        eventDO.setSource(0);
-        eventDO.setEvent_time(new Date());
-        eventDO.setWorkcard_id(0L);
-        eventDO.setHash_num(0001);
-        eventDO.setGmt_create(new Date());
-        eventDO.setGmt_modify(new Date());
-        
-        long id = 0;
+       long id = 0;
         try {
-			id = eventDao.insertEventDO(eventDO);
-		} catch (DataAccessException e) {
+			id = EventDAO.insertEventDO(eventDO);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }
 	@Ignore
     @Test
-    public void updateDOTest() throws DAOException {
-    	
-    	Event eventDO = new Event();
-        eventDO.setId(0000001L);
-        eventDO.setEnv(EventEnv.PRE.getCode());
-        eventDO.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED);
-        
-        eventDO.setMemo("testOnly");
-        eventDO.setContent("update");
-        eventDO.setOperator("chuzheng");
-        eventDO.setIdentifier(0L);
-        eventDO.setBiz_order_id(0L);
-        eventDO.setType("");
-        eventDO.setType_class("TestClass");
-        eventDO.setExec_count(0);
-        eventDO.setSource(0);
-        eventDO.setEvent_time(new Date());
-        eventDO.setWorkcard_id(0L);
-        eventDO.setHash_num(1123);
-        eventDO.setGmt_create(new Date());
-        eventDO.setGmt_modify(new Date());
-        
-        
-        long id = 0;
-        try {
-        	id = eventDao.updateEvent(eventDO);
-		//	id = eventDao.insertEventDO(eventDo);
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-		}
-    }
-	@Ignore
-    @Test
-    public void queryDotest() throws DAOException {
-    
-    	List<Event> lst = eventDao.queryEvent(0,10000,10000,"pre");
-    	if(lst!=null)
-    		Assert.assertTrue(true);
-    }
-	@Ignore
-	@Test
-	public void batchqueryDotest() throws DAOException {
-	//测试已经通过 	
-	//	 Integer count = eventDao.batchChangeEventStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode(),EventStatus.EVENT_STATUS_SUCCESS.getCode());
-	}
-	@Test
-	public void batchqueryByTimetest() throws DAOException {
-	//测试已经通过 	
-	//	 Integer count = eventDao.batchChangeEventStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode(),EventStatus.EVENT_STATUS_SUCCESS.getCode());
-	
+    public void updateDOTest() throws Exception {
+    	//pass
 		
-		Integer count = eventDao.batchChangeEventStatusBytime(1 ,0 ,10);
+		Event eventDO = new Event();
+		eventDO.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode());
+		//eventDO.setEnv(EventEnv.LOCAL.getCode()); 
+		eventDO.setId(1L);
+        eventDO.setIs_delay_exec(false);
+       
+        long id = 0;
+        try {
+        	id = EventDAO.updateEventDO(eventDO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+	@Ignore
+	@Test
+	public void batchqueryDotest() throws Exception {
+	//pass
+		 EventDAO.batchChangeEventStatus(0,4);
+		 Assert.assertTrue(true);
+	}
 	
 	
+	@Ignore
+	@Test
+	public void queryDotest() throws Exception {
+	//	
+		int scheduleType = 0;
+		//public List<Event> queryEvent(int start, int end, int count, int env, int scheduleType);
+		List<Event> lst = EventDAO.queryEvent(0,10000,10000,0,scheduleType);
+		if(lst!=null)
+			Assert.assertTrue(true);
+	}
+	
+	
+	@Ignore
+	@Test
+	public void batchqueryByPrimeKey() throws Exception {
+		
+		Long id = 1L;
+	
+		Event e = EventDAO.queryEventByPrimaryKey(id,0);
+		if(e!=null)
+			Assert.assertTrue(true);
 	}
 	
     

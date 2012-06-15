@@ -1,7 +1,6 @@
 package com.tmall.asshole.schedule;
 
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -23,6 +22,7 @@ public class Schedule<T,C> extends Job {
 	protected SchedulerThreadPoolExecutor threadPool;
 	protected final IDataLoader<T> dataLoader;
 	protected final IDataProcessor<T,C> dataProcessor;
+	protected final IContextCreate<C> contextCreate;
 	
 	protected IDataProcessorCallBack<T,C> dataProcessorCallBack;
 	
@@ -42,7 +42,7 @@ public class Schedule<T,C> extends Job {
 //	protected ScheduleFgetcPolicyFactory scheduleFgetcPolicyFactory;
 	
 	
-	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T,C> dataProcessor, EngineConfig config) {
+	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T,C> dataProcessor, IContextCreate<C> contextCreate , EngineConfig config) {
 		this.dataLoader = dataLoader;
 		this.dataProcessor = dataProcessor;
 		this.envionmentGroup = config.getEnvionmentGroup();
@@ -53,8 +53,8 @@ public class Schedule<T,C> extends Job {
 		this.threadPool = new SchedulerThreadPoolExecutor(config.getCorePoolSize(),config.getMaxPoolSize(),config.getKeepAliveTime());
 		//根据配置决定选择 scheduleFgetcPolicy
 		scheduleFgetcPolicy=ScheduleFgetcPolicyFactory.create(config.getAlgorithmType());
-		
 		this.setName("schedule-"+taskName+"-"+config.getScheduleType());
+		this.contextCreate = contextCreate;
 		
 	}
 	
@@ -140,8 +140,7 @@ public class Schedule<T,C> extends Job {
 				public void run() {
 					try {
 						for (T t : dataList) {
-							   Class<C> entityClass = (Class<C>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-					           C c = entityClass.newInstance();
+					           C c = contextCreate.create();
 							try {
 								dataProcessor.process(t,c);
 							} catch (Throwable e) {

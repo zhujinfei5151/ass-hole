@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.tmall.asshole.config.EngineConfig;
 import com.tmall.asshole.engine.process.EventSchedulerProcessor;
+import com.tmall.asshole.schedule.fgetcplolicy.BasicScheduleFgetcPolicy;
 import com.tmall.asshole.zkclient.ZKConfig;
 
 public class ScheduleTest {

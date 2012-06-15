@@ -1,4 +1,4 @@
-package com.tmall.asshole.schedule;
+package com.tmall.asshole.schedule.fgetcplolicy;
 
 
 import java.util.ArrayList;
@@ -10,6 +10,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.tmall.asshole.schedule.IScheduleFgetcPolicy;
 import com.tmall.asshole.zkclient.ZKConfig;
 
 /******

@@ -67,6 +67,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		Node n = nodes.get(0);
 		event.setProcessName(processName);
 		event.setProcess_instance_id(ProcessTemplateHelper.createProcessInstanceID());
+		event.setCurrentName(n.getName());
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(n.getScheduleType());
 		eventSchedulerProcessor.addData(event);
 	}
@@ -89,10 +90,14 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
 		        EventSchedulerProcessor processor = getEventSchedulerProcessor(nextN.getScheduleType());
 		        Class<?> eventName = Class.forName(nextN.getClassname());
-		        Object newInstance = eventName.newInstance();
+		        Event newEvent = (Event)eventName.newInstance();
 		        Map<String, Object> map = context.getMap();
-		        BeanCopyUtil.copy(newInstance, map);
-		        processor.addData((Event)newInstance);
+		        BeanCopyUtil.copy(newEvent, map);
+		        //关键属性需要copy
+		        newEvent.setProcessName(event.getProcessName());
+		        newEvent.setCurrentName(nextN.getName());
+		        
+		        processor.addData(newEvent);
 				//目前业务场景 下一个节点只有1个会执行,不排除以后多个执行
 				break;
 			}

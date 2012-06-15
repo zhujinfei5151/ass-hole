@@ -18,6 +18,7 @@ import com.tmall.asshole.common.ScheduleType;
 import com.tmall.asshole.config.EngineConfig;
 import com.tmall.asshole.engine.IEngine;
 import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
+import com.tmall.asshole.schedule.IContextCreate;
 import com.tmall.asshole.schedule.IDataLoader;
 import com.tmall.asshole.schedule.IDataProcessor;
 import com.tmall.asshole.schedule.IDataProducer;
@@ -31,7 +32,7 @@ import com.tmall.asshole.util.Initialize;
  * 
  * @param <Event>
  */
-public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event>{
+public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event>,IContextCreate<EventContext>{
 
 	private static transient Log logger = LogFactory
 			.getLog(EventSchedulerProcessor.class);
@@ -55,7 +56,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	}
 
 	public void start(){
-		   schedule = new Schedule<Event,EventContext>(this, this, engineConfig);
+		   schedule = new Schedule<Event,EventContext>(this, this,this,engineConfig);
 		   schedule.strart();
 		   scheduleType = engineConfig.getScheduleType();
 	}
@@ -142,6 +143,11 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	public void addData(Event event) throws Exception{
 		event.setContext(new String(protocolCodecFactory.getEncoder().encode(event)));
 		eventDAO.insertServiceEventDO(event);
+	}
+
+	@Override
+	public EventContext create() {
+		return new EventContext();
 	}
 
 }

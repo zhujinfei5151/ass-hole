@@ -36,7 +36,7 @@ public class Event {
 
 	private Date gmt_create;
 
-	private Date gmt_modify;
+	private Date gmt_modified;
 
 	private String operator;
 
@@ -53,12 +53,12 @@ public class Event {
 	private String current_name;
 	
 	/**
-	 *  执行开始时间 主要给活动使用 
+	 *  执行弄1�7始时闄1�7 主要给活动使甄1�7 
 	 */
 	private Date  exec_start_time;
 	
 	/***
-	 *  是否延期支持 对于活动需要延期
+	 *  是否延期支持 对于活动霄1�7要延朄1�7
 	 */
 	private boolean is_delay_exec;
 	
@@ -127,9 +127,6 @@ public class Event {
 		this.process_instance_id = process_instance_id;
 	}
 
-	public Integer getStatus() {
-		return status.getCode();
-	}
 	
 	public Long getId() {
 		return id;
@@ -138,12 +135,16 @@ public class Event {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public EventStatus getEventStatus() {
-		return status;
+	
+	public Integer getStatus() {
+		return status.getCode();
 	}
+
+//	public EventStatus getEventStatus() {
+//		return status;
+//	}
 	/**
-	 * 重载 用于ibatis数据库更新
+	 * 重载 用于ibatis数据库更斄1�7
 	 * @param status
 	 */
 	public void setStatus(Integer status) {
@@ -168,7 +169,7 @@ public class Event {
 	}
 	
 	/**
-	 * 重载 用于ibatis数据库更新
+	 * 重载 用于ibatis数据库更斄1�7
 	 * @param env
 	 */
 	public void setEnv(Integer env) {
@@ -214,12 +215,12 @@ public class Event {
 		this.gmt_create = gmt_create;
 	}
 
-	public Date getGmt_modify() {
-		return gmt_modify;
+	public Date getGmt_modified() {
+		return gmt_modified;
 	}
 
-	public void setGmt_modify(Date gmt_modify) {
-		this.gmt_modify = gmt_modify;
+	public void setGmt_modify(Date gmt_modified) {
+		this.gmt_modified = gmt_modified;
 	}
 
 	public int getHash_num() {

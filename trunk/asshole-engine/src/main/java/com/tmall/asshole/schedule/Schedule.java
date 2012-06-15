@@ -10,7 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.tmall.asshole.common.EventEnv;
-import com.tmall.asshole.common.ScheduleType;
 import com.tmall.asshole.config.EngineConfig;
 
 
@@ -54,6 +53,8 @@ public class Schedule<T,C> extends Job {
 		this.threadPool = new SchedulerThreadPoolExecutor(config.getCorePoolSize(),config.getMaxPoolSize(),config.getKeepAliveTime());
 		//根据配置决定选择 scheduleFgetcPolicy
 		scheduleFgetcPolicy=ScheduleFgetcPolicyFactory.create(config.getAlgorithmType());
+		
+		this.setName("schedule-"+taskName+"-"+config.getScheduleType());
 		
 	}
 	
@@ -108,7 +109,7 @@ public class Schedule<T,C> extends Job {
 							scheduleFgetcPolicy.getRowNum(), EventEnv.valueOf(envionmentGroup),scheduleFgetcPolicy.getExecuteMachineAlias());
 				} else {
 					logger.warn("Scheduler[" + taskName + "]  scheduleFgetcPolicy.getStartIndex[" + scheduleFgetcPolicy.getStartIndex()
-							+ "]>scheduleFgetcPolicy.getEndIndex");
+							+ "]>scheduleFgetcPolicy.getEndIndex["+scheduleFgetcPolicy.getEndIndex()+"], maybe lost conection with zookeeper server");
 				}
 			} else {
 

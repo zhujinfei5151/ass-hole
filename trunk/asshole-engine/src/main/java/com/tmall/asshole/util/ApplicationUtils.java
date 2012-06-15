@@ -16,7 +16,6 @@ import com.tmall.asshole.engine.EventHandlerLocator;
 import com.tmall.asshole.engine.IHandler;
 import com.tmall.asshole.engine.process.EventSchedulerProcessor;
 import com.tmall.asshole.engine.process.ProcessorMachine;
-import com.tmall.asshole.zkclient.ZKClient;
 
 public class ApplicationUtils extends ApplicationObjectSupport implements ApplicationListener{
 	private static ApplicationUtils stools = null;
@@ -91,7 +90,7 @@ public class ApplicationUtils extends ApplicationObjectSupport implements Applic
 	    	for (String processor_name : processor_names) {
 	    		EventSchedulerProcessor processor = (EventSchedulerProcessor)ApplicationUtils.getInstance().getApplicationContext().getBean(processor_name);
 	    		proxy.getEventSchedulerProcessors().add(processor);
-	    		processor.init();
+	    		processor.start();
 	    		processor.getSchedule().setDataProcessorCallBack(proxy);
 	    	}
 		}

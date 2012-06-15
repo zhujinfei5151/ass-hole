@@ -62,7 +62,7 @@ public class EventSchedulerProcessorTest {
 	@Test
 	public void testStart() {
 		try {
-			processor.init();
+			processor.start();
 			Thread.sleep(3000);
 			processor.stopSchedule();
 		} catch (Exception e) {

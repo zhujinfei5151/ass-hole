@@ -26,6 +26,7 @@ import com.tmall.asshole.util.BeanCopyUtil;
 import com.tmall.asshole.util.Initialize;
 import com.tmall.asshole.zkclient.INodeChange;
 import com.tmall.asshole.zkclient.ZKClient;
+import com.tmall.asshole.zkclient.ZKConfig;
 /****
  * 
  * @author tangjinou
@@ -139,8 +140,11 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			logger.error("no need to start zookeeper client, pls check the var of startZK  in EngineConfig");
 			return;
 		}  
+		 ZKConfig zkConfig =new ZKConfig(engineConfig.getUsePermissions(), engineConfig.getUsername(), engineConfig.getPassword(), engineConfig.getZkConnectString(), engineConfig.getZkSessionTimeout(), engineConfig.getRootPath(), engineConfig.getLocalIPAddress());
+		 
+		
 		  logger.info("start the the  zookeeper client");
-		  ZKClient client = new ZKClient(iNodeChanges);
+		  ZKClient client = new ZKClient(iNodeChanges,zkConfig);
 		  client.start();
 	}
   	

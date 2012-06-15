@@ -150,4 +150,8 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		return new EventContext();
 	}
 
+	public void setScheduleType(String scheduleType) {
+		this.scheduleType = scheduleType;
+	}
+
 }

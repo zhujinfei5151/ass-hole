@@ -2,6 +2,7 @@ package com.tmall.asshole.common;
 
 import java.util.List;
 
+
 /****
  * DAO 存储不一定是DB
  * 
@@ -12,17 +13,15 @@ public interface IEventDAO {
 	/**
      * 插入数据
      * @param dao
-     * @return 插入数据的主键
+     * @return 插入数据的主锄1�7
      */
-    public Integer insertServiceEventDO(Event dao);
+    public Integer insertEventDO(Event dao);
     
     public List<Event> queryEvent(int start, int end, int count, int env, int scheduleType);
     
-    public Integer updateServiceEventDO(Event dao);
+    public Integer updateEventDO(Event dao);
     
-    public Integer batchChangeEventStatus(int from, int to);
-    
-	public Integer batchChangeEventStatusBytime(int from, int to, int minute);
+    public Integer batchChangeEventStatus(int from, int to);    
 	
-	public Event queryEventByPrimaryKey(Long id, Integer hashNum);
+	public Event queryEventByPrimaryKey(Long id,Integer hash_num);
 }

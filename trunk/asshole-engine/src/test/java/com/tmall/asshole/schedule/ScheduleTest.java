@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
-import com.tmall.asshole.config.EngineConfig;
+import com.tmall.asshole.config.ProcessorConfig;
 import com.tmall.asshole.engine.process.EventSchedulerProcessor;
 import com.tmall.asshole.mock.dao.MockEventDAO;
 import com.tmall.asshole.schedule.fgetcplolicy.BasicScheduleFgetcPolicy;
@@ -20,7 +20,7 @@ public class ScheduleTest {
 	
 	EventSchedulerProcessor processor = new  EventSchedulerProcessor();
 	
-	EngineConfig config = new EngineConfig();
+	ProcessorConfig config = new ProcessorConfig();
 	
 	
 	

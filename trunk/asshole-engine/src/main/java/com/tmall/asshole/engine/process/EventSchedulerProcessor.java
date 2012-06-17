@@ -1,6 +1,7 @@
 package com.tmall.asshole.engine.process;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -15,7 +16,7 @@ import com.tmall.asshole.common.EventEnv;
 import com.tmall.asshole.common.EventStatus;
 import com.tmall.asshole.common.IEventDAO;
 import com.tmall.asshole.common.ScheduleType;
-import com.tmall.asshole.config.EngineConfig;
+import com.tmall.asshole.config.ProcessorConfig;
 import com.tmall.asshole.engine.IEngine;
 import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
 import com.tmall.asshole.schedule.IContextCreate;
@@ -23,7 +24,6 @@ import com.tmall.asshole.schedule.IDataLoader;
 import com.tmall.asshole.schedule.IDataProcessor;
 import com.tmall.asshole.schedule.IDataProducer;
 import com.tmall.asshole.schedule.Schedule;
-import com.tmall.asshole.util.Initialize;
 
 
 /****
@@ -37,28 +37,41 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	private static transient Log logger = LogFactory
 			.getLog(EventSchedulerProcessor.class);
 	
-	@Autowired
 	private IEngine<Event, EventContext> eventEngine;
 	
-	@Autowired
 	private IEventDAO eventDAO;
 	
-	@Autowired
-	private EngineConfig engineConfig;
+	private ProcessorConfig processorConfig;
 	
 	private Schedule<Event,EventContext> schedule;
 	
 	private String scheduleType;
 	
 	
+	public ProcessorConfig getProcessorConfig() {
+		return processorConfig;
+	}
+
+	public void setProcessorConfig(ProcessorConfig processorConfig) {
+		this.processorConfig = processorConfig;
+	}
+
+	public IEventDAO getEventDAO() {
+		return eventDAO;
+	}
+
+	public void setEventDAO(IEventDAO eventDAO) {
+		this.eventDAO = eventDAO;
+	}
+
 	public Schedule<Event,EventContext> getSchedule() {
 		return schedule;
 	}
 
 	public void start(){
-		   schedule = new Schedule<Event,EventContext>(this, this,this,engineConfig);
+		   schedule = new Schedule<Event,EventContext>(this, this,this,processorConfig);
 		   schedule.strart();
-		   scheduleType = engineConfig.getScheduleType();
+		   scheduleType = processorConfig.getScheduleType();
 	}
 	
 	public void stopSchedule(){
@@ -121,13 +134,26 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		List<Event> noErrorLst = new ArrayList<Event>();
 	    for (Event data : l) {
 	    	   try{
-	    	      Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), data);
-	    	  	  noErrorLst.add(event);
-	    	  	  event.setStatus(EventConstant.EVENT_STATUS_LOADED);
-	    	      event.setExec_count(event.getExec_count() + 1);
-	    	  	  event.setExecute_machine_hash_range(start+"--"+end);
-	    	  	  event.setExecute_machine_ip(executeMachineAlias);
-				  eventDAO.updateServiceEventDO(event);
+	    		   Date now = new Date();
+	    		   
+	    		   //如果是延迟打标的 时间又没有到则只更新执行时间
+	    		   if(data.isIsDelayExec()){
+	    			   if(now.getTime()>=data.getExecStartTime().getTime()){
+	    			      Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), data);
+	    			      eventDAO.updateServiceEventDO(event); 
+	    			      continue;
+	    			   }
+	    		   }
+	    		   
+	    	          Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), data);
+	    	  	      noErrorLst.add(event);
+	    	  	      event.setStatus(EventConstant.EVENT_STATUS_LOADED);
+	    	          event.setExec_count(event.getExec_count() + 1);
+	    	  	      event.setExecute_machine_hash_range(start+"--"+end);
+	    	  	      event.setExecute_machine_ip(executeMachineAlias);
+				      eventDAO.updateServiceEventDO(event);
+                	
+                	  
 	    	   } catch (Exception e) {
 	    		    logger.error(e.getStackTrace());
 	    		    data.setStatus(EventConstant.EVENT_STATUS_PARAMETER_ERROR);

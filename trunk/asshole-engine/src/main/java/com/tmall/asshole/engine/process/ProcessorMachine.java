@@ -9,14 +9,14 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
-import com.tmall.asshole.config.EngineConfig;
+import com.tmall.asshole.config.MachineConfig;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
 import com.tmall.asshole.schedule.Schedule;
 import com.tmall.asshole.schedule.node.Node;
@@ -40,11 +40,21 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	
 	private ScriptEngine scriptEngine;
 	
-	@Autowired
-	private EngineConfig engineConfig;
+	private MachineConfig machineConfig;
 	
-	
-	
+
+	public MachineConfig getMachineConfig() {
+		return machineConfig;
+	}
+
+
+
+	public void setMachineConfig(MachineConfig machineConfig) {
+		this.machineConfig = machineConfig;
+	}
+
+
+
 	public ProcessorMachine() {
 		 factory = new ScriptEngineManager();
 		 scriptEngine = factory.getEngineByName("javascript");
@@ -66,9 +76,10 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		}
 		Node n = nodes.get(0);
 		event.setProcessName(processName);
-		event.setProcess_instance_id(ProcessTemplateHelper.createProcessInstanceID());
+		event.setProcessInstanceId(ProcessTemplateHelper.createProcessInstanceID());
 		event.setCurrentName(n.getName());
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(n.getScheduleType());
+		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
 		eventSchedulerProcessor.addData(event);
 	}
     
@@ -96,9 +107,12 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		        //关键属性需要copy
 		        newEvent.setProcessName(event.getProcessName());
 		        newEvent.setCurrentName(nextN.getName());
+		        newEvent.setProcessInstanceId(event.getProcessInstanceId());
 		        
+		    	logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		        processor.addData(newEvent);
 				//目前业务场景 下一个节点只有1个会执行,不排除以后多个执行
+		        
 				break;
 			}
 		}
@@ -132,8 +146,17 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	}
 
 	public void init() throws Exception {
+		if(machineConfig==null){
+			throw new NullArgumentException("can' t find the machineConfig in "+this.getClass()+", could not find the engineConfig, pls check if the engineConfig is setted in spring config file;");
+		}
+		
+		if(machineConfig.getProcessTemplateFolders()==null || machineConfig.getProcessTemplateFolders().size()==0){
+			throw new NullArgumentException("process template folder in machineconfig can't be empty!");
+		}
+		
+		
 		//加载流程模版
-		ProcessTemplateHelper.deploy(engineConfig.getProcessTemplateFolders());
+		ProcessTemplateHelper.deploy(machineConfig.getProcessTemplateFolders());
 		
 		List<INodeChange> iNodeChanges = new ArrayList<INodeChange>();
 		
@@ -141,11 +164,11 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			iNodeChanges.add(processor.getSchedule().getScheduleFgetcPolicy());
 		}
 		
-		if(!engineConfig.getStartZK()){
+		if(!machineConfig.getStartZK()){
 			logger.error("no need to start zookeeper client, pls check the var of startZK  in EngineConfig");
 			return;
 		}  
-		 ZKConfig zkConfig =new ZKConfig(engineConfig.getUsePermissions(), engineConfig.getUsername(), engineConfig.getPassword(), engineConfig.getZkConnectString(), engineConfig.getZkSessionTimeout(), engineConfig.getRootPath(), engineConfig.getLocalIPAddress());
+		 ZKConfig zkConfig =new ZKConfig(machineConfig.getUsePermissions(), machineConfig.getUsername(), machineConfig.getPassword(), machineConfig.getZkConnectString(), machineConfig.getZkSessionTimeout(), machineConfig.getRootPath(), machineConfig.getLocalIPAddress());
 		 
 		
 		  logger.info("start the the  zookeeper client");

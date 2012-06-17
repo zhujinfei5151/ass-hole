@@ -5,11 +5,11 @@ package com.tmall.asshole.common;
  */
 public enum EventEnv {
 
-	DEV(0, "dev"), 
-	DAILY(1, "daily"), 
-	PRE(2, "pre"), 
-	ONLINE(3, "online"), 
-	LOCAL(5, "local");
+	dev(0, "dev"), 
+	daily(1, "daily"), 
+	pre(2, "pre"), 
+	online(3, "online"), 
+	local(5, "local");
 
 	private int code;
 	private String name;

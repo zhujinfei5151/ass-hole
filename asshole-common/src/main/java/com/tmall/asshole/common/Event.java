@@ -48,9 +48,9 @@ public class Event {
 	
 	private Integer source;
 	
-	private String process_name;
+	private String processName;
 	
-	private String current_name;
+	private String currentName;
 	
 	/**
 	 *  鎵ц寮�濮嬫椂闂� 涓昏缁欐椿鍔ㄤ娇鐢� 
@@ -67,7 +67,7 @@ public class Event {
 	 */
 	private int schedule_type;
 	
-	public Date getExec_start_time() {
+	public Date getExecStartTime() {
 		return exec_start_time;
 	}
 
@@ -75,7 +75,7 @@ public class Event {
 		this.exec_start_time = exec_start_time;
 	}
 
-	public boolean isIs_delay_exec() {
+	public boolean isIsDelayExec() {
 		return is_delay_exec;
 	}
 
@@ -103,27 +103,27 @@ public class Event {
 		this.process_logs = process_logs;
 	}
 
-	public String getCurrent_name() {
-		return current_name;
+	public String getCurrentName() {
+		return currentName;
 	}
 
-	public void setCurrent_name(String current_name) {
-		this.current_name = current_name;
+	public void setCurrentName(String current_name) {
+		this.currentName = current_name;
 	}
 
-	public String getProcess_name() {
-		return process_name;
+	public String getProcessName() {
+		return processName;
 	}
 
-	public void setProcess_name(String process_name) {
-		this.process_name = process_name;
+	public void setProcessName(String process_name) {
+		this.processName = process_name;
 	}
 
-	public Long getProcess_instance_id() {
+	public Long getProcessInstanceId() {
 		return process_instance_id;
 	}
 
-	public void setProcess_instance_id(Long process_instance_id) {
+	public void setProcessInstanceId(Long process_instance_id) {
 		this.process_instance_id = process_instance_id;
 	}
 

@@ -8,7 +8,7 @@ import java.util.Map;
  * @author tangjinou
  *
  */
-public class EventContext {
+public class EventContext  implements IScheduleContext{
 	
 	private String process_logs;
 	

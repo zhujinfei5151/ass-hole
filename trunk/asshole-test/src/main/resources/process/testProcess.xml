@@ -11,10 +11,9 @@
   
   <node name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  scheduleType="BASIC_SCHEDULE">
     <transitions>
-      <transition to="order_end"/>
+      <transition to="end"/>
     </transitions>
   </node>
-  
   
   <end name="end"/>
 </process>

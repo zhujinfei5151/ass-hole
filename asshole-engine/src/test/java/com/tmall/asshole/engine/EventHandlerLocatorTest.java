@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.tmall.asshole.mock.ep.TestEvent1;
 import com.tmall.asshole.mock.ep.TestHandler1;
 
 public class EventHandlerLocatorTest {
@@ -21,9 +22,9 @@ public class EventHandlerLocatorTest {
 		
 		Assert.assertNotNull(handlerLocator);
 		
-		Assert.assertNotNull(handlerLocator.getHANDLER_MAP().get(TestHandler1.class.getName()));
+		Assert.assertNotNull(handlerLocator.getHANDLER_MAP().get(TestEvent1.class.getName()));
 		
-		Assert.assertTrue(handlerLocator.getHANDLER_MAP().get(TestHandler1.class.getName())  instanceof  TestHandler1);
+		Assert.assertTrue(handlerLocator.getHANDLER_MAP().get(TestEvent1.class.getName())  instanceof  TestHandler1);
     	
     }
 }

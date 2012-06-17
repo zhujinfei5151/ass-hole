@@ -26,7 +26,7 @@ public class EventSchedulerProcessorTest {
 	static ApplicationContext context = new ClassPathXmlApplicationContext(
 			"config.xml");
 	static EventSchedulerProcessor processor = (EventSchedulerProcessor) context
-			.getBean("eventSchedulerProcessor");
+			.getBean("eventSchedulerProcessor1");
 
 	@Test
 	public void testEventSchedulerProcessor() {

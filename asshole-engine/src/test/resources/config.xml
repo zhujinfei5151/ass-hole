@@ -11,10 +11,35 @@
 	default-autowire="byName">
 	<context:annotation-config />
 	
+	<bean id="processorMachine" class="com.tmall.asshole.engine.process.ProcessorMachine" >
+	       <property name="machineConfig"  ref="machineConfig"></property>
+	</bean>
+	
+	<bean id="machineConfig" class="com.tmall.asshole.config.MachineConfig" >
+	      <!-- <property name="username"></property>
+	    <property name="password"></property> -->
+	    <property name="zkConnectString">   
+	             <value>localhost:2181</value>
+	     </property>
+	    <property name="zkSessionTimeout">
+	            <value>2000</value>
+	      </property>
+	    <property name="rootPath">
+	           <value>/brandsale</value>
+	      </property>
+	     <!--  <property name="username">
+	            <value>elink</value>
+	      </property>
+	      <property name="password">
+	            <value>12345</value>
+	      </property> -->
+	      <property name="processTemplateFolders">
+			<value>/process/rightFolder</value>
+		 </property>
+	</bean>
 	
 	
-	
-	<bean id="engineConfig" class="com.tmall.asshole.config.EngineConfig" >
+	<bean id="processorConfig1" class="com.tmall.asshole.config.ProcessorConfig" >
 	     <property name="algorithmType">
 			<value>basic</value>
 		</property>
@@ -22,7 +47,7 @@
 			<value>local</value>
 		</property>
 		 <property name="taskName">
-			<value>testEngine</value>
+			<value>testEngine1</value>
 		</property>
 		 <property name="groupingName">
 			<value>test</value>
@@ -36,22 +61,17 @@
 		 <property name="scheduleType">
 			<value>BASIC_SCHEDULE</value>
 		 </property>
-		 <property name="processTemplateFolders">
-			<value>/process/ProcessorMachine</value>
-		 </property>
-		 <!-- 测试不需要启动 zk client -->
-		  <property name="startZK">
-			<value>false</value>
-		 </property>
 	</bean>
 	
-	<bean id="processorMachine" class="com.tmall.asshole.engine.process.ProcessorMachine" />
+	<bean id="eventSchedulerProcessor1" class="com.tmall.asshole.engine.process.EventSchedulerProcessor" >
+	     <property name="eventEngine"   ref="eventEngine"></property>
+	     <property name="eventDAO"   ref="eventDAO"></property>
+	     <property name="processorConfig"   ref="processorConfig1"></property>
+	</bean>
 	
 	<bean id="eventDAO" class="com.tmall.asshole.mock.dao.MockEventDAO" />
 	
 	<bean id="protocolCodecFactory" class="com.tmall.asshole.event.filter.codec.json.JSONProtocol" />
-	
-	<bean id="eventSchedulerProcessor" class="com.tmall.asshole.engine.process.EventSchedulerProcessor" />
 	
 	<bean id="eventEngine" class="com.tmall.asshole.engine.EventEngine" />
 

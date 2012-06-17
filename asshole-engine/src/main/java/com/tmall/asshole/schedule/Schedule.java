@@ -9,7 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.tmall.asshole.common.EventEnv;
-import com.tmall.asshole.config.EngineConfig;
+import com.tmall.asshole.config.ProcessorConfig;
 
 
 /****
@@ -42,7 +42,7 @@ public class Schedule<T,C> extends Job {
 //	protected ScheduleFgetcPolicyFactory scheduleFgetcPolicyFactory;
 	
 	
-	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T,C> dataProcessor, IContextCreate<C> contextCreate , EngineConfig config) {
+	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T,C> dataProcessor, IContextCreate<C> contextCreate , ProcessorConfig config) {
 		this.dataLoader = dataLoader;
 		this.dataProcessor = dataProcessor;
 		this.envionmentGroup = config.getEnvionmentGroup();

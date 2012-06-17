@@ -39,7 +39,9 @@ public class MockEventDAO implements IEventDAO{
 			int env, int scheduleType) {
 		List<Event> l= new ArrayList<Event>();
 		if(s.size()>0){
-		   l.add(s.pop());
+			if(s.peek().getSchedule_type()==scheduleType){
+				l.add(s.pop());
+			}
 		}
 		return l;
 	}

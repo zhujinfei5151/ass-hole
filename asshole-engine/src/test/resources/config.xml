@@ -58,8 +58,8 @@
 		 <property name="maxHashNum">
 			<value>10000</value>
 		</property>
-		 <property name="scheduleType">
-			<value>BASIC_SCHEDULE</value>
+		 <property name="processorNumber">
+			<value>0</value>
 		 </property>
 	</bean>
 	

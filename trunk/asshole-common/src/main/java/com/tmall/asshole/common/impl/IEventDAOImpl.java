@@ -12,31 +12,40 @@ import com.tmall.asshole.common.IEventDAO;
 
 public class IEventDAOImpl extends SqlMapClientDaoSupport implements IEventDAO {
 
+	/**
+	 * 插入
+	 */
 	public Integer insertEventDO(Event eventDo){
 		Object id = getSqlMapClientTemplate().insert("Event.insert", eventDo);
 	        return (Integer) id;
 	}
-	
+    /**
+     * 更新
+     */
 	public Integer updateEventDO(Event eventDo) {
 		Object id = getSqlMapClientTemplate().update("Event.update", eventDo);
         return  (Integer) id;
 	}
 	
-	
-	@SuppressWarnings("unchecked")
-	public List<Event> queryEvent(int start, int end, int count, String env,int scheduleType) {
+	/**
+	 * 批量查询  返回结果按照时间先后顺序返回
+	 */
+	public List<Event> queryEvent(int start, int end, int count, int env,int process_number) {
 		
 		Map<String,Integer> param = new HashMap<String,Integer>();
     	param.put("start", start);
     	param.put("end", end); 
     	param.put("count",count);
-    	param.put("env",EventConstant.ENV.get(env));
-		//param.put("status", EventStatus.EVENT_STATUS_UNEXECUTED.getCode());
-		List<Event> eventList =  getSqlMapClientTemplate().queryForList("Event.queryEvent", param);
+    	param.put("env",env);
+    	param.put("process_number",process_number);
+
+    	List<Event> eventList =  getSqlMapClientTemplate().queryForList("Event.eventQuery", param);
 		return eventList;
 	}
 
-
+	/**
+	 * 批量修改状态
+	 */
 	public Integer batchChangeEventStatus(int from, int to) {
 		Map<String,Integer> param = new HashMap<String,Integer>();
 		param.put("from", from);
@@ -46,7 +55,9 @@ public class IEventDAOImpl extends SqlMapClientDaoSupport implements IEventDAO {
 	}
 
 	
-	
+	/**
+	 * 按id和hash_num查询
+	 */
 	public Event queryEventByPrimaryKey(Long id,Integer hash_num){
 		Map param = new HashMap<String,Integer>();
 		param.put("id", id);
@@ -56,12 +67,6 @@ public class IEventDAOImpl extends SqlMapClientDaoSupport implements IEventDAO {
 		return event;
 	}
 
-	@Override
-	public List<Event> queryEvent(int start, int end, int count, int env,int scheduleType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	
 
 }

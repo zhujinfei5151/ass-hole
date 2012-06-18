@@ -5,11 +5,11 @@
  
   <node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1"  scheduleType="BASIC_SCHEDULE">
     <transitions>
-      <transition to="order_execute" />
+      <transition to="order_execute"  exp="$a==$b"/>
     </transitions>
   </node>
   
-  <node name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  scheduleType="BASIC_SCHEDULE">
+  <node name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  scheduleType="DELAY_SCHEDULE">
     <transitions>
       <transition to="end"/>
     </transitions>

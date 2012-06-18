@@ -25,13 +25,13 @@
 		<result property="current_name" column="current_name" />
 		<result property="exec_start_time" column="exec_start_time" />
 		<result property="is_delay_exec" column="is_delay_exec" />
-		<result property="schedule_type" column="schedule_type" />
+		<result property="process_number" column="process_number" />
 	</resultMap>
+	
 
  	<sql id="query_columns" >
     id,status,env,process_logs,memo,type_class,context,execute_machine_ip,execute_machine_hash_range,gmt_create,gmt_modified,operator,hash_num,exec_count,process_instance_id,source,
-		process_name,current_name,exec_start_time,is_delay_exec,schedule_type   
-     
+		process_name,current_name,exec_start_time,is_delay_exec,process_number   
   	</sql>
 
 	<insert id="insert" parameterClass="EventDO">
@@ -39,12 +39,12 @@
 		INSERT INTO
 		process_events(status,env,process_logs,memo,type_class,context,execute_machine_ip,
 		execute_machine_hash_range,gmt_create,gmt_modified,operator,hash_num,exec_count,process_instance_id,source,
-		process_name,current_name,exec_start_time,is_delay_exec,schedule_type)
+		process_name,current_name,exec_start_time,is_delay_exec,process_number)
 
 		VALUES
 		(#status#,#env#,#process_logs#,#memo#,#type_class#,#context#,#execute_machine_ip#,
 		#execute_machine_hash_range#,now(),now(),#operator#,#hash_num#,#exec_count#,#process_instance_id#,#source#,
-		#process_name#,#current_name#,now(),#is_delay_exec#,#schedule_type#)
+		#process_name#,#current_name#,now(),#is_delay_exec#,#process_number#)
 		<selectKey keyProperty="id" resultClass="java.lang.Long">
 			SELECT
 			LAST_INSERT_ID() AS value
@@ -141,9 +141,9 @@
 				is_delay_exec = #is_delay_exec#
 				]]>
 			</isNotNull>				
-			<isNotNull property="schedule_type" prepend=",">
+			<isNotNull property="process_number" prepend=",">
 				<![CDATA[
-				schedule_type = #schedule_type#
+				process_number = #process_number#
 				]]>
 			</isNotNull>		
 		</dynamic>
@@ -152,7 +152,7 @@
 
 	<update id="batchChangeEventStatus">
   		<![CDATA[ 
-    		UPDATE process_events set  status = #to# where status =#from# and hash_num<=10000
+    		UPDATE process_events SET  status = #to# where status =#from# AND hash_num<=10000
     	]]>
   	</update>
 
@@ -161,10 +161,23 @@
 	   SELECT
 	   <include refid="query_columns" />
 	   <![CDATA[  
-	     FROM process_events  WHERE id = #id# and hash_num =#hash_num#
+	     FROM process_events  WHERE id = #id# AND hash_num =#hash_num#
 	   ]]>  
 	</select>
 
+      <!-- 开始查询 -->
+
+
+    <select id="eventQuery" resultMap="eventsDOResultMap" >
+	   SELECT
+	   <include refid="query_columns" />
+	   FROM process_events  WHERE
+	   <![CDATA[  
+	     hash_num >= #start# AND hash_num<= #end# AND env = #env# AND process_number = #process_number#
+	  	 order by gmt_modified asc 
+	     limit #count#
+	   ]]>  
+	 </select>
 
 
 

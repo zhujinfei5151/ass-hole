@@ -60,8 +60,8 @@
 		 <property name="maxHashNum">
 			<value>10000</value>
 		</property>
-		 <property name="scheduleType">
-			<value>BASIC_SCHEDULE</value>
+		 <property name="processorNumber">
+			<value>0</value>
 		 </property>
 	</bean>
 	<bean id="eventSchedulerProcessor1" class="com.tmall.asshole.engine.process.EventSchedulerProcessor" >
@@ -89,8 +89,8 @@
 		 <property name="maxHashNum">
 			<value>10000</value>
 		</property>
-		 <property name="scheduleType">
-			<value>DELAY_SCHEDULE</value>
+		 <property name="processorNumber">
+			<value>1</value>
 		 </property>
 	</bean>
 	

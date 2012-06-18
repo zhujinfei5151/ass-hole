@@ -11,18 +11,10 @@ public class MockEventDAO implements IEventDAO{
 	
 	Stack<Event> s =new Stack<Event>();
 	
-	public Integer updateServiceEventDO(Event dao) {
-		return 1;
-	}
 	
 	public Event queryEventByPrimaryKey(Long id, Integer hashNum) {
 		// 暂时不需要
 		return null;
-	}
-	
-	public Integer insertServiceEventDO(Event dao) {
-	    boolean result = s.add(dao);
-	    return result==true?1:0;
 	}
 	
 	public Integer batchChangeEventStatusBytime(int from, int to, int minute) {
@@ -44,5 +36,14 @@ public class MockEventDAO implements IEventDAO{
 			}
 		}
 		return l;
+	}
+
+	public Integer insertEventDO(Event dao) {
+		 boolean result = s.add(dao);
+		 return result==true?1:0;
+	}
+
+	public Integer updateEventDO(Event dao) {
+		return 1;
 	}
 }

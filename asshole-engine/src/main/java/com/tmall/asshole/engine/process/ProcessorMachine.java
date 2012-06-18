@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -11,6 +12,7 @@ import javax.script.ScriptException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -82,6 +84,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setProcessInstanceId(ProcessTemplateHelper.createProcessInstanceID());
 		event.setCurrentName(n.getName());
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
+		// 0 - MAXHASHNUM
+		event.setHash_num(RandomUtils.nextInt(eventSchedulerProcessor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
 		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
 		eventSchedulerProcessor.addData(event);
 	}

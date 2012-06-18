@@ -36,5 +36,8 @@ public interface IScheduleFgetcPolicy extends INodeChange{
 	 */
 	String getExecuteMachineAlias();
 	
+	
+	int getMaxHashNum();
+	
 
 }

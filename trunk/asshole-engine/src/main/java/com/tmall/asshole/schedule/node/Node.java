@@ -19,7 +19,7 @@ public class Node {
 	private String name;
 	
 	@XStreamAsAttribute
-	private String scheduleType;
+	private String processorNumber;
 	
 	@XStreamAlias("transitions")
 	public List<Transition> transitions;
@@ -33,13 +33,12 @@ public class Node {
 		this.classname = className;
 	}
 	
-
-	public String getScheduleType() {
-		return scheduleType;
+	public String getProcessorNumber() {
+		return processorNumber;
 	}
 
-	public void setScheduleType(String scheduleType) {
-		this.scheduleType = scheduleType;
+	public void setProcessorNumber(String processorNumber) {
+		this.processorNumber = processorNumber;
 	}
 
 	public String getName() {

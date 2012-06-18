@@ -15,7 +15,6 @@ import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.common.EventEnv;
 import com.tmall.asshole.common.EventStatus;
 import com.tmall.asshole.common.IEventDAO;
-import com.tmall.asshole.common.ScheduleType;
 import com.tmall.asshole.config.ProcessorConfig;
 import com.tmall.asshole.engine.IEngine;
 import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
@@ -45,8 +44,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	
 	private Schedule<Event,EventContext> schedule;
 	
-	private String scheduleType;
-	
+    private int processorNumber;
 	
 	public ProcessorConfig getProcessorConfig() {
 		return processorConfig;
@@ -71,7 +69,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	public void start(){
 		   schedule = new Schedule<Event,EventContext>(this, this,this,processorConfig);
 		   schedule.strart();
-		   scheduleType = processorConfig.getScheduleType();
+		   processorNumber =  processorConfig.getProcessorNumber();
 	}
 	
 	public void stopSchedule(){
@@ -90,10 +88,12 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	public void setEventEngine(IEngine<Event, EventContext> eventEngine) {
 		this.eventEngine = eventEngine;
 	}
+	
 
-	public String getScheduleType() {
-		return scheduleType;
+	public int getProcessorNumber() {
+		return processorNumber;
 	}
+
 
 	@Autowired
 	private ProtocolCodecFactory<Event> protocolCodecFactory;
@@ -130,7 +130,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 
 	public List<Event> getDataList(int start, int end, int rownum,
 			EventEnv envionmentGroup,String executeMachineAlias) throws Exception{
-		List<Event> l = eventDAO.queryEvent(start, end, rownum,envionmentGroup.getCode(),ScheduleType.valueOf(scheduleType).getCode());
+		List<Event> l = eventDAO.queryEvent(start, end, rownum,envionmentGroup.getCode(),processorNumber);
 		List<Event> noErrorLst = new ArrayList<Event>();
 	    for (Event data : l) {
 	    	   try{
@@ -174,10 +174,6 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	@Override
 	public EventContext create() {
 		return new EventContext();
-	}
-
-	public void setScheduleType(String scheduleType) {
-		this.scheduleType = scheduleType;
 	}
 
 }

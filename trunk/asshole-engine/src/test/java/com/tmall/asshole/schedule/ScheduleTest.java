@@ -32,14 +32,14 @@ public class ScheduleTest {
 		config.setGroupingName("testGroup");
 		config.setSchedulingPollingTime(600);
 		config.setMaxHashNum(10000);
-		config.setScheduleType("BASIC_SCHEDULE");
+		config.setProcessorNumber(0);
 	}
 	
 	
 	@Test
 	public void testSchedule(){
 		try{
-		  processor.setScheduleType("BASIC_SCHEDULE");
+		  config.setProcessorNumber(0);
 		  processor.setEventDAOForTest(new MockEventDAO());
 		  Schedule<Event,EventContext> schedule= new Schedule<Event,EventContext>(processor,processor,processor,config);
 		  BasicScheduleFgetcPolicy scheduleFgetcPolicy = (BasicScheduleFgetcPolicy)schedule.getScheduleFgetcPolicy();

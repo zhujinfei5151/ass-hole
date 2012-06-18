@@ -27,10 +27,10 @@ public class MockEventDAO implements IEventDAO {
 	}
 
 	public List<Event> queryEvent(int start, int end, int count, int env,
-			int scheduleType) {
+			int processorNumber) {
 		List<Event> l = new ArrayList<Event>();
 		if (s.size() > 0) {
-			if (s.peek().getSchedule_type() == scheduleType) {
+			if (s.peek().getProcessorNumber()== processorNumber) {
 				l.add(s.pop());
 			}
 		}

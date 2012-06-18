@@ -1,7 +1,5 @@
 package com.tmall.asshole.config;
 
-import java.util.List;
-
 /****
  * 
  * @author jiuxian.tjo
@@ -37,11 +35,7 @@ public class ProcessorConfig {
 	 */
 	private int maxHashNum;
 	
-	/***
-	 *  详细类型见 ScheduleType 枚举类
-	 */
-	private String scheduleType;
-	
+	private int processorNumber;
 	
 	/** *线程池维护线程的最少数量 */
 	private int corePoolSize = 20;
@@ -104,12 +98,12 @@ public class ProcessorConfig {
 		this.maxHashNum = maxHashNum;
 	}
 
-	public String getScheduleType() {
-		return scheduleType;
+	public int getProcessorNumber() {
+		return processorNumber;
 	}
 
-	public void setScheduleType(String scheduleType) {
-		this.scheduleType = scheduleType;
+	public void setProcessorNumber(int processorNumber) {
+		this.processorNumber = processorNumber;
 	}
 
 	public int getCorePoolSize() {
@@ -135,7 +129,5 @@ public class ProcessorConfig {
 	public void setKeepAliveTime(int keepAliveTime) {
 		this.keepAliveTime = keepAliveTime;
 	}
-
-
 	
 }

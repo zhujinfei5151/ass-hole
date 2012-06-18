@@ -16,7 +16,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
-import com.tmall.asshole.common.ScheduleType;
 import com.tmall.asshole.config.MachineConfig;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
 import com.tmall.asshole.schedule.Schedule;
@@ -42,6 +41,9 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	private ScriptEngine scriptEngine;
 	
 	private MachineConfig machineConfig;
+	
+	
+	private  ZKClient zkClient;
 	
 
 	public MachineConfig getMachineConfig() {
@@ -79,7 +81,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setProcessName(processName);
 		event.setProcessInstanceId(ProcessTemplateHelper.createProcessInstanceID());
 		event.setCurrentName(n.getName());
-		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(n.getScheduleType());
+		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
 		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
 		eventSchedulerProcessor.addData(event);
 	}
@@ -100,9 +102,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 					return;
 				}
 				
-				
 				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
-		        EventSchedulerProcessor processor = getEventSchedulerProcessor(nextN.getScheduleType());
+		        EventSchedulerProcessor processor = getEventSchedulerProcessor(Integer.parseInt(nextN.getProcessorNumber()));
 		        Class<?> eventName = Class.forName(nextN.getClassname());
 		        Event newEvent = (Event)eventName.newInstance();
 		        Map<String, Object> map = context.getMap();
@@ -111,26 +112,25 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		        newEvent.setProcessName(event.getProcessName());
 		        newEvent.setCurrentName(nextN.getName());
 		        newEvent.setProcessInstanceId(event.getProcessInstanceId());
-		        newEvent.setSchedule_type(ScheduleType.valueOf(nextN.getScheduleType()).getCode());
+		        newEvent.setProcessorNumber(Integer.parseInt(nextN.getProcessorNumber()));
 		        
 		    	logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		        processor.addData(newEvent);
 				//目前业务场景 下一个节点只有1个会执行,不排除以后多个执行
-		        
 				break;
 			}
 		}
 		
 	}
 
-	private EventSchedulerProcessor getEventSchedulerProcessor(String scheduleType)  throws Exception{
+	private EventSchedulerProcessor getEventSchedulerProcessor(int processNumber)  throws Exception{
 		for (EventSchedulerProcessor processor : eventSchedulerProcessors) {
-			if(processor.getScheduleType().trim().equals(scheduleType)){
+			if(processor.getProcessorNumber()==processNumber){
 				  return processor;
 			}
 		}
-		logger.error("can't find the processor, scheduleType="+scheduleType);
-		throw new NullPointerException("can't find the processor, scheduleType="+scheduleType);
+		logger.error("can't find the processor, processorNumber="+processNumber);
+		throw new NullPointerException("can't find the processorr, processorNumber="+processNumber);
 	}
 	
 	private boolean trigger(EventContext context,String exec) {
@@ -179,11 +179,10 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			return;
 		}  
 		 ZKConfig zkConfig =new ZKConfig(machineConfig.getUsePermissions(), machineConfig.getUsername(), machineConfig.getPassword(), machineConfig.getZkConnectString(), machineConfig.getZkSessionTimeout(), machineConfig.getRootPath(), machineConfig.getLocalIPAddress());
-		 
 		
 		  logger.info("start the the  zookeeper client");
-		  ZKClient client = new ZKClient(iNodeChanges,zkConfig);
-		  client.start();
+		  zkClient = new ZKClient(iNodeChanges,zkConfig);
+		  zkClient.start();
 	}
   	
 

@@ -53,7 +53,7 @@ public class Schedule<T,C> extends Job {
 		this.threadPool = new SchedulerThreadPoolExecutor(config.getCorePoolSize(),config.getMaxPoolSize(),config.getKeepAliveTime());
 		//根据配置决定选择 scheduleFgetcPolicy
 		scheduleFgetcPolicy=ScheduleFgetcPolicyFactory.create(config.getAlgorithmType());
-		this.setName("schedule-"+taskName+"-"+config.getScheduleType());
+		this.setName("schedule-"+taskName+"-"+config.getProcessorNumber());
 		this.contextCreate = contextCreate;
 		
 	}

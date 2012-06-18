@@ -112,8 +112,10 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 	public String getExecuteMachineAlias() {
 		return zKConfig.getLocalIPAddress()==null?"": zKConfig.getLocalIPAddress();
 	}
-
-	
+	@Override
+	public int getMaxHashNum() {
+		return max_hash_num;
+	}
 	
 
 

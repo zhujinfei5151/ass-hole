@@ -8,6 +8,10 @@ public class TestHandler1 extends AbstractHandler {
 
 	@Override
 	public boolean handle(Event event, EventContext context) throws Exception {
+		
+		
+		context.putData("a", 1212);
+		context.putData("b", 1212);
 		return true;
 	}
 

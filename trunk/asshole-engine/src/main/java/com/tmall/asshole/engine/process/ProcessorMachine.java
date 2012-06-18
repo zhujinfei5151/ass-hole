@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
+import com.tmall.asshole.common.ScheduleType;
 import com.tmall.asshole.config.MachineConfig;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
 import com.tmall.asshole.schedule.Schedule;
@@ -98,6 +99,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 					logger.info("procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 					return;
 				}
+				
+				
 				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
 		        EventSchedulerProcessor processor = getEventSchedulerProcessor(nextN.getScheduleType());
 		        Class<?> eventName = Class.forName(nextN.getClassname());
@@ -108,6 +111,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		        newEvent.setProcessName(event.getProcessName());
 		        newEvent.setCurrentName(nextN.getName());
 		        newEvent.setProcessInstanceId(event.getProcessInstanceId());
+		        newEvent.setSchedule_type(ScheduleType.valueOf(nextN.getScheduleType()).getCode());
 		        
 		    	logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		        processor.addData(newEvent);
@@ -137,10 +141,16 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			if(StringUtils.isBlank(exec)){
 				return true;
 			}
-			Boolean result = (Boolean) scriptEngine.eval(exec);
+			Boolean result = (Boolean) scriptEngine.eval(exec.replace("$", ""));
+			
+			
+			if(!result){
+				logger.info("exectue '"+exec+"' fail, so can't move to next node ");
+			}
+			
 		    return result;
 		} catch (ScriptException e) {
-			logger.error("execute the script error :" +e.getStackTrace());
+			logger.error("execute the script error :"+ exec +"  " +e.getStackTrace());
 		    return false;
 		}
 	}

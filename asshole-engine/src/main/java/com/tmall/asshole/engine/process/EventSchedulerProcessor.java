@@ -124,7 +124,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 				logger.error("update status failed,"+e.getMessage());
 			throw e;
 		}  finally{
-			eventDAO.updateServiceEventDO(data);
+			eventDAO.updateEventDO(data);
 		}
 	}
 
@@ -140,7 +140,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    		   if(data.isIsDelayExec()){
 	    			   if(now.getTime()>=data.getExecStartTime().getTime()){
 	    			      Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), data);
-	    			      eventDAO.updateServiceEventDO(event); 
+	    			      eventDAO.updateEventDO(event); 
 	    			      continue;
 	    			   }
 	    		   }
@@ -151,13 +151,13 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    	          event.setExec_count(event.getExec_count() + 1);
 	    	  	      event.setExecute_machine_hash_range(start+"--"+end);
 	    	  	      event.setExecute_machine_ip(executeMachineAlias);
-				      eventDAO.updateServiceEventDO(event);
+				      eventDAO.updateEventDO(event);
                 	
                 	  
 	    	   } catch (Exception e) {
 	    		    logger.error(e.getStackTrace());
 	    		    data.setStatus(EventConstant.EVENT_STATUS_PARAMETER_ERROR);
-	    			eventDAO.updateServiceEventDO(data);
+	    			eventDAO.updateEventDO(data);
 					continue;
 	    		    // 一条记录的失败 不影响全局
 			   }
@@ -168,7 +168,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	@Override
 	public void addData(Event event) throws Exception{
 		event.setContext(new String(protocolCodecFactory.getEncoder().encode(event)));
-		eventDAO.insertServiceEventDO(event);
+		eventDAO.insertEventDO(event);
 	}
 
 	@Override

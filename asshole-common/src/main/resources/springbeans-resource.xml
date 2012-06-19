@@ -16,7 +16,7 @@
 	<bean id="dataSource" class="com.taobao.tddl.client.jdbc.TDataSource"
 		init-method="init">
 		<property name="appRuleFile">
-			<value>classpath:elink-tddl-rule.xml</value>
+			<value>classpath:sc-tddl-rule.xml</value>
 		</property>
 		<property name="useLocalConfig" value="true" />
 		<property name="appName" value="TMALL_ELINKCORE_DPC" />

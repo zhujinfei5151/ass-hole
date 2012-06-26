@@ -121,10 +121,10 @@ public class ZkclientTest  extends TestCase{
 		
 		
 		try {
-			//µÚÒ»Ì¨»úÆ÷ÒÑ¾­Æô¶¯ÆðÀ´
+			//ï¿½ï¿½Ò»Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			client1.start();
 			Thread.sleep(3000);
-			//µÚ¶þÌ¨»úÆ÷ÒÑ¾­Æô¶¯ÆðÀ´
+			//ï¿½Ú¶ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			client2.start();
 			Thread.sleep(5000);
 			
@@ -136,30 +136,30 @@ public class ZkclientTest  extends TestCase{
 
 			Assert.assertEquals(2, changeDatas2.get(0).getMachines().size());
 			
-			//¹Ø±ÕµÚÒ»Ì¨»úÆ÷
+			//ï¿½Ø±Õµï¿½Ò»Ì¨ï¿½ï¿½ï¿½ï¿½
 			client1.close();
 			Thread.sleep(5000);
-			//µÚ¶þÌ¨»úÆ÷ÊÕµ½±ä¸üÏûÏ¢ Ä¿Ç°ÊÕµ½Á½¸öÏûÏ¢Ò»¸öÊÇ¸ù½Úµã·¢ËÍµÄ Ò»¸öÊÇ×Ó½Úµã·¢ËÍµÄ
+			//ï¿½Ú¶ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ Ä¿Ç°ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢Ò»ï¿½ï¿½ï¿½Ç¸ï¿½Úµã·¢ï¿½Íµï¿½ Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ó½Úµã·¢ï¿½Íµï¿½
 			Assert.assertEquals(2, changeDatas2.size());
 			Assert.assertEquals(1, changeDatas2.get(1).getMachines().size());
 			
-			//ÖØÐÂ½«µÚÒ»Ì¨»úÆ÷´ò¿ª
+			//ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½Ò»Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			client1.start();
 			Thread.sleep(5000);
 			Assert.assertEquals(3, changeDatas2.size());
 			
 			
-			//ÔÙ¹Ø±ÕµÚÒ»Ì¨»úÆ÷
+			//ï¿½Ù¹Ø±Õµï¿½Ò»Ì¨ï¿½ï¿½ï¿½ï¿½
 			client1.close();
 			Thread.sleep(5000);
 			Assert.assertEquals(4, changeDatas2.size());
 			
 			
-			//ÖØÐÂ¿ªÆôµÚÒ»Ì¨»úÆ÷ºÍµÚÈýÌ¨»úÆ÷
+			//ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½
 			client1.start();
 			client3.start();
 			Thread.sleep(5000);
-			//Ä¿Ç°ÏßÉÏÓÐÈýÌ¨»úÆ÷
+			//Ä¿Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½
 			Assert.assertEquals(3, changeDatas2.get(changeDatas2.size()-1).getMachines().size());
 			Assert.assertEquals(6, changeDatas2.size());
 			
@@ -178,6 +178,35 @@ public class ZkclientTest  extends TestCase{
 		
 	}
 	
+	public void testZKServerClose(){
+		     ZKClient client1 = null;
+		    
+			try {
+				client1 = new ZKClient(new INodeChange() {
+				public void onChange(List<String> machines) {
+					changeDatas1.add(new ChangeData(machines));
+				}
+			}, zkConfig1);
+			
+				client1.start();
+				Thread.sleep(10000);
+				Assert.assertEquals(1, changeDatas1.size());
+				
+				ZKServerUtil.close();
+				
+				Thread.sleep(1000000);
+				
+				
+			} catch (Exception e) {
+				   fail();
+			} finally{
+					changeDatas1.clear();
+					changeDatas2.clear();
+					changeDatas2.clear();
+					client1.close();
+			}
+		
+	}
 	
 	
 

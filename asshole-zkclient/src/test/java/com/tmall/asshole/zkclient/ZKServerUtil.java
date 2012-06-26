@@ -1,5 +1,7 @@
 package com.tmall.asshole.zkclient;
 
+import java.lang.reflect.Method;
+
 import org.apache.zookeeper.server.ZooKeeperServerMain;
 /***
  * 
@@ -26,8 +28,10 @@ public class ZKServerUtil {
 		zkServerThread.start();
 	}
 	
-	public static void close(){
-		zkServerThread.yield();
+	public static void close() throws Exception{
+			Method shutdown = ZooKeeperServerMain.class.getDeclaredMethod("shutdown");
+			shutdown.setAccessible(true);
+			shutdown.invoke(serverMain);			
 	}
 
 }

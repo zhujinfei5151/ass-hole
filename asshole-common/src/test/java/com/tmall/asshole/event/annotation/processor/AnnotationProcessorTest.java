@@ -7,8 +7,7 @@ import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.Assert;
 
-import com.tmall.asshole.event.common.TestEvent;
-import com.tmall.asshole.event.util.SpringBeanUtils;
+import com.tmall.asshole.common.TestEvent;
 
 /**
  *
@@ -23,7 +22,7 @@ public class AnnotationProcessorTest {
 	@Before
 	public void init() {
 		new ClassPathXmlApplicationContext("classpath:spring-base.xml");
-		annotationProcessor = (AnnotationProcessor) SpringBeanUtils.getBean("annotationProcessor");
+		//annotationProcessor = (AnnotationProcessor) ApplicationUtil.getBean("annotationProcessor");
 	}
 
 	@Test

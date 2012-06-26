@@ -53,19 +53,16 @@ public class Event {
 	private String currentName;
 	
 	/**
-	 *  执行弄1�7始时闄1�7 主要给活动使甄1�7 
+	 *  执行弄1�7始时闄1�7 主要给活动使甄1�7 
 	 */
 	private Date  exec_start_time;
 	
 	/***
-	 *  是否延期支持 对于活动霄1�7要延朄1�7
+	 *  是否延期支持 对于活动霄1�7要延朄1�7
 	 */
 	private boolean is_delay_exec;
 	
-	/***
-	 * 调度器的类型
-	 */
-	private int schedule_type;
+    private int processorNumber;
 	
 	public Date getExecStartTime() {
 		return exec_start_time;
@@ -144,7 +141,7 @@ public class Event {
 //		return status;
 //	}
 	/**
-	 * 重载 用于ibatis数据库更斄1�7
+	 * 重载 用于ibatis数据库更斄1�7
 	 * @param status
 	 */
 	public void setStatus(Integer status) {
@@ -169,7 +166,7 @@ public class Event {
 	}
 	
 	/**
-	 * 重载 用于ibatis数据库更斄1�7
+	 * 重载 用于ibatis数据库更斄1�7
 	 * @param env
 	 */
 	public void setEnv(Integer env) {
@@ -252,16 +249,16 @@ public class Event {
 		return exec_count;
 	}
 
-	public int getSchedule_type() {
-		return schedule_type;
+	public int getProcessorNumber() {
+		return processorNumber;
 	}
 
-	public void setSchedule_type(int schedule_type) {
-		this.schedule_type = schedule_type;
+	public void setProcessorNumber(int processorNumber) {
+		this.processorNumber = processorNumber;
 	}
 	
 	
-	
+
 	
 
 }

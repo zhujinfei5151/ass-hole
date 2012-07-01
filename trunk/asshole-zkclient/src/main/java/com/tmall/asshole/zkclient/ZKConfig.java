@@ -11,7 +11,6 @@ import java.util.Enumeration;
  */
 public class ZKConfig {
 	
-	//Ĭ�ϲ���Ȩ��У�� ���ڲ���
 	private Boolean usePermissions=false;
 	private String username;
 	private String password;
@@ -98,7 +97,7 @@ public class ZKConfig {
 	 }
 	
 	/****
-	 * Ĭ�ϸ����ʹ��
+	 * 获取IP
 	 * 
 	 * @param localIPAddress
 	 */

@@ -19,19 +19,18 @@ import com.tmall.asshole.zkclient.data.PersistenceUtil;
 /****
  * ZKClient  
  * 
- *  ��ṹ��ͼ
  *  
  *                   --- path1(10.12.32.12)
  *                                   |
- *                               NodeData(�ǳ־û�)
+ *                               NodeData
  *   rootPath   
  *       |            ---- path2(122.23.2.32)
  *       |                            |
- *                               NodeData(�ǳ־û�)
- *   NodeData���־û��� 
+ *                               NodeData
+ *   NodeData
  *                  ---- path3(121.234.223)
  *                                  |
- *                              NodeData(�ǳ־û�)
+ *                              NodeData
  *       
  * 
  *   NodeData  --      Data1
@@ -53,7 +52,7 @@ public class ZKClient  implements Watcher {
 	
 	private ZKManager zKManager;
 	
-	//���ʱ����úܳ� ��Ȼ�����÷�������ѹ������   ĿǰΪ10����
+	//默认时间
 	private long defaultRegisterWatchTime = 600000;
 	
 	private List<INodeChange> iNodeChanges = new ArrayList<INodeChange>();
@@ -100,7 +99,6 @@ public class ZKClient  implements Watcher {
 		thread = new Thread(new Runnable() {
 			public void run() {
 				while (true) {
-				    //  ���ʱ��û�м����������������Ϣ, ��������һ��
 					try {
 						if(shutdown){
 							log.error("close the protected thread of zkClient");
@@ -126,15 +124,14 @@ public class ZKClient  implements Watcher {
 	
 
 	public void process(WatchedEvent event) {
-		//��Ҫ����     Disconnected    SyncConnected NodeDataChanged
+		//Disconnected    SyncConnected NodeDataChanged
 		List<String> children = null;
 		
 		try {
 			String path = event.getPath();
 			
-			//��������Ͽ����� 
 			if( event.getState() ==KeeperState.Disconnected ||   event.getState() ==KeeperState.Expired){
-				log.info("�Ͽ��������������");
+				log.info("断开与服务器的连接");
 				for (INodeChange  iNodeChange: iNodeChanges) {
 					iNodeChange.onChange(children);
 				}
@@ -142,9 +139,8 @@ public class ZKClient  implements Watcher {
 				return;
 			}
 			
-			//������server���� ����PathData �Ѿ��� ZKManager���
 			if(path==null && event.getState() ==KeeperState.SyncConnected  && event.getType() == Event.EventType.None){
-			    log.info("�������������������");
+			    log.info("已经和服务器建立连接");
 				return;
 			}
 			

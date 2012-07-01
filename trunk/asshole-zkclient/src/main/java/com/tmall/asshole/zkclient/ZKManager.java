@@ -54,12 +54,11 @@ public class ZKManager {
 
 	public void init() throws Exception {
 		if(zKConfig==null){
-			throw new NullPointerException("zkConfig 不能为空");
+			throw new NullPointerException("zkConfig 锟斤拷锟斤拷为锟斤拷");
 		}
 		
 		zk = new ZooKeeper(zKConfig.getZkConnectString(),zKConfig.getZkSessionTimeout(), zKClient);
 		
-		//建立连接需要一段时间 需要Sleep一段时间
 		Thread.sleep(2000);
 		
 		if(zKConfig.getUsePermissions()==true){
@@ -71,14 +70,12 @@ public class ZKManager {
 		       acl.add(new ACL(ZooDefs.Perms.READ, Ids.ANYONE_ID_UNSAFE));
 		}
 		
-		//如果没有root 需要创建rootPath rootPath为持久化的
 		if(zk.exists(zKConfig.getRootPath(), false)==null){
 			zk.create(zKConfig.getRootPath(), null, acl.size()==0?Ids.OPEN_ACL_UNSAFE:acl,CreateMode.PERSISTENT);
 			return ;
 		}
 		
 		if (zk.exists(zKConfig.getFullPath(), false) == null) {
-			// 会引发watch的变动，第一次引发时还没有创建pathData
 			ZKTools.createPath(zk, zKConfig.getFullPath(), PersistenceUtil.serializable(createPathData()),
 					CreateMode.EPHEMERAL, acl.size()>0?acl:null);
 		}

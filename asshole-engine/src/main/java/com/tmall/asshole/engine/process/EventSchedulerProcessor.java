@@ -121,6 +121,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	            data.setStatus(EventStatus.EVENT_STATUS_EXCEPTION);
 	            data.setProcessLogs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	            data.setOperator(context.getOperator());
+	            data.appendMemo(e.getMessage());
 				logger.error("update status failed,"+e.getMessage());
 			throw e;
 		}  finally{
@@ -133,20 +134,24 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		List<Event> l = eventDAO.queryEvent(start, end, rownum,envionmentGroup.getCode(),processorNumber);
 		List<Event> noErrorLst = new ArrayList<Event>();
 	    for (Event data : l) {
+	    	  Event newData = (Event) Class.forName(data.getTypeClass()).newInstance();
+	    	
 	    	   try{
 	    		   Date now = new Date();
 	    		   
-	    		   //如果是延迟打标的 时间又没有到则只更新执行时间
+	    		   //濡傛灉鏄欢杩熸墦鏍囩殑 鏃堕棿鍙堟病鏈夊埌鍒欏彧鏇存柊鎵ц鏃堕棿
 	    		   if(data.isDelayExec()){
 	    			   if(now.getTime()>=data.getExecStartTime().getTime()){
-	    			      Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), data);
+	    			      Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), newData);
 	    			      eventDAO.updateEventDO(event); 
 	    			      continue;
 	    			   }
 	    		   }
 	    		   
-	    	          Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), data);
-	    	  	      noErrorLst.add(event);
+	    	          Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), newData);
+	    	          event.setId(data.getId());
+	    	          event.setHashNum(data.getHashNum());
+	    	          noErrorLst.add(event);
 	    	  	      event.setStatus(EventConstant.EVENT_STATUS_LOADED);
 	    	          event.setExecCount(event.getExecCount() + 1);
 	    	  	      event.setExecuteMachineHashRange(start+"--"+end);
@@ -159,7 +164,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    		    data.setStatus(EventConstant.EVENT_STATUS_PARAMETER_ERROR);
 	    			eventDAO.updateEventDO(data);
 					continue;
-	    		    // 丄1�7条记录的失败 不影响全屄1�7
+	    		    // 涓��鏉¤褰曠殑澶辫触 涓嶅奖鍝嶅叏灞��
 			   }
 		}
 	    return noErrorLst;

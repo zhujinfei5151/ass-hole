@@ -3,7 +3,7 @@ package com.tmall.asshole.config;
 import java.util.List;
 
 public class MachineConfig {
-	/**zookeeper client 相关配置**/
+	/**zookeeper client 鐩稿叧閰嶇疆**/
 	private Boolean usePermissions=false;
 	private String username;
 	private String password;
@@ -11,10 +11,11 @@ public class MachineConfig {
 	private int zkSessionTimeout;
 	private String rootPath;
 	private String localIPAddress;
+	private String env="local";
 	private boolean startZK=true;
 	
 	/***
-	 *   流程模版的路径
+	 *   娴佺▼妯＄増鐨勮矾寰�
 	 */
 	private List<String> processTemplateFolders;
 	
@@ -72,6 +73,12 @@ public class MachineConfig {
 	}
 	public void setProcessTemplateFolders(List<String> processTemplateFolders) {
 		this.processTemplateFolders = processTemplateFolders;
+	}
+	public String getEnv() {
+		return env;
+	}
+	public void setEnv(String env) {
+		this.env = env;
 	}
 	
 	

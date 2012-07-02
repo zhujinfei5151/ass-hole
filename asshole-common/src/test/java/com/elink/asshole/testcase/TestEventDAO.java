@@ -27,20 +27,21 @@ public class TestEventDAO extends TestBase {
 		eventDO.setEnv(EventEnv.local.getCode());
 		
 		eventDO.setOperator("chuzheng");
-		eventDO.setType_class("com.elink.asshole.event.biz.dal.dao.testcase.TestEventDAO");
-		eventDO.setProcess_logs("hello");
+		
+		eventDO.setTypeClass("com.elink.asshole.event.biz.dal.dao.testcase.TestEventDAO");
+		eventDO.setProcessLogs("hello");
 		eventDO.setMemo("testOnly");
 		eventDO.setContext("context");
-		eventDO.setExecute_machine_ip("192.168.1.2");
-		eventDO.setExecute_machine_hash_range("1000");
-		eventDO.setHash_num(1000);
-		eventDO.setExec_count(1);
+		eventDO.setExecuteMachineIp("192.168.1.2");
+		eventDO.setExecuteMachineHashRange("1000");
+		eventDO.setHashNum(1000);
+		eventDO.setExecCount(1);
 		eventDO.setSource(0);
 		eventDO.setProcessName("ibatis");
 		eventDO.setProcessInstanceId(2L);
 		eventDO.setCurrentName("ic");
-		eventDO.setExec_start_time(new Date());
-		eventDO.setIs_delay_exec(true);
+		eventDO.setExecStartTime(new Date());
+		eventDO.setDelayExec(true);
 		eventDO.setProcessorNumber(0);
 		
 
@@ -60,7 +61,7 @@ public class TestEventDAO extends TestBase {
 		eventDO.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode());
 		// eventDO.setEnv(EventEnv.LOCAL.getCode());
 		eventDO.setId(1L);
-		eventDO.setIs_delay_exec(false);
+		eventDO.setDelayExec(false);
 		eventDO.setProcessorNumber(0);
 		long id = 0L;
 		try {

@@ -41,7 +41,8 @@ public class TestEventDAO extends TestBase {
 		eventDO.setCurrentName("ic");
 		eventDO.setExec_start_time(new Date());
 		eventDO.setIs_delay_exec(true);
-		eventDO.setProcess_number(0);
+		eventDO.setProcessorNumber(0);
+		
 
 		int id = 0;
 		try {
@@ -60,7 +61,7 @@ public class TestEventDAO extends TestBase {
 		// eventDO.setEnv(EventEnv.LOCAL.getCode());
 		eventDO.setId(1L);
 		eventDO.setIs_delay_exec(false);
-		eventDO.setProcess_number(0);
+		eventDO.setProcessorNumber(0);
 		long id = 0L;
 		try {
 			id = EventDAO.updateEventDO(eventDO);

@@ -38,9 +38,9 @@ public class MockEventDAO implements IEventDAO{
 		return l;
 	}
 
-	public Integer insertEventDO(Event dao) {
+	public Long insertEventDO(Event dao) {
 		 boolean result = s.add(dao);
-		 return result==true?1:0;
+		 return result==true?(long)1:0;
 	}
 
 	public Integer updateEventDO(Event dao) {

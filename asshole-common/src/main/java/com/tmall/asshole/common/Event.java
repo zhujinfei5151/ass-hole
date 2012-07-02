@@ -19,33 +19,35 @@ public class Event {
 	/**
 	 * 执行log
 	 */
-	private String process_logs;
+	
+	private String processLogs; //
     
 	/***
 	 * 备注暂时不用
 	 */
 	private String memo;
 
-	private String type_class;
+	private String typeClass;//
 
 	private String context;
 
-	private String execute_machine_ip;
+	private String executeMachineIp;//
 
-	private String execute_machine_hash_range;
+	private String executeMachineHashRange; //
 
-	private Date gmt_create;
+	private Date gmtCreate; //
 
-	private Date gmt_modified;
+	private Date gmtModified;//
 
 	private String operator;
 
-	private int hash_num;
+	private int hashNum;//
 
-	private int exec_count;
+	private int execCount;//
 	
-	private Long process_instance_id;
+	private Long processInstanceId;//
 	
+
 	private Integer source;
 	
 	private String processName;
@@ -53,37 +55,26 @@ public class Event {
 	private String currentName;
 	
 	/**
-	 *  执行弄1�7始时闄1�7 主要给活动使甄1�7 
+	 *  执行弄1�7�1�7�时闄1�7�1�7主要给活动使甄1�7�1�7
 	 */
-	private Date  exec_start_time;
+	private Date  execStartTime;//
 	
 	/***
-	 *  是否延期支持 对于活动霄1�7要延朄1�7
+	 *  是否延期支持 对于活动霄1�7�1�7�延朄1�7�1�7
 	 */
-	private boolean is_delay_exec;
+	private boolean isDelayExec;//
 	
     private int processorNumber;
 	
-	public Date getExecStartTime() {
-		return exec_start_time;
-	}
 
-	public void setExec_start_time(Date exec_start_time) {
-		this.exec_start_time = exec_start_time;
-	}
-
-	public boolean isIsDelayExec() {
-		return is_delay_exec;
-	}
-
-	public void setIs_delay_exec(boolean is_delay_exec) {
-		this.is_delay_exec = is_delay_exec;
-	}
-
-	public void setExec_count(int exec_count) {
-		this.exec_count = exec_count;
-	}
-
+    public Long getProcessInstanceId() {
+    	return processInstanceId;
+    }
+    
+    public void setProcessInstanceId(Long processInstanceId) {
+    	this.processInstanceId = processInstanceId;
+    }
+    
 	public String getContext() {
 		return context;
 	}
@@ -92,13 +83,7 @@ public class Event {
 		this.context = context;
 	}
 
-	public String getProcess_logs() {
-		return process_logs;
-	}
-
-	public void setProcess_logs(String process_logs) {
-		this.process_logs = process_logs;
-	}
+	
 
 	public String getCurrentName() {
 		return currentName;
@@ -116,14 +101,7 @@ public class Event {
 		this.processName = process_name;
 	}
 
-	public Long getProcessInstanceId() {
-		return process_instance_id;
-	}
-
-	public void setProcessInstanceId(Long process_instance_id) {
-		this.process_instance_id = process_instance_id;
-	}
-
+	
 	
 	public Long getId() {
 		return id;
@@ -141,7 +119,7 @@ public class Event {
 //		return status;
 //	}
 	/**
-	 * 重载 用于ibatis数据库更斄1�7
+	 * 重载 用于ibatis数据库更斄1�7�1�7
 	 * @param status
 	 */
 	public void setStatus(Integer status) {
@@ -166,7 +144,7 @@ public class Event {
 	}
 	
 	/**
-	 * 重载 用于ibatis数据库更斄1�7
+	 * 重载 用于ibatis数据库更斄1�7�1�7
 	 * @param env
 	 */
 	public void setEnv(Integer env) {
@@ -188,53 +166,85 @@ public class Event {
 		this.operator = operator;
 	}
 
-	public String getExecute_machine_ip() {
-		return execute_machine_ip;
-	}
-
-	public void setExecute_machine_ip(String execute_machine_ip) {
-		this.execute_machine_ip = execute_machine_ip;
-	}
-
-	public String getExecute_machine_hash_range() {
-		return execute_machine_hash_range;
-	}
-
-	public void setExecute_machine_hash_range(String execute_machine_hash_range) {
-		this.execute_machine_hash_range = execute_machine_hash_range;
-	}
-
-	public Date getGmt_create() {
-		return gmt_create;
-	}
-
-	public void setGmt_create(Date gmt_create) {
-		this.gmt_create = gmt_create;
-	}
-
-	public Date getGmt_modified() {
-		return gmt_modified;
-	}
-
-	public void setGmt_modify(Date gmt_modified) {
-		this.gmt_modified = gmt_modified;
-	}
-
-	public int getHash_num() {
-		return hash_num;
-	}
-
-	public void setHash_num(int hash_num) {
-		this.hash_num = hash_num;
-	}
-
 	
-	public String getType_class() {
-		return type_class;
+	public String getProcessLogs() {
+		return processLogs;
 	}
 
-	public void setType_class(String type_class) {
-		this.type_class = type_class;
+	public void setProcessLogs(String processLogs) {
+		this.processLogs = processLogs;
+	}
+
+	public String getTypeClass() {
+		return typeClass;
+	}
+
+	public void setTypeClass(String typeClass) {
+		this.typeClass = typeClass;
+	}
+
+	public String getExecuteMachineIp() {
+		return executeMachineIp;
+	}
+
+	public void setExecuteMachineIp(String executeMachineIp) {
+		this.executeMachineIp = executeMachineIp;
+	}
+
+	public String getExecuteMachineHashRange() {
+		return executeMachineHashRange;
+	}
+
+	public void setExecuteMachineHashRange(String executeMachineHashRange) {
+		this.executeMachineHashRange = executeMachineHashRange;
+	}
+
+	public Date getGmtCreate() {
+		return gmtCreate;
+	}
+
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
+
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
+
+	public int getHashNum() {
+		return hashNum;
+	}
+
+	public void setHashNum(int hashNum) {
+		this.hashNum = hashNum;
+	}
+
+	public int getExecCount() {
+		return execCount;
+	}
+
+	public void setExecCount(int execCount) {
+		this.execCount = execCount;
+	}
+
+	public Date getExecStartTime() {
+		return execStartTime;
+	}
+
+	public void setExecStartTime(Date execStartTime) {
+		this.execStartTime = execStartTime;
+	}
+
+	public boolean isDelayExec() {
+		return isDelayExec;
+	}
+
+	public void setDelayExec(boolean isDelayExec) {
+		this.isDelayExec = isDelayExec;
 	}
 
 	public Integer getSource() {
@@ -245,9 +255,7 @@ public class Event {
 		this.source = source;
 	}
 
-	public int getExec_count() {
-		return exec_count;
-	}
+	
 
 	public int getProcessorNumber() {
 		return processorNumber;

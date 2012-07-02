@@ -12,18 +12,18 @@ public class Event {
 
 	private Long id;
 
-	private EventStatus status;
+	private EventStatus status = EventStatus.EVENT_STATUS_UNEXECUTED;
 
 	private EventEnv env;
 	
 	/**
-	 * 执行log
+	 * 鎵цlog
 	 */
 	
 	private String processLogs; //
     
 	/***
-	 * 备注暂时不用
+	 * 澶囨敞鏆傛椂涓嶇敤
 	 */
 	private String memo;
 
@@ -55,12 +55,12 @@ public class Event {
 	private String currentName;
 	
 	/**
-	 *  执行弄1�7�1�7�时闄1�7�1�7主要给活动使甄1�7�1�7
+	 *  鎵ц寮����嬫椂闂����涓昏缁欐椿鍔ㄤ娇鐢����
 	 */
 	private Date  execStartTime;//
 	
 	/***
-	 *  是否延期支持 对于活动霄1�7�1�7�延朄1�7�1�7
+	 *  鏄惁寤舵湡鏀寔 瀵逛簬娲诲姩闇����佸欢鏈����
 	 */
 	private boolean isDelayExec;//
 	
@@ -119,7 +119,7 @@ public class Event {
 //		return status;
 //	}
 	/**
-	 * 重载 用于ibatis数据库更斄1�7�1�7
+	 * 閲嶈浇 鐢ㄤ簬ibatis鏁版嵁搴撴洿鏂����
 	 * @param status
 	 */
 	public void setStatus(Integer status) {
@@ -127,7 +127,7 @@ public class Event {
 		this.status = EventStatus.getEventStatusByCode(status);
 	}
 	/**
-	 * 重载
+	 * 閲嶈浇
 	 * @param status
 	 */
 	public void setStatus(EventStatus status)	{
@@ -144,7 +144,7 @@ public class Event {
 	}
 	
 	/**
-	 * 重载 用于ibatis数据库更斄1�7�1�7
+	 * 閲嶈浇 鐢ㄤ簬ibatis鏁版嵁搴撴洿鏂����
 	 * @param env
 	 */
 	public void setEnv(Integer env) {
@@ -158,6 +158,14 @@ public class Event {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
+	
+	public void appendMemo(String newMemo){
+		if(memo==null){
+			memo="";
+		}
+		memo = memo + ";"+ newMemo;
+	}
+	
 	public String getOperator() {
 		return operator;
 	}

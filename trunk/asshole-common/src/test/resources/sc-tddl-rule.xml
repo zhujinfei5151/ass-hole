@@ -7,8 +7,6 @@
         <property name="tableRules">
              <map>
                 <entry key="process_events" 		value-ref="process_events_rule" />
-                <entry key="process_instance" 		value-ref="process_instance_rule" />
-				<entry key="process_instance_logs" 	value-ref="process_instance_logs_rule" />
 			</map>
         </property>
     </bean>
@@ -18,16 +16,5 @@
         <property name="tbNamePattern" value="process_events"/>
         <property name="dbNamePattern" value="TMALL_ELINKCORE_GROUP"/>
     </bean>
-    
-    <bean id="process_instance_rule" class="com.taobao.tddl.interact.rule.TableRule">
-        <property name="tbNamePattern" value="process_instance"/>
-        <property name="dbNamePattern" value="TMALL_ELINKCORE_GROUP"/>
-    </bean>
-
-    <bean id="process_instance_logs_rule" class="com.taobao.tddl.interact.rule.TableRule">
-        <property name="tbNamePattern" value="process_instance_logs"/>
-        <property name="dbNamePattern" value="TMALL_ELINKCORE_GROUP"/>
-    </bean>
-	
     
 </beans>

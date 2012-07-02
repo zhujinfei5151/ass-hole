@@ -4,29 +4,30 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.unitils.spring.annotation.SpringBeanByName;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventEnv;
 import com.tmall.asshole.common.EventStatus;
 import com.tmall.asshole.common.IEventDAO;
 
-public class TestEventDAO extends TestBase {
+public class TestEventDAO {
 
-	@SpringBeanByName
-	private IEventDAO EventDAO;
+	private static IEventDAO eventDAO;
+	
+	static{
+		ApplicationContext context = new ClassPathXmlApplicationContext("dal-dao.xml");
+		eventDAO = (IEventDAO)context.getBean("eventDAO");
+	}
 
-	@Ignore
 	@Test
 	public void insertTest() throws Exception {
 		// pass
 		Event eventDO = new Event();
-		eventDO.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode());
+	//	eventDO.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode());
 		eventDO.setEnv(EventEnv.local.getCode());
-		
-		eventDO.setOperator("chuzheng");
 		
 		eventDO.setTypeClass("com.elink.asshole.event.biz.dal.dao.testcase.TestEventDAO");
 		eventDO.setProcessLogs("hello");
@@ -45,11 +46,12 @@ public class TestEventDAO extends TestBase {
 		eventDO.setProcessorNumber(0);
 		
 
-		int id = 0;
+		long id = 0;
 		try {
-			id = EventDAO.insertEventDO(eventDO);
+			id = eventDAO.insertEventDO(eventDO);
 		} catch (Exception e) {
 			e.printStackTrace();
+			Assert.fail();
 		}
 	}
 
@@ -65,35 +67,33 @@ public class TestEventDAO extends TestBase {
 		eventDO.setProcessorNumber(0);
 		long id = 0L;
 		try {
-			id = EventDAO.updateEventDO(eventDO);
+			id = eventDAO.updateEventDO(eventDO);
 		} catch (Exception e) {
 			e.printStackTrace();
+			Assert.fail();
 		}
 	}
 
-	@Ignore
 	@Test
 	public void batchqueryDotest() throws Exception {
 		// pass
-		EventDAO.batchChangeEventStatus(0, 4);
+		eventDAO.batchChangeEventStatus(0, 4);
 		Assert.assertTrue(true);
 	}
 
-	@Ignore
 	@Test
 	public void queryDotest() throws Exception {
 		// pass
-		List<Event> lst = EventDAO.queryEvent(0, 10000, 10, 5, 0);
+		List<Event> lst = eventDAO.queryEvent(0, 10000, 10, 5, 0);
 		if (!lst.isEmpty())
 			Assert.assertTrue(true);
 	}
 
-	@Ignore
 	@Test
 	public void batchqueryByPrimeKey() throws Exception {
 		// pass
 		Long id = 1L;
-		Event e = EventDAO.queryEventByPrimaryKey(id, 0);
+		Event e = eventDAO.queryEventByPrimaryKey(id, 0);
 		if (e != null)
 			Assert.assertTrue(true);
 	}

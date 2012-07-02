@@ -52,7 +52,7 @@ public class ZKClient  implements Watcher {
 	
 	private ZKManager zKManager;
 	
-	//默认时间
+	//榛樿鏃堕棿
 	private long defaultRegisterWatchTime = 600000;
 	
 	private List<INodeChange> iNodeChanges = new ArrayList<INodeChange>();
@@ -131,16 +131,16 @@ public class ZKClient  implements Watcher {
 			String path = event.getPath();
 			
 			if( event.getState() ==KeeperState.Disconnected ||   event.getState() ==KeeperState.Expired){
-				log.info("断开与服务器的连接");
+				log.info("lost the conection with zk server");
 				for (INodeChange  iNodeChange: iNodeChanges) {
 					iNodeChange.onChange(children);
 				}
-				//断开后重连
+				//鏂紑鍚庨噸杩�
 				return;
 			}
 			
 			if(path==null && event.getState() ==KeeperState.SyncConnected  && event.getType() == Event.EventType.None){
-			    log.info("已经和服务器建立连接");
+			    log.info("connected with zk server");
 				return;
 			}
 			
@@ -170,7 +170,7 @@ public class ZKClient  implements Watcher {
 
 	
 //	private void reConect() {
-//	     //关闭ZK client;
+//	     //鍏抽棴ZK client;
 //		close();
 //	 new Thread(
 //		new Runnable() {

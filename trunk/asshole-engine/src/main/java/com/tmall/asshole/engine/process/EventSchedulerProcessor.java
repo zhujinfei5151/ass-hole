@@ -107,19 +107,19 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		try {
 		     if (eventEngine.fire(data, context)) {
 		           data.setStatus(EventStatus.EVENT_STATUS_SUCCESS);
-		           data.setProcess_logs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
+		           data.setProcessLogs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	               data.setOperator(context.getOperator());
 		     } else {
-	                data.setExec_count(data.getExec_count() + 1);
+	                data.setExecCount(data.getExecCount() + 1);
 	                data.setStatus(EventStatus.EVENT_STATUS_FAILED);
-	                data.setProcess_logs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
+	                data.setProcessLogs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	                data.setOperator(context.getOperator());
 	          }
 			
 		} catch (Exception e) {
-			    data.setExec_count(data.getExec_count()+1);
+			    data.setExecCount(data.getExecCount()+1);
 	            data.setStatus(EventStatus.EVENT_STATUS_EXCEPTION);
-	            data.setProcess_logs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
+	            data.setProcessLogs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	            data.setOperator(context.getOperator());
 				logger.error("update status failed,"+e.getMessage());
 			throw e;
@@ -137,7 +137,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    		   Date now = new Date();
 	    		   
 	    		   //如果是延迟打标的 时间又没有到则只更新执行时间
-	    		   if(data.isIsDelayExec()){
+	    		   if(data.isDelayExec()){
 	    			   if(now.getTime()>=data.getExecStartTime().getTime()){
 	    			      Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), data);
 	    			      eventDAO.updateEventDO(event); 
@@ -148,9 +148,9 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    	          Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), data);
 	    	  	      noErrorLst.add(event);
 	    	  	      event.setStatus(EventConstant.EVENT_STATUS_LOADED);
-	    	          event.setExec_count(event.getExec_count() + 1);
-	    	  	      event.setExecute_machine_hash_range(start+"--"+end);
-	    	  	      event.setExecute_machine_ip(executeMachineAlias);
+	    	          event.setExecCount(event.getExecCount() + 1);
+	    	  	      event.setExecuteMachineHashRange(start+"--"+end);
+	    	  	      event.setExecuteMachineIp(executeMachineAlias);
 				      eventDAO.updateEventDO(event);
                 	
                 	  
@@ -159,7 +159,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    		    data.setStatus(EventConstant.EVENT_STATUS_PARAMETER_ERROR);
 	    			eventDAO.updateEventDO(data);
 					continue;
-	    		    // 一条记录的失败 不影响全局
+	    		    // 丄1�7条记录的失败 不影响全屄1�7
 			   }
 		}
 	    return noErrorLst;

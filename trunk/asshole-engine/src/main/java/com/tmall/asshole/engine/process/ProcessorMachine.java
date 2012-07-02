@@ -74,7 +74,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	
 	
 	public void createEventProcess(Event event,String processName) throws Exception{
-		//根据类型反找到节点
+		//根据类型反找到节炄1�7
 		List<Node> nodes = ProcessTemplateHelper.find(processName, event.getClass());
 		if(nodes.size()==0){
 			throw new NullPointerException("can't find the event, type="+event.getClass()+" in the processs, name="+processName);
@@ -85,7 +85,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setCurrentName(n.getName());
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
 		// 0 - MAXHASHNUM
-		event.setHash_num(RandomUtils.nextInt(eventSchedulerProcessor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
+		event.setHashNum(RandomUtils.nextInt(eventSchedulerProcessor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
 		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
 		eventSchedulerProcessor.addData(event);
 	}
@@ -112,7 +112,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		        Event newEvent = (Event)eventName.newInstance();
 		        Map<String, Object> map = context.getMap();
 		        BeanCopyUtil.copy(newEvent, map);
-		        //关键属性需要copy
+		        //关键属�1�7�需要copy
 		        newEvent.setProcessName(event.getProcessName());
 		        newEvent.setCurrentName(nextN.getName());
 		        newEvent.setProcessInstanceId(event.getProcessInstanceId());
@@ -120,7 +120,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		        
 		    	logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		        processor.addData(newEvent);
-				//目前业务场景 下一个节点只有1个会执行,不排除以后多个执行
+				//目前业务场景 下一个节点只朄1�7�会执行,不排除以后多个执衄1�7
 				break;
 			}
 		}

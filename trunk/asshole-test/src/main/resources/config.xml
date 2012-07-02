@@ -38,6 +38,9 @@
 	      <property name="processTemplateFolders">
 			<value>/process</value>
 		 </property>
+		   <property name="env">
+			<value>local</value>
+		 </property>
 	</bean>
 	
 	
@@ -101,7 +104,11 @@
 	     <property name="processorConfig"   ref="processorConfig2"></property>
 	</bean>
 	
-	<bean id="eventDAO" class="com.tmall.asshole.mock.dao.MockEventDAO" />
+	<!-- <bean id="eventDAO" class="com.tmall.asshole.mock.dao.MockEventDAO" />  -->
+	<import resource="classpath:dal-dao.xml"/>
+	
+	
+	
 	<bean id="protocolCodecFactory" class="com.tmall.asshole.event.filter.codec.json.JSONProtocol" />
 	<bean id="eventEngine" class="com.tmall.asshole.engine.EventEngine" />
      <!-- 必须注入的工具类 -->

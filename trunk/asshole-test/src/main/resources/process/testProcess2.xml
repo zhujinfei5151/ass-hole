@@ -1,0 +1,27 @@
+<process name="brandSale">
+  <start name="start" >
+    <transition to="changePrice"/>
+  </start>
+ 
+  <node name="changePrice"  classname="com.tmall.asshole.mock.ep.TestEvent1"  processorNumber="0" >
+    <transitions>
+      <transition to="order_execute"  exp="$a==$b"/>
+    </transitions>
+  </node>
+  
+  <node name="lockInventory" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="0">
+    <transitions>
+      <transition to="order_finish"/>
+    </transitions>
+  </node>
+  
+  
+  <node name="addLabelInIC" classname="com.tmall.asshole.mock.ep.TestEvent3"  processorNumber="0">
+    <transitions>
+      <transition to="end"/>
+    </transitions>
+  </node>
+  
+  
+  <end name="end"/>
+</process>

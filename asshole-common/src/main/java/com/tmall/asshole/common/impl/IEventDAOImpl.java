@@ -30,14 +30,14 @@ public class IEventDAOImpl extends SqlMapClientDaoSupport implements IEventDAO {
 	/**
 	 * 批量查询  返回结果按照时间先后顺序返回
 	 */
-	public List<Event> queryEvent(int start, int end, int count, int env,int process_number) {
+	public List<Event> queryEvent(int start, int end, int count, int env,int processorNumber) {
 		
 		Map<String,Integer> param = new HashMap<String,Integer>();
     	param.put("start", start);
     	param.put("end", end); 
     	param.put("count",count);
     	param.put("env",env);
-    	param.put("process_number",process_number);
+    	param.put("processorNumber",processorNumber);
 
     	List<Event> eventList =  getSqlMapClientTemplate().queryForList("Event.eventQuery", param);
 		return eventList;
@@ -58,10 +58,10 @@ public class IEventDAOImpl extends SqlMapClientDaoSupport implements IEventDAO {
 	/**
 	 * 按id和hash_num查询
 	 */
-	public Event queryEventByPrimaryKey(Long id,Integer hash_num){
+	public Event queryEventByPrimaryKey(Long id,Integer hashNum){
 		Map param = new HashMap<String,Integer>();
 		param.put("id", id);
-		param.put("hash_num", hash_num);
+		param.put("hashNum", hashNum);
 		
 		Event event = (Event) getSqlMapClientTemplate(). queryForObject("Event.findByPrimaryKey",param);
 		return event;

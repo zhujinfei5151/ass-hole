@@ -53,7 +53,7 @@ public class TestEventDAO extends TestBase {
 		}
 	}
 
-	@Ignore
+	
 	@Test
 	public void updateDOTest() throws Exception {
 		// pass
@@ -79,7 +79,7 @@ public class TestEventDAO extends TestBase {
 		Assert.assertTrue(true);
 	}
 
-	
+	@Ignore
 	@Test
 	public void queryDotest() throws Exception {
 		// pass

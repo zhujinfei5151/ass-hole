@@ -4,18 +4,16 @@ import java.util.List;
 
 
 /****
- * DAO 存储不一定是DB
  * 
  * @author tangjinou
  *
  */
 public interface IEventDAO {
 	/**
-     * 插入数据
      * @param dao
-     * @return 插入数据的主锄1�7
+     * @return 
      */
-    public Integer insertEventDO(Event dao);
+    public Long insertEventDO(Event dao);
     
     public List<Event> queryEvent(int start, int end, int count, int env, int processorNumber);
     

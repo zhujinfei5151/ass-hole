@@ -17,11 +17,11 @@ public interface IEventDAO {
      */
     public Integer insertEventDO(Event dao);
     
-    public List<Event> queryEvent(int start, int end, int count, int env, int process_number);
+    public List<Event> queryEvent(int start, int end, int count, int env, int processorNumber);
     
     public Integer updateEventDO(Event dao);
     
     public Integer batchChangeEventStatus(int from, int to);    
 	
-	public Event queryEventByPrimaryKey(Long id,Integer hash_num);
+	public Event queryEventByPrimaryKey(Long id,Integer hashNum);
 }

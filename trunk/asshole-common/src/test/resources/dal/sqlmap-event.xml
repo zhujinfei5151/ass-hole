@@ -25,7 +25,7 @@
 		<result property="currentName" column="current_name" />
 		<result property="execStartTime" column="exec_start_time" />
 		<result property="isDelayExec" column="is_delay_exec" />
-		<result property="processNumber" column="process_number" />
+		<result property="processorNumber" column="process_number" />
 	</resultMap>
 	
 
@@ -44,7 +44,7 @@
 		VALUES
 		(#status#,#env#,#processLogs#,#memo#,#typeClass#,#context#,#executeMachineIp#,
 		#executeMachineHashRange#,now(),now(),#operator#,#hashNum#,#execCount#,#processInstanceId#,#source#,
-		#processName#,#currentName#,now(),#isDelayExec#,#processNumber#)
+		#processName#,#currentName#,now(),#isDelayExec#,#processorNumber#)
 		<selectKey keyProperty="id" resultClass="java.lang.Long">
 			SELECT
 			LAST_INSERT_ID() AS value
@@ -141,9 +141,9 @@
 				is_delay_exec = #isDelayExec#
 				]]>
 			</isNotNull>				
-			<isNotNull property="processNumber" prepend=",">
+			<isNotNull property="processorNumber" prepend=",">
 				<![CDATA[
-				process_number = #processNumber#
+				process_number = #processorNumber#
 				]]>
 			</isNotNull>		
 		</dynamic>
@@ -152,7 +152,7 @@
 
 	<update id="batchChangeEventStatus">
   		<![CDATA[ 
-    		UPDATE process_events SET  status = #to# where status =#from# AND hashNum<=10000
+    		UPDATE process_events SET  status = #to# where status =#from# AND hash_num<=10000
     	]]>
   	</update>
 
@@ -173,7 +173,7 @@
 	   <include refid="query_columns" />
 	   FROM process_events  WHERE
 	   <![CDATA[  
-	     hash_num >= #start# AND hash_num<= #end# AND env = #env# AND process_number = #processNumber#
+	     hash_num >= #start# AND hash_num<= #end# AND env = #env# AND process_number = #processorNumber#
 	  	 order by gmt_modified asc 
 	     limit #count#
 	   ]]>  

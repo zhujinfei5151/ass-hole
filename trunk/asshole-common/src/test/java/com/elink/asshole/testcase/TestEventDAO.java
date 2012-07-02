@@ -60,7 +60,7 @@ public class TestEventDAO extends TestBase {
 		Event eventDO = new Event();
 		eventDO.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode());
 		// eventDO.setEnv(EventEnv.LOCAL.getCode());
-		eventDO.setId(1L);
+		eventDO.setId(3L);
 		eventDO.setDelayExec(false);
 		eventDO.setProcessorNumber(0);
 		long id = 0L;
@@ -79,7 +79,7 @@ public class TestEventDAO extends TestBase {
 		Assert.assertTrue(true);
 	}
 
-	@Ignore
+	
 	@Test
 	public void queryDotest() throws Exception {
 		// pass

@@ -11,7 +11,7 @@ import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
 import com.tmall.asshole.event.filter.codec.ProtocolDecoder;
 import com.tmall.asshole.event.filter.codec.ProtocolEncoder;
 /****
- * 非标准JSON协议 为了兼容
+ * 闈炴爣鍑咼SON鍗忚 涓轰簡鍏煎
  *  
  * @author tangjinou
  *
@@ -25,10 +25,11 @@ public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>,P
 		for (String key : map.keySet()) {
 			try {
 				Field field  = null;
-				//需要排查 id 和 hashnum ,去除 防止被覆盖 导致 更新无法找到
-				if(key.equals("id")||key.equals("hash_num")){
+				//闇�鎺掓煡 id 鍜�hashnum ,鍘婚櫎 闃叉琚鐩�瀵艰嚧 鏇存柊鏃犳硶鎵惧埌
+				if(key.equals("id")||key.equals("status")||key.equals("env")){
 					continue;
 				}
+				
 				if(isClassContainsFiled(key,o.getClass().getDeclaredFields())){
 					field  = o.getClass().getDeclaredField(key);
 				}

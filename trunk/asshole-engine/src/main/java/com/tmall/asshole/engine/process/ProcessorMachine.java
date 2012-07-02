@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -15,9 +14,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
+import com.tmall.asshole.common.EventEnv;
+import com.tmall.asshole.common.EventStatus;
+import com.tmall.asshole.common.IEventDAO;
+import com.tmall.asshole.common.impl.EventDAO;
 import com.tmall.asshole.config.MachineConfig;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
 import com.tmall.asshole.schedule.Schedule;
@@ -43,6 +47,9 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	private ScriptEngine scriptEngine;
 	
 	private MachineConfig machineConfig;
+	
+	@Autowired
+	private IEventDAO eventDAO;
 	
 	
 	private  ZKClient zkClient;
@@ -74,7 +81,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	
 	
 	public void createEventProcess(Event event,String processName) throws Exception{
-		//根据类型反找到节炄1�7
+		//鏍规嵁绫诲瀷鍙嶆壘鍒拌妭鐐��
 		List<Node> nodes = ProcessTemplateHelper.find(processName, event.getClass());
 		if(nodes.size()==0){
 			throw new NullPointerException("can't find the event, type="+event.getClass()+" in the processs, name="+processName);
@@ -87,6 +94,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		// 0 - MAXHASHNUM
 		event.setHashNum(RandomUtils.nextInt(eventSchedulerProcessor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
 		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
+		event.setEnv(EventEnv.valueOf(machineConfig.getEnv()));
+		event.setTypeClass(event.getClass().getName());
 		eventSchedulerProcessor.addData(event);
 	}
     
@@ -106,21 +115,36 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 					return;
 				}
 				
-				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
+				Node nextN = null;
+				
+				try{
+				    nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
+				}
+				catch (Exception e) {
+					logger.error("can't find node "+transition.to +" in process" + event.getProcessName());
+					event.appendMemo("can't find node "+transition.to +" in process " + event.getProcessName()+";"+e.getMessage());
+					event.setStatus(EventStatus.EVENT_STATUS_NODE_MISMATCH.getCode());
+					eventDAO.updateEventDO(event);
+					return;
+				}
+				
 		        EventSchedulerProcessor processor = getEventSchedulerProcessor(Integer.parseInt(nextN.getProcessorNumber()));
 		        Class<?> eventName = Class.forName(nextN.getClassname());
 		        Event newEvent = (Event)eventName.newInstance();
 		        Map<String, Object> map = context.getMap();
 		        BeanCopyUtil.copy(newEvent, map);
-		        //关键属�1�7�需要copy
+		        //鍏抽敭灞炴��ч渶瑕乧opy
 		        newEvent.setProcessName(event.getProcessName());
 		        newEvent.setCurrentName(nextN.getName());
 		        newEvent.setProcessInstanceId(event.getProcessInstanceId());
 		        newEvent.setProcessorNumber(Integer.parseInt(nextN.getProcessorNumber()));
-		        
+		        newEvent.setEnv(EventEnv.valueOf(machineConfig.getEnv()));
+		        // 0 - MAXHASHNUM
+		        newEvent.setHashNum(RandomUtils.nextInt(processor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
+		        newEvent.setTypeClass(nextN.getClassname());
 		    	logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
-		        processor.addData(newEvent);
-				//目前业务场景 下一个节点只朄1�7�会执行,不排除以后多个执衄1�7
+		    	processor.addData(newEvent);
+				//鐩墠涓氬姟鍦烘櫙 涓嬩竴涓妭鐐瑰彧鏈��細鎵ц,涓嶆帓闄や互鍚庡涓墽琛��
 				break;
 			}
 		}
@@ -169,7 +193,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		}
 		
 		
-		//加载流程模版
+		//鍔犺浇娴佺▼妯＄増
 		ProcessTemplateHelper.deploy(machineConfig.getProcessTemplateFolders());
 		
 		List<INodeChange> iNodeChanges = new ArrayList<INodeChange>();

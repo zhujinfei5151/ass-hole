@@ -8,31 +8,30 @@
 		<result property="id" column="id" />
 		<result property="status" column="status" />
 		<result property="env" column="env" />
-		<result property="process_logs" column="process_logs" />
+		<result property="processLogs" column="process_logs" />
 		<result property="memo" column="memo" />
-		<result property="type_class" column="type_class" />
+		<result property="typeClass" column="type_class" />
 		<result property="context" column="context" />
-		<result property="execute_machine_ip" column="execute_machine_ip" />
-		<result property="execute_machine_hash_range" column="execute_machine_hash_range" />
-		<result property="gmt_create" column="gmt_create" />
-		<result property="gmt_modified" column="gmt_modified" />
+		<result property="executeMachineIp" column="execute_machine_ip" />
+		<result property="executeMachineHashRange" column="execute_machine_hash_range" />
+		<result property="gmtCreate" column="gmt_create" />
+		<result property="gmtModified" column="gmt_modified" />
 		<result property="operator" column="operator" />
-		<result property="hash_num" column="hash_num" />
-		<result property="exec_count" column="exec_count" />
-		<result property="process_instance_id" column="process_instance_id" />
+		<result property="hashNum" column="hash_num" />
+		<result property="execCount" column="exec_count" />
+		<result property="processInstanceId" column="process_instance_id" />
 		<result property="source" column="source" />
-		<result property="process_name" column="process_name" />
-		<result property="current_name" column="current_name" />
-		<result property="exec_start_time" column="exec_start_time" />
-		<result property="is_delay_exec" column="is_delay_exec" />
-		<result property="process_number" column="process_number" />
+		<result property="processName" column="process_name" />
+		<result property="currentName" column="current_name" />
+		<result property="execStartTime" column="exec_start_time" />
+		<result property="isDelayExec" column="is_delay_exec" />
+		<result property="processNumber" column="process_number" />
 	</resultMap>
 	
 
  	<sql id="query_columns" >
     id,status,env,process_logs,memo,type_class,context,execute_machine_ip,execute_machine_hash_range,gmt_create,gmt_modified,operator,hash_num,exec_count,process_instance_id,source,
 		process_name,current_name,exec_start_time,is_delay_exec,process_number   
-     
   	</sql>
 
 	<insert id="insert" parameterClass="EventDO">
@@ -43,9 +42,9 @@
 		process_name,current_name,exec_start_time,is_delay_exec,process_number)
 
 		VALUES
-		(#status#,#env#,#process_logs#,#memo#,#type_class#,#context#,#execute_machine_ip#,
-		#execute_machine_hash_range#,now(),now(),#operator#,#hash_num#,#exec_count#,#process_instance_id#,#source#,
-		#process_name#,#current_name#,now(),#is_delay_exec#,#process_number#)
+		(#status#,#env#,#processLogs#,#memo#,#typeClass#,#context#,#executeMachineIp#,
+		#executeMachineHashRange#,now(),now(),#operator#,#hashNum#,#execCount#,#processInstanceId#,#source#,
+		#processName#,#currentName#,now(),#isDelayExec#,#processNumber#)
 		<selectKey keyProperty="id" resultClass="java.lang.Long">
 			SELECT
 			LAST_INSERT_ID() AS value
@@ -62,9 +61,9 @@
 				]]>
 			</isNotNull>
 			
-			<isNotNull property="process_logs" prepend=",">
+			<isNotNull property="processLogs" prepend=",">
 				<![CDATA[
-					process_logs = #process_logs#
+					process_logs = #processLogs#
 				]]>
 			</isNotNull>
 			<isNotNull property="memo" prepend=",">
@@ -72,9 +71,9 @@
 					memo = #memo#
 				]]>
 			</isNotNull>
-			<isNotNull property="type_class" prepend=",">
+			<isNotNull property="typeClass" prepend=",">
 				<![CDATA[
-					type_class = #type_class#
+					type_class = #typeClass#
 				]]>
 			</isNotNull>
 			<isNotNull property="context" prepend=",">
@@ -82,14 +81,14 @@
 					context = #context#
 				]]>
 			</isNotNull>
-			<isNotNull property="execute_machine_ip" prepend=",">
+			<isNotNull property="executeMachineIp" prepend=",">
 				<![CDATA[
-					execute_machine_ip = #execute_machine_ip#
+					execute_machine_ip = #executeMachineIp#
 				]]>
 			</isNotNull>
-			<isNotNull property="execute_machine_hash_range" prepend=",">
+			<isNotNull property="executeMachineHashRange" prepend=",">
 				<![CDATA[
-				execute_machine_hash_range = #execute_machine_hash_range#
+				execute_machine_hash_range = #executeMachineHashRange#
 				]]>
 			</isNotNull>
 			<isNotNull property="status" prepend=",">
@@ -102,19 +101,19 @@
 				operator = #operator#
 				]]>
 			</isNotNull>
-			<isNotNull property="hash_num" prepend=",">
+			<isNotNull property="hashNum" prepend=",">
 				<![CDATA[
-				hash_num = #hash_num#
+				hash_num = #hashNum#
 				]]>
 			</isNotNull>
-			<isNotNull property="exec_count" prepend=",">
+			<isNotNull property="execCount" prepend=",">
 				<![CDATA[
-				exec_count = #exec_count#
+				exec_count = #execCount#
 				]]>
 			</isNotNull>
-			<isNotNull property="process_instance_id" prepend=",">
+			<isNotNull property="processInstanceId" prepend=",">
 				<![CDATA[
-				process_instance_id = #process_instance_id#
+				process_instance_id = #processInstanceId#
 				]]>
 			</isNotNull>
 			<isNotNull property="source" prepend=",">
@@ -122,29 +121,29 @@
 				source = #source#
 				]]>
 			</isNotNull>
-			<isNotNull property="process_name" prepend=",">
+			<isNotNull property="processName" prepend=",">
 				<![CDATA[
-				process_name = #process_name#
+				process_name = #processName#
 				]]>
 			</isNotNull>
-			<isNotNull property="current_name" prepend=",">
+			<isNotNull property="currentName" prepend=",">
 				<![CDATA[
-				current_name = #current_name#
+				current_name = #currentName#
 				]]>
 			</isNotNull>	
-			<isNotNull property="exec_start_time" prepend=",">
+			<isNotNull property="execStartTime" prepend=",">
 				<![CDATA[
 				exec_start_time = now()
 				]]>
 			</isNotNull>
-			<isNotNull property="is_delay_exec" prepend=",">
+			<isNotNull property="isDelayExec" prepend=",">
 				<![CDATA[  
-				is_delay_exec = #is_delay_exec#
+				is_delay_exec = #isDelayExec#
 				]]>
 			</isNotNull>				
-			<isNotNull property="process_number" prepend=",">
+			<isNotNull property="processNumber" prepend=",">
 				<![CDATA[
-				process_number = #process_number#
+				process_number = #processNumber#
 				]]>
 			</isNotNull>		
 		</dynamic>
@@ -153,7 +152,7 @@
 
 	<update id="batchChangeEventStatus">
   		<![CDATA[ 
-    		UPDATE process_events SET  status = #to# where status =#from# AND hash_num<=10000
+    		UPDATE process_events SET  status = #to# where status =#from# AND hashNum<=10000
     	]]>
   	</update>
 
@@ -162,7 +161,7 @@
 	   SELECT
 	   <include refid="query_columns" />
 	   <![CDATA[  
-	     FROM process_events  WHERE id = #id# AND hash_num =#hash_num#
+	     FROM process_events  WHERE id = #id# AND hash_num =#hashNum#
 	   ]]>  
 	</select>
 
@@ -174,7 +173,7 @@
 	   <include refid="query_columns" />
 	   FROM process_events  WHERE
 	   <![CDATA[  
-	     hash_num >= #start# AND hash_num<= #end# AND env =#env# AND process_number = #process_number#
+	     hash_num >= #start# AND hash_num<= #end# AND env = #env# AND process_number = #processNumber#
 	  	 order by gmt_modified asc 
 	     limit #count#
 	   ]]>  

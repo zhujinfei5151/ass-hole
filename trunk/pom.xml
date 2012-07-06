@@ -13,6 +13,7 @@
 		<module>asshole-engine</module>
 		<module>asshole-common</module>
 		<module>asshole-zkclient</module>
+		<module>asshole-test</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>

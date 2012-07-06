@@ -1,27 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.tmall.asshole</groupId>
-  <artifactId>asshole-common</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+	<groupId>com.tmall.asshole</groupId>
+	<artifactId>asshole-common</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-  <name>asshole-common</name>
-  <url>http://maven.apache.org</url>
-  
-  <parent>
+	<name>asshole-common</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
 		<groupId>com.tmall.asshole</groupId>
 		<artifactId>asshole-all</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-  
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
- <dependencies>
+	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -52,14 +47,4 @@
 			<artifactId>common-dao</artifactId>
 		</dependency>
 	</dependencies>
-	<build>
-	<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-			</resource>
-		</resources>
-	</build>
 </project>

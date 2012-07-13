@@ -24,7 +24,7 @@ public class EventHandlerLocatorTest {
 		
 		Assert.assertNotNull(handlerLocator.getHANDLER_MAP().get(TestEvent1.class.getName()));
 		
-		Assert.assertTrue(handlerLocator.getHANDLER_MAP().get(TestEvent1.class.getName())  instanceof  TestHandler1);
+		Assert.assertTrue(handlerLocator.getHANDLER_MAP().get(TestEvent1.class.getName()).getClass() ==TestHandler1.class);
     	
     }
 }

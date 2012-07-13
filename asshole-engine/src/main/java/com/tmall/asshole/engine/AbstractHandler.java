@@ -7,7 +7,7 @@ import com.tmall.asshole.common.EventContext;
 /***
  * @author jiuxian.tjo
  */
-public abstract class AbstractHandler implements IHandler<Event, EventContext>,IBeforeHandler<Event, EventContext>,IAfterHandler<Event, EventContext>{
+public abstract class AbstractHandler<F extends Event,C extends EventContext> implements IHandler<F,C>,IBeforeHandler<F,C>,IAfterHandler<F, C>{
     
 	private String HANDLER_MAP_KEY;
     
@@ -19,11 +19,11 @@ public abstract class AbstractHandler implements IHandler<Event, EventContext>,I
 		HANDLER_MAP_KEY = hANDLER_MAP_KEY;
 	}
 	
-	public boolean beforeHandle(Event event,EventContext context) throws Exception{
+	public boolean beforeHandle(F f, C c) throws Exception {
 		return true;
 	}
-	
-	public boolean afterHandle(Event event,EventContext context) throws Exception{
+
+	public boolean afterHandle(F f, C c) throws Exception {
 		return true;
 	}
 	

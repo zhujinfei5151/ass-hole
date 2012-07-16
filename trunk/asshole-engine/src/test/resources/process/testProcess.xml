@@ -15,7 +15,7 @@
     </transitions>
   </node>
   
-  <node name="order_end" classname="com.tmall.asshole.mock.ep.TestEvent1">
+  <node foreach ="true"  name="order_end" classname="com.tmall.asshole.mock.ep.TestEvent1">
     <transitions>
       <transition to="end"/>
     </transitions>

@@ -11,9 +11,20 @@
   
   <node name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="1">
     <transitions>
-      <transition to="end"/>
+      <transition to="order_finish"/>
     </transitions>
   </node>
+  
+   <node foreach='true'  name="order_finish" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="1">
+      <transitions>
+        <transition to="order_end"/>
+      </transitions>
+   </node>
+  
+ 
+  
+  
+  
   
   
   <end name="end"/>

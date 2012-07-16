@@ -2,6 +2,8 @@ package com.tmall.asshole.schedule.node;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -20,6 +22,9 @@ public class Node {
 	
 	@XStreamAsAttribute
 	private String processorNumber;
+	
+	@XStreamAsAttribute
+	private String foreach;
 	
 	@XStreamAlias("transitions")
 	public List<Transition> transitions;
@@ -49,12 +54,25 @@ public class Node {
 		this.name = name;
 	}
 	
+	public String getForeach() {
+		return foreach;
+	}
+	
+	public boolean isForeach(){
+		if(StringUtils.isBlank(foreach)){
+			return false;
+		}
+		return foreach.trim().equals("true");
+	}
+	
+	public void setForeach(String foreach) {
+		this.foreach = foreach;
+	}
+	
 	@Override
 	public String toString() {
 		return "Node [name=" + name + ","+"classname="+classname +", + transitions=" + transitions + "]";
 	}
-	
-	
-	
+
 
 }

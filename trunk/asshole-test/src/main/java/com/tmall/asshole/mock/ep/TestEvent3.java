@@ -2,7 +2,7 @@ package com.tmall.asshole.mock.ep;
 
 import com.tmall.asshole.common.Event;
 
-public class TestEvent3 extends Event {
+public class TestEvent3  extends Event {
 	
 	private String testVar3;
 

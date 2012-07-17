@@ -22,4 +22,6 @@ public interface IEventDAO {
     public Integer batchChangeEventStatus(int from, int to);    
 	
 	public Event queryEventByPrimaryKey(Long id,Integer hashNum);
+	
+	public Long queryCountOfUnExecuteEvent();
 }

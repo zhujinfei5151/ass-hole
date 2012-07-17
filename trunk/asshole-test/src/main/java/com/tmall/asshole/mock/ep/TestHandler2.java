@@ -29,8 +29,7 @@ public class TestHandler2 extends AbstractHandler<TestEvent2,EventContext> {
 		
 		 context.putDataList(dataList);
 	
-		
-		return false;
+		return true;
 	}
 
 

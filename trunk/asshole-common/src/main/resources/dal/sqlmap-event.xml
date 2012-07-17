@@ -173,7 +173,7 @@
 	   <include refid="query_columns" />
 	   FROM process_events  WHERE
 	   <![CDATA[  
-	     hash_num >= #start# AND hash_num<= #end# AND env = #env# AND process_number = #processorNumber# AND status in (-1,0)
+	     hash_num >= #start# AND hash_num<= #end# AND env = #env# AND process_number = #processorNumber# AND status = 0
 	  	 order by gmt_modified asc 
 	     limit #count#
 	   ]]>  

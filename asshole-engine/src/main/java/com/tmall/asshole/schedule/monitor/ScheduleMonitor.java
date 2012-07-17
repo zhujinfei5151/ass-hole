@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.tmall.asshole.common.IEventDAO;
 import com.tmall.asshole.common.IScheduleMonitorWatcher;
 import com.tmall.asshole.common.ScheduleMonitorData;
+import com.tmall.asshole.util.ApplicationUtils;
 /***
  * 监控使用
  * 
@@ -18,7 +19,6 @@ import com.tmall.asshole.common.ScheduleMonitorData;
  */
 public class ScheduleMonitor{
 	
-	@Autowired
 	private IEventDAO eventDAO;
 	
 	private Thread monitor;
@@ -30,8 +30,13 @@ public class ScheduleMonitor{
     	
 
 	public void start() throws Exception {
+		if(eventDAO==null){
+			eventDAO= (IEventDAO) ApplicationUtils.getBean("eventDAO");
+		}
+		
 		monitor = new Thread(){
 			public void run() {
+              while(true){
 				try {
 				   //一分钟工作一次
 				   Thread.sleep(60000);
@@ -44,7 +49,7 @@ public class ScheduleMonitor{
 				} catch (Exception e) {
 					logger.error("schedule monitor meet error", e);
 				}
-				
+			 }
 			}
 		};
 		monitor.start();

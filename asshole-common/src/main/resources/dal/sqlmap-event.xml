@@ -179,7 +179,7 @@
 	   ]]>  
 	 </select>
 	 
-	 <select id="countOfUnExecuteEvent" resultMap="eventsDOResultMap" resultClass="java.lang.Long">
+	 <select id="countOfUnExecuteEvent" resultClass="java.lang.Long">
 	   SELECT count(*) FROM process_events  WHERE status = 0
 	 </select>
 	 

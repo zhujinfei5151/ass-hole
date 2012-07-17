@@ -20,9 +20,9 @@ public class Main {
 			 
 			 testEvent1.setTestVar1("testVar1");
 			 
-//			 machine.createEventProcess(testEvent1, "order_card");
+			 machine.createEventProcess(testEvent1, "order_card");
 //			 
-			 machine.createEventProcess(testEvent1, "brandSale");
+//			 machine.createEventProcess(testEvent1, "brandSale");
 			 
 			 
 			 Thread.sleep(1000000);

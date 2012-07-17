@@ -51,7 +51,7 @@ public class ScheduleMonitor{
 	}
 	
 	public void addWatcher(IScheduleMonitorWatcher watcher){
-		this.addWatcher(watcher);
+		watchers.add(watcher);
 	}
 
 }

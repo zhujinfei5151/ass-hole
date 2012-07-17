@@ -21,6 +21,7 @@ import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.config.MachineConfig;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
 import com.tmall.asshole.schedule.Schedule;
+import com.tmall.asshole.schedule.monitor.ScheduleMonitor;
 import com.tmall.asshole.schedule.node.Node;
 import com.tmall.asshole.schedule.node.Transition;
 import com.tmall.asshole.schedule.node.helper.ProcessTemplateHelper;
@@ -46,6 +47,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	
 	
 	private  ZKClient zkClient;
+	
+	private  ScheduleMonitor scheduleMonitor;
 	
 
 	public MachineConfig getMachineConfig() {
@@ -212,8 +215,13 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			logger.error("no need to start zookeeper client, pls check the var of startZK  in EngineConfig");
 			return;
 		}  
-		 ZKConfig zkConfig =new ZKConfig(machineConfig.getUsePermissions(), machineConfig.getUsername(), machineConfig.getPassword(), machineConfig.getZkConnectString(), machineConfig.getZkSessionTimeout(), machineConfig.getRootPath(), machineConfig.getLocalIPAddress());
+        
+		scheduleMonitor.start();
 		
+		
+		ZKConfig zkConfig =new ZKConfig(machineConfig.getUsePermissions(), machineConfig.getUsername(), machineConfig.getPassword(), machineConfig.getZkConnectString(), machineConfig.getZkSessionTimeout(), machineConfig.getRootPath(), machineConfig.getLocalIPAddress());
+		 
+		 
 		  logger.info("start the the  zookeeper client");
 		  zkClient = new ZKClient(iNodeChanges,zkConfig);
 		  zkClient.start();

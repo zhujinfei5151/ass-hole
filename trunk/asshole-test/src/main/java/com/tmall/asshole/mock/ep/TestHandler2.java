@@ -23,14 +23,14 @@ public class TestHandler2 extends AbstractHandler<TestEvent2,EventContext> {
 		 
 		 Map<String,Object> map2=new HashMap<String,Object>();
 		 
-         map1.put("testVar3", "jiuxian.tjo 2");
+         map2.put("testVar3", "jiuxian.tjo 2");
 		 
 		 dataList.add(map2);
 		
-		context.putDataList(dataList);
+		 context.putDataList(dataList);
 	
 		
-		return true;
+		return false;
 	}
 
 

@@ -12,17 +12,17 @@ public class MockEventDAO implements IEventDAO {
 	Stack<Event> s = new Stack<Event>();
 
 	public Event queryEventByPrimaryKey(Long id, Integer hashNum) {
-		// 鏆傛椂涓嶉渶瑕�
+		// 暂时不需要
 		return null;
 	}
 
 	public Integer batchChangeEventStatusBytime(int from, int to, int minute) {
-		// 鏆傛椂涓嶉渶瑕�
+		// 暂时不需要
 		return null;
 	}
 
 	public Integer batchChangeEventStatus(int from, int to) {
-		// 鏆傛椂涓嶉渶瑕�
+		// 暂时不需要
 		return null;
 	}
 
@@ -40,7 +40,7 @@ public class MockEventDAO implements IEventDAO {
 	@Override
 	public Long insertEventDO(Event dao) {
 		boolean result = s.add(dao);
-		return result == true ? (long)1 : 0;
+		return result == true ? 1L : 0L;
 	}
 
 	@Override

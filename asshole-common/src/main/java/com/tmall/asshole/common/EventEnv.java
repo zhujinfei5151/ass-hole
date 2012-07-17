@@ -45,4 +45,15 @@ public enum EventEnv {
 		}
 		return t;
 	}
+	
+	public static final EventEnv getEventEnvByName(String name) {
+		EventEnv t = null;
+		for (EventEnv e : EventEnv.values()) {
+			if (name.trim().equals(e.getName())) {
+				t = e;
+				break;
+			}
+		}
+		return t;
+	}
 }

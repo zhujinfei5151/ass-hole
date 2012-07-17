@@ -81,6 +81,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		Node n = nodes.get(0);
 		event.setProcessName(processName);
 		event.setProcessInstanceId(ProcessTemplateHelper.createProcessInstanceID());
+		event.setTypeClass(event.getClass().getName());
 		event.setCurrentName(n.getName());
 		event.setEnv(machineConfig.getEnv());
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
@@ -113,6 +114,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 						  for (Map<String, Object> map : dataList) {
 							  callback(event, context, nextN, map);
 						  }
+						  break;
 					}
 				}else{
 		           callback(event, context, nextN, context.getMap());
@@ -138,6 +140,10 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setCurrentName(nextN.getName());
 		  newEvent.setProcessInstanceId(event.getProcessInstanceId());
 		  newEvent.setProcessorNumber(Integer.parseInt(nextN.getProcessorNumber()));
+		  newEvent.setEnv(machineConfig.getEnv());
+		  newEvent.setTypeClass(nextN.getClassname());
+		  // 0 - MAXHASHNUM
+		  newEvent.setHashNum(RandomUtils.nextInt(processor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
 		
 		  logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		  processor.addData(newEvent);

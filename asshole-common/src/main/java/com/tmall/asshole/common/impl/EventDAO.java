@@ -64,6 +64,11 @@ public class EventDAO extends SqlMapClientDaoSupport implements IEventDAO {
 		Event event = (Event) getSqlMapClientTemplate(). queryForObject("Event.findByPrimaryKey",param);
 		return event;
 	}
+	@Override
+	public Long queryCountOfUnExecuteEvent() {
+		Long count = (Long)getSqlMapClientTemplate().queryForObject("Event.countOfUnExecuteEvent");
+		return count;
+	}
 
 
 

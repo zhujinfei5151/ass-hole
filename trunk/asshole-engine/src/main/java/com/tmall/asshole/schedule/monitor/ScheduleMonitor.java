@@ -49,5 +49,9 @@ public class ScheduleMonitor{
 		};
 		monitor.start();
 	}
+	
+	public void addWatcher(IScheduleMonitorWatcher watcher){
+		this.addWatcher(watcher);
+	}
 
 }

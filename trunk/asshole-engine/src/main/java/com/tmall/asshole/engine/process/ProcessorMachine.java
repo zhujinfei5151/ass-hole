@@ -56,6 +56,10 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	}
 
 
+	public ScheduleMonitor getScheduleMonitor() {
+		return scheduleMonitor;
+	}
+
 
 	public void setMachineConfig(MachineConfig machineConfig) {
 		this.machineConfig = machineConfig;
@@ -214,7 +218,9 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		if(!machineConfig.getStartZK()){
 			logger.error("no need to start zookeeper client, pls check the var of startZK  in EngineConfig");
 			return;
-		}  
+		}
+		
+		scheduleMonitor = new ScheduleMonitor();
         
 		scheduleMonitor.start();
 		

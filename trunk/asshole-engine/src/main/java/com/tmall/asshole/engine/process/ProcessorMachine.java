@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.tmall.asshole.common.Event;
+import com.tmall.asshole.common.EventConstant;
 import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.config.MachineConfig;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
@@ -93,6 +94,11 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
     
 
 	public void callback(Event event,EventContext context) throws Exception {
+		if(event.getStatus()!=EventConstant.EVENT_STATUS_SUCCESS){
+			logger.error("due to node "+event.getCurrentName()+" execute not success, procss "+event.getProcessName()+" finished, process id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
+		    return;
+		}
+		
 		Node n = ProcessTemplateHelper.find(event.getProcessName(), event.getCurrentName());
 		if(n.transitions==null || n.transitions.size()==0){
 			logger.info("no transitions ,procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());

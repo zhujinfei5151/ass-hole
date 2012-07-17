@@ -39,6 +39,10 @@ public class Node {
 	}
 	
 	public String getProcessorNumber() {
+		//д╛хон╙0
+		if(StringUtils.isBlank(processorNumber)){
+			return "0";
+		}
 		return processorNumber;
 	}
 

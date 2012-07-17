@@ -59,7 +59,7 @@ public class ZKManager {
 		
 		zk = new ZooKeeper(zKConfig.getZkConnectString(),zKConfig.getZkSessionTimeout(), zKClient);
 		
-		Thread.sleep(2000);
+		Thread.sleep(10000);
 		
 		if(zKConfig.getUsePermissions()==true){
 			  String authString = zKConfig.getUsername() + ":"

@@ -84,7 +84,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setCurrentName(n.getName());
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
 		// 0 - MAXHASHNUM
-		event.setHash_num(RandomUtils.nextInt(eventSchedulerProcessor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
+		event.setHashNum(RandomUtils.nextInt(eventSchedulerProcessor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
 		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
 		eventSchedulerProcessor.addData(event);
 	}

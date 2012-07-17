@@ -7,20 +7,19 @@ import java.util.Map;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import com.tmall.asshole.common.Event;
-import com.tmall.asshole.common.EventConstant;
 import com.tmall.asshole.common.IEventDAO;
 
 public class IEventDAOImpl extends SqlMapClientDaoSupport implements IEventDAO {
 
 	/**
-	 * ²åÈë
+	 * ï¿½ï¿½ï¿½ï¿½
 	 */
-	public Integer insertEventDO(Event eventDo){
+	public Long insertEventDO(Event eventDo){
 		Object id = getSqlMapClientTemplate().insert("Event.insert", eventDo);
-	        return (Integer) id;
+	        return (Long) id;
 	}
     /**
-     * ¸üÐÂ
+     * ï¿½ï¿½ï¿½ï¿½
      */
 	public Integer updateEventDO(Event eventDo) {
 		Object id = getSqlMapClientTemplate().update("Event.update", eventDo);
@@ -28,7 +27,7 @@ public class IEventDAOImpl extends SqlMapClientDaoSupport implements IEventDAO {
 	}
 	
 	/**
-	 * ÅúÁ¿²éÑ¯  ·µ»Ø½á¹û°´ÕÕÊ±¼äÏÈºóË³Ðò·µ»Ø
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯  ï¿½ï¿½ï¿½Ø½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Èºï¿½Ë³ï¿½ò·µ»ï¿½
 	 */
 	public List<Event> queryEvent(int start, int end, int count, int env,int processorNumber) {
 		
@@ -44,7 +43,7 @@ public class IEventDAOImpl extends SqlMapClientDaoSupport implements IEventDAO {
 	}
 
 	/**
-	 * ÅúÁ¿ÐÞ¸Ä×´Ì¬
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½×´Ì¬
 	 */
 	public Integer batchChangeEventStatus(int from, int to) {
 		Map<String,Integer> param = new HashMap<String,Integer>();
@@ -56,7 +55,7 @@ public class IEventDAOImpl extends SqlMapClientDaoSupport implements IEventDAO {
 
 	
 	/**
-	 * °´idºÍhash_num²éÑ¯
+	 * ï¿½ï¿½idï¿½ï¿½hash_numï¿½ï¿½Ñ¯
 	 */
 	public Event queryEventByPrimaryKey(Long id,Integer hashNum){
 		Map param = new HashMap<String,Integer>();

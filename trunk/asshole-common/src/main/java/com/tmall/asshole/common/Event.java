@@ -150,6 +150,10 @@ public class Event {
 	public void setEnv(Integer env) {
 		this.env = EventEnv.getEventEnvByCode(env);
 	}
+	
+	public void setEnv(String env) {
+		this.env = EventEnv.getEventEnvByName(env);
+	}
 
 	public String getMemo() {
 		return memo;
@@ -272,6 +276,8 @@ public class Event {
 	public void setProcessorNumber(int processorNumber) {
 		this.processorNumber = processorNumber;
 	}
+
+
 	
 	
 

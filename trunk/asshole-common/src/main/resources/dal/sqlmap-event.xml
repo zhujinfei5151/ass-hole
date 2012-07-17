@@ -178,7 +178,10 @@
 	     limit #count#
 	   ]]>  
 	 </select>
-
-
+	 
+	 <select id="countOfUnExecuteEvent" resultMap="eventsDOResultMap" resultClass="java.lang.Long">
+	   SELECT count(*) FROM process_events  WHERE status = 0
+	 </select>
+	 
 
 </sqlMap>

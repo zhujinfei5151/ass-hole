@@ -46,4 +46,9 @@ public class MockEventDAO implements IEventDAO{
 	public Integer updateEventDO(Event dao) {
 		return 1;
 	}
+
+	public Long queryCountOfUnExecuteEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

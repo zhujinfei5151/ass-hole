@@ -7,12 +7,12 @@ package com.tmall.asshole.config;
  */
 public class ProcessorConfig {
     /***
-     *  è°ƒåº¦ç®—æ³•ç±»å‹
+     *  µ÷¶ÈËã·¨ÀàĞÍ
      */
 	private String algorithmType;
 	
 	/***
-	 *  ç¯å¢ƒç±»å‹
+	 *  »·¾³ÀàĞÍ
 	 */
 	private String envionmentGroup;
 	
@@ -26,24 +26,24 @@ public class ProcessorConfig {
 	private String groupingName;
 	
 	/***
-	 *  è°ƒåº¦è½®è¯¢æ—¶é—´
+	 *  µ÷¶ÈÂÖÑ¯Ê±¼ä
 	 */
 	private int schedulingPollingTime;
 	
 	/***
-	 *  æœ€å¤§hashå€¼
+	 *  ×î´óhashÖµ
 	 */
 	private int maxHashNum;
 	
 	private int processorNumber;
 	
-	/** *çº¿ç¨‹æ± ç»´æŠ¤çº¿ç¨‹çš„æœ€å°‘æ•°é‡ */
+	/** *Ïß³Ì³ØÎ¬»¤Ïß³ÌµÄ×îÉÙÊıÁ¿ */
 	private int corePoolSize = 20;
 
-	/** *çº¿ç¨‹æ± ç»´æŠ¤çº¿ç¨‹çš„æœ€å¤§æ•°é‡ */
+	/** *Ïß³Ì³ØÎ¬»¤Ïß³ÌµÄ×î´óÊıÁ¿ */
 	private int maxPoolSize = 20;
 
-	/** *çº¿ç¨‹æ± ç»´æŠ¤çº¿ç¨‹æ‰€å…è®¸çš„ç©ºé—²æ—¶é—´ */
+	/** *Ïß³Ì³ØÎ¬»¤Ïß³ÌËùÔÊĞíµÄ¿ÕÏĞÊ±¼ä */
 	private int keepAliveTime = 0;
 	
 	

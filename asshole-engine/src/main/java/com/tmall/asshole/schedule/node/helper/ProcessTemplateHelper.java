@@ -3,10 +3,16 @@ package com.tmall.asshole.schedule.node.helper;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,14 +65,39 @@ public class ProcessTemplateHelper {
 				  throw new FolderNotFountException("can't find the folder, name="+folder);
 			}
 			
-			File f = new File(resource.getPath());
-			String[] subfilenames = f.list();
-			for (String subfilename : subfilenames) {
-				if(!folder.endsWith("/")){
-					folder=folder+"/";
+			
+			if (resource.getProtocol().equals("jar")) {
+			        String jarPath = resource.getPath().substring(5, resource.getPath().indexOf("!")); //strip out only the JAR file
+			        JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+			        Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			        while(entries.hasMoreElements()) {
+			          String name = entries.nextElement().getName();
+			          if(name.endsWith("/")){
+			        	  continue;
+			          }
+			          if (name.startsWith(folder.startsWith("/")?folder.substring(1):folder)) { 
+			            paths.add(name.startsWith("/")?name:("/"+name));
+			          }
+			        }
+				
+			}else{
+				String[] subfilenames = null;
+				File f = new File(resource.getPath());
+				subfilenames = f.list();
+			
+				if(subfilenames == null){
+					throw new FolderNotFountException("can't find the subfilenames, path="+resource.getPath());
 				}
-				paths.add(folder+subfilename);
+				
+				for (String subfilename : subfilenames) {
+					if(!folder.endsWith("/")){
+						folder=folder+"/";
+					}
+					paths.add(folder+subfilename);
+				}
+			
 			}
+			
 		}
 		for (String path : paths) {
 			ProcessTemplateHelper.deploy(path);

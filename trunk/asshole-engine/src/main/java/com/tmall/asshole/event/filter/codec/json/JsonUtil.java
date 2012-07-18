@@ -18,7 +18,7 @@ public class JsonUtil {
 	public static SerializeConfig config=new SerializeConfig();
 	
 	/****
-	 * å°†jsonæ ¼å¼çš„map è½¬åŒ–å­˜ javaå¯¹è±¡çš„map
+	 * ½«json¸ñÊ½µÄmap ×ª»¯´æ java¶ÔÏóµÄmap
 	 * 
 	 * @param map
 	 * @return map
@@ -43,7 +43,7 @@ public class JsonUtil {
 	} 
 	
 	/***
-	 * å°†hashmapæ ¼å¼çš„javaå¯¹è±¡è½¬æˆjsonå­—ç¬¦ä¸²
+	 * ½«hashmap¸ñÊ½µÄjava¶ÔÏó×ª³Éjson×Ö·û´®
 	 * 
 	 * @param map
 	 * @return

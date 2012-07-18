@@ -16,7 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 /****
  * 
- * å†…éƒ¨çº¿ç¨‹æ± 
+ * ÄÚ²¿Ïß³Ì³Ø
  * 
  * @author jiuxian.tjo
  *
@@ -26,23 +26,23 @@ public class SchedulerThreadPoolExecutor {
 	private static transient Log logger = LogFactory.getLog(SchedulerThreadPoolExecutor.class);
 	
 	
-	/** *çº¿ç¨‹æ± ç»´æŠ¤çº¿ç¨‹çš„æœ€å°‘æ•°é‡ */
+	/** *Ïß³Ì³ØÎ¬»¤Ïß³ÌµÄ×îÉÙÊıÁ¿ */
 	private int corePoolSize = 20;
 
-	/** *çº¿ç¨‹æ± ç»´æŠ¤çº¿ç¨‹çš„æœ€å¤§æ•°é‡ */
+	/** *Ïß³Ì³ØÎ¬»¤Ïß³ÌµÄ×î´óÊıÁ¿ */
 	private int maxPoolSize = 20;
 
-	/** *çº¿ç¨‹æ± ç»´æŠ¤çº¿ç¨‹æ‰€å…è®¸çš„ç©ºé—²æ—¶é—´ */
+	/** *Ïß³Ì³ØÎ¬»¤Ïß³ÌËùÔÊĞíµÄ¿ÕÏĞÊ±¼ä */
 	private int keepAliveTime = 0;
 
 	private int defaultScheduleInterval = 50;
 
 	private ReentrantLock rejectQueuePauseLock = new ReentrantLock();
 
-	/** * ç¼“å†²é˜Ÿåˆ— */
+	/** * »º³å¶ÓÁĞ */
 	private Queue<Runnable> rejectQueue = new LinkedList<Runnable>();
 
-	/** è°ƒåº¦çº¿ç¨‹æ±  */
+	/** µ÷¶ÈÏß³Ì³Ø */
 	private ScheduledExecutorService scheduler;
 
 	private int rejectQueueMaxSize = 1000;
@@ -84,13 +84,13 @@ public class SchedulerThreadPoolExecutor {
 
 	public void startScheduledFuture(String schedulerName) {
 
-		// æ„å»ºå®šæ—¶æ£€æŸ¥
+		// ¹¹½¨¶¨Ê±¼ì²é
 		Timer checkTimer = new Timer("reject-" + schedulerName);
 		TimerTask task = new TimerTask() {
 
 			@Override
 			public void run() {
-				/** æŸ¥çœ‹æ˜¯å¦æœ‰å¾…å®šè¯·æ±‚ï¼Œå¦‚æœæœ‰ï¼Œåˆ™åˆ›å»ºä¸€ä¸ªæ–°çš„Threadï¼Œå¹¶æ·»åŠ åˆ°çº¿ç¨‹æ± ä¸­ */
+				/** ²é¿´ÊÇ·ñÓĞ´ı¶¨ÇëÇó£¬Èç¹ûÓĞ£¬Ôò´´½¨Ò»¸öĞÂµÄThread£¬²¢Ìí¼Óµ½Ïß³Ì³ØÖĞ */
 				int activeCount = threadPool.getActiveCount();
 				int maxSize = threadPool.getMaximumPoolSize();
 				rejectQueuePauseLock.lock();
@@ -119,7 +119,7 @@ public class SchedulerThreadPoolExecutor {
 	}
 
 	/**
-	 * å®ç°java.util.concurrent.ThreadFactoryæ¥å£
+	 * ÊµÏÖjava.util.concurrent.ThreadFactory½Ó¿Ú
 	 * 
 	 */
 	private static final class ThreadFactoryImpl implements ThreadFactory {

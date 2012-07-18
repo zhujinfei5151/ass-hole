@@ -139,7 +139,6 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    	   try{
 	    		   Date now = new Date();
 	    		   
-	    		   //濡傛灉鏄欢杩熸墦鏍囩殑 鏃堕棿鍙堟病鏈夊埌鍒欏彧鏇存柊鎵ц鏃堕棿
 	    		   if(data.isDelayExec()){
 	    			   if(now.getTime()>=data.getExecStartTime().getTime()){
 	    			      Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), newData);
@@ -164,7 +163,6 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    		    data.setStatus(EventConstant.EVENT_STATUS_PARAMETER_ERROR);
 	    			eventDAO.updateEventDO(data);
 					continue;
-	    		    // 涓��鏉¤褰曠殑澶辫触 涓嶅奖鍝嶅叏灞��
 			   }
 		}
 	    return noErrorLst;

@@ -37,9 +37,9 @@ public class EventEngine implements IEngine<Event,EventContext> {
 			IHandler handler = handlerLocator.lookup(eventName);
 		
 			try {
-			  // PowerEventEngine ä¸æ˜¯ä¸€èˆ¬çš„ EventEngine ï¼Œ éœ€è¦ç”¨AbstractHandler
+			  // PowerEventEngine ²»ÊÇÒ»°ãµÄ EventEngine £¬ ĞèÒªÓÃAbstractHandler
 			  if(!(handler instanceof AbstractHandler)){
-				  context.setProcessLogs("é«˜çº§çš„PowerEventEngine ä½¿ç”¨ä¸äº†å“¦~"+handler.getClass()+"ä¸æ˜¯ç»§æ‰¿AbstractHandler");
+				  context.setProcessLogs("¸ß¼¶µÄPowerEventEngine Ê¹ÓÃ²»ÁËÅ¶~"+handler.getClass()+"²»ÊÇ¼Ì³ĞAbstractHandler");
 				  return false;
 			  }
 			    AbstractHandler abstractHandler = (AbstractHandler) handler;

@@ -3,7 +3,7 @@ package com.tmall.asshole.config;
 import java.util.List;
 
 public class MachineConfig {
-	/**zookeeper client 鐩稿叧閰嶇疆**/
+	/**zookeeper client **/
 	private Boolean usePermissions=false;
 	private String username;
 	private String password;
@@ -15,7 +15,6 @@ public class MachineConfig {
 	private boolean startZK=true;
 	
 	/***
-	 *   娴佺▼妯＄増鐨勮矾寰�
 	 */
 	private List<String> processTemplateFolders;
 	

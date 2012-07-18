@@ -17,13 +17,11 @@ public class Event {
 	private EventEnv env;
 	
 	/**
-	 * 鎵цlog
 	 */
 	
 	private String processLogs; //
     
 	/***
-	 * 澶囨敞鏆傛椂涓嶇敤
 	 */
 	private String memo;
 
@@ -55,12 +53,10 @@ public class Event {
 	private String currentName;
 	
 	/**
-	 *  鎵ц寮����嬫椂闂����涓昏缁欐椿鍔ㄤ娇鐢����
 	 */
 	private Date  execStartTime;//
 	
 	/***
-	 *  鏄惁寤舵湡鏀寔 瀵逛簬娲诲姩闇����佸欢鏈����
 	 */
 	private boolean isDelayExec;//
 	
@@ -119,15 +115,12 @@ public class Event {
 //		return status;
 //	}
 	/**
-	 * 閲嶈浇 鐢ㄤ簬ibatis鏁版嵁搴撴洿鏂����
-	 * @param status
 	 */
 	public void setStatus(Integer status) {
 		
 		this.status = EventStatus.getEventStatusByCode(status);
 	}
 	/**
-	 * 閲嶈浇
 	 * @param status
 	 */
 	public void setStatus(EventStatus status)	{
@@ -144,8 +137,6 @@ public class Event {
 	}
 	
 	/**
-	 * 閲嶈浇 鐢ㄤ簬ibatis鏁版嵁搴撴洿鏂����
-	 * @param env
 	 */
 	public void setEnv(Integer env) {
 		this.env = EventEnv.getEventEnvByCode(env);

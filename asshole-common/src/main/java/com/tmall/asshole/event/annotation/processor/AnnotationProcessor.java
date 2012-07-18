@@ -9,7 +9,7 @@ import com.tmall.asshole.common.Event;
 
 /**
  * @author hemaodong
- * @date 2012-5-29 ä¸Šåˆ11:14:34
+ * @date 2012-5-29 ÉÏÎç11:14:34
  *
  */
 public interface AnnotationProcessor {
@@ -17,7 +17,7 @@ public interface AnnotationProcessor {
 	/**
 	 *
 	 * @param className
-	 * 		å¿…é¡»æ˜¯å…¨é™å®šå
+	 * 		±ØĞëÊÇÈ«ÏŞ¶¨Ãû
 	 * @param event
 	 * @return
 	 * @throws Exception

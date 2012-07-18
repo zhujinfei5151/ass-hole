@@ -3,9 +3,9 @@ package com.tmall.asshole.event.annotation.mapper;
 import java.util.Map;
 
 /**
- * 娉ㄨВ鎵撳寘鐨勫熀绫伙紝閲囩敤瑁呴グ妯″紡瀹炵幇锛屽皢鍚勭娉ㄨВ鐨勬帴鍙ｅ寘瑁呰捣鏉ワ紝鎴愪负涓�涓猚hain
+ * 注解打包的基类，采用装饰模式实现，将各种注解的接口包装起来，成为一个chain
  * @author hemaodong
- * @date 2012-5-28 涓嬪崍03:54:22
+ * @date 2012-5-28 下午03:54:22
  *
  */
 public abstract class MapperWrapper implements Mapper {

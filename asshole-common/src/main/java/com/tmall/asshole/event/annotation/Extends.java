@@ -11,12 +11,12 @@ import java.lang.annotation.Target;
 /**
  *
  * @author hemaodong
- * @date 2012-5-28 ä¸Šåˆ11:43:56
+ * @date 2012-5-28 ÉÏÎç11:43:56
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Extends {
-	//é»˜è®¤ä¸ç»§æ‰¿çˆ¶ç±»å±æ€§
+	//Ä¬ÈÏ²»¼Ì³Ğ¸¸ÀàÊôĞÔ
 	public boolean value() default false;
 }

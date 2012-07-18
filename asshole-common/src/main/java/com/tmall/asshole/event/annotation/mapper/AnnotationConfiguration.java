@@ -27,10 +27,10 @@ public class AnnotationConfiguration {
 
 	public void init() throws Exception {
 		allAnnotationClasses = getClasses(annoPackage);
-		Mapper mapper = new DefaultMapper();// è¿™ä¸ªæ˜¯é»˜è®¤è¢«è£…é¥°ç±»
+		Mapper mapper = new DefaultMapper();// Õâ¸öÊÇÄ¬ÈÏ±»×°ÊÎÀà
 		mapper = new IgnoreAnnoMapper(mapper);
 		mapper = new ExtendsAnnoMapper(mapper);
-		mapper = new AnnotationMapper(mapper);// è¿™ä¸ªæ˜¯æ³¨è§£çš„æœ€å¤–å±‚çš„è£…é¥°ç±»ï¼Œä¸€å®šè¦æ”¾åœ¨æœ€å
+		mapper = new AnnotationMapper(mapper);// Õâ¸öÊÇ×¢½âµÄ×îÍâ²ãµÄ×°ÊÎÀà£¬Ò»¶¨Òª·ÅÔÚ×îºó
 		this.mapper = mapper;
 		initAnnotationMap(getAllAnnotationClasses());
 	}
@@ -56,10 +56,10 @@ public class AnnotationConfiguration {
 	}
 
 	/**
-	 * æ‰«æç»™å®šåŒ…åŠå­åŒ…å†…çš„æ‰€æœ‰ç±»
+	 * É¨Ãè¸ø¶¨°ü¼°×Ó°üÄÚµÄËùÓĞÀà
 	 *
 	 * @param packageName
-	 *            ç»™å®šçš„åŒ…å
+	 *            ¸ø¶¨µÄ°üÃû
 	 * @return The classes
 	 * @throws ClassNotFoundException
 	 * @throws IOException
@@ -87,12 +87,12 @@ public class AnnotationConfiguration {
 	}
 
 	/**
-	 * æ‰¾åˆ°åˆ¶å®šåŒ…å†…çš„æ‰€æœ‰classæ–‡ä»¶
+	 * ÕÒµ½ÖÆ¶¨°üÄÚµÄËùÓĞclassÎÄ¼ş
 	 *
 	 * @param directory
-	 *            ç›®å½•åç§°
+	 *            Ä¿Â¼Ãû³Æ
 	 * @param packageName
-	 *            åŒ…åç§°
+	 *            °üÃû³Æ
 	 * @return The classes
 	 * @throws ClassNotFoundException
 	 */

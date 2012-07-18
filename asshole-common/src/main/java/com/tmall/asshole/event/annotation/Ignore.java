@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  *
  * @author hemaodong
  *
- * @date 2012-5-21 ä¸‹åˆ09:50:30
+ * @date 2012-5-21 ÏÂÎç09:50:30
  *
  */
 @Retention(RetentionPolicy.RUNTIME)

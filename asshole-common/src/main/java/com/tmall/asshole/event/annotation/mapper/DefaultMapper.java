@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  *
  * @author hemaodong
- * @date 2012-5-28 ä¸‹åˆ01:56:06
+ * @date 2012-5-28 ÏÂÎç01:56:06
  *
  */
 public class DefaultMapper implements Mapper {

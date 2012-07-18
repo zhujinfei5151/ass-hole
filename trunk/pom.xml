@@ -6,6 +6,12 @@
 	<artifactId>asshole-all</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>com.taobao</groupId>
+		<version>1.0.1</version>
+	</parent>
 
 	<name>asshole-all</name>
 	<url>http://maven.apache.org</url>
@@ -13,14 +19,10 @@
 		<module>asshole-engine</module>
 		<module>asshole-common</module>
 		<module>asshole-zkclient</module>
-		<module>asshole-test</module>
+		<!--<module>asshole-test</module>-->
 	</modules>
 	
-	<parent>
-		<artifactId>parent</artifactId>
-		<groupId>com.taobao</groupId>
-		<version>1.0.1</version>
-	</parent>
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -140,7 +142,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-					<encoding>UTF-8</encoding>
+					<encoding>GBK</encoding>
 				</configuration>
 			</plugin>
 		</plugins>

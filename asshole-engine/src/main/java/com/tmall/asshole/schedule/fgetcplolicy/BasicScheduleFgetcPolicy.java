@@ -75,11 +75,9 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 	      lock.lock();
 	      
 	      for (String ip : machines) {
-			    if(!_machines.contains(ip)){
 			    	_machines.clear();
 			    	_machines.addAll(machines);
 			    	onChange();
-			    }
 		  }
 	      }catch (Exception e) {
 	    	  
@@ -99,7 +97,6 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 		int hash_range= max_hash_num/machine_num;
 		
 		if((machine_num-1)==index){
-			//最后一台机器
 			startIndex =  index * hash_range;
 			endIndex =max_hash_num;
 		}else{

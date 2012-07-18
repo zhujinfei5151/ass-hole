@@ -162,7 +162,7 @@ public class ProcessTemplateHelper {
 	
 	
 	/****
-	 * 鑾峰彇娴佺▼鐨処D
+	 * 获取流程的ID
 	 * 
 	 * @return
 	 */

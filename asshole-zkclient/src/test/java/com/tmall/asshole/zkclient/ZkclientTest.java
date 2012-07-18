@@ -121,10 +121,10 @@ public class ZkclientTest  extends TestCase{
 		
 		
 		try {
-			//��һ̨�����Ѿ���������
+			//锟斤拷一台锟斤拷锟斤拷锟窖撅拷锟斤拷锟斤拷锟斤拷锟斤拷
 			client1.start();
 			Thread.sleep(3000);
-			//�ڶ�̨�����Ѿ���������
+			//锟节讹拷台锟斤拷锟斤拷锟窖撅拷锟斤拷锟斤拷锟斤拷锟斤拷
 			client2.start();
 			Thread.sleep(5000);
 			
@@ -136,30 +136,30 @@ public class ZkclientTest  extends TestCase{
 
 			Assert.assertEquals(2, changeDatas2.get(0).getMachines().size());
 			
-			//�رյ�һ̨����
+			//锟截闭碉拷一台锟斤拷锟斤拷
 			client1.close();
 			Thread.sleep(5000);
-			//�ڶ�̨�����յ������Ϣ Ŀǰ�յ�������Ϣһ���Ǹ�ڵ㷢�͵� һ�����ӽڵ㷢�͵�
+			//锟节讹拷台锟斤拷锟斤拷锟秸碉拷锟斤拷锟斤拷锟较�目前锟秸碉拷锟斤拷锟斤拷锟斤拷息一锟斤拷锟角革拷诘惴拷偷锟�一锟斤拷锟斤拷锟接节点发锟酵碉拷
 			Assert.assertEquals(2, changeDatas2.size());
 			Assert.assertEquals(1, changeDatas2.get(1).getMachines().size());
 			
-			//���½���һ̨������
+			//锟斤拷锟铰斤拷锟斤拷一台锟斤拷锟斤拷锟斤拷
 			client1.start();
 			Thread.sleep(5000);
 			Assert.assertEquals(3, changeDatas2.size());
 			
 			
-			//�ٹرյ�һ̨����
+			//锟劫关闭碉拷一台锟斤拷锟斤拷
 			client1.close();
 			Thread.sleep(5000);
 			Assert.assertEquals(4, changeDatas2.size());
 			
 			
-			//���¿�����һ̨�����͵���̨����
+			//锟斤拷锟铰匡拷锟斤拷锟斤拷一台锟斤拷锟斤拷锟酵碉拷锟斤拷台锟斤拷锟斤拷
 			client1.start();
 			client3.start();
 			Thread.sleep(5000);
-			//Ŀǰ��������̨����
+			//目前锟斤拷锟斤拷锟斤拷锟斤拷台锟斤拷锟斤拷
 			Assert.assertEquals(3, changeDatas2.get(changeDatas2.size()-1).getMachines().size());
 			Assert.assertEquals(6, changeDatas2.size());
 			

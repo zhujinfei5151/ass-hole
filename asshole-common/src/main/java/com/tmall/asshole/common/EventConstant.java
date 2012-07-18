@@ -10,7 +10,6 @@ import java.util.Map;
  */
 public class EventConstant {
 
-	// �¼�״̬
 	public static final int EVENT_STATUS_FAILED = -1;
 	public static final int EVENT_STATUS_EXCEPTION = 10;
 	public static final int EVENT_STATUS_UNEXECUTED = 0;

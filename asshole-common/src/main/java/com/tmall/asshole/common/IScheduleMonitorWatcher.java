@@ -1,6 +1,6 @@
 package com.tmall.asshole.common;
 /**
- * 监控接口
+ * ��ؽӿ�
  * @author jiuxian.tjo
  *
  */

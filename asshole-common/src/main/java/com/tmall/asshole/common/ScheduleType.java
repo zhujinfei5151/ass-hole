@@ -4,9 +4,9 @@ package com.tmall.asshole.common;
  * @author tangjinou
  */
 public enum ScheduleType {
-     //æ­£å¸¸è°ƒåº¦å™¨
+     //Õý³£µ÷¶ÈÆ÷
 	BASIC_SCHEDULE(0, "BASIC_SCHEDULE"), 
-	//å»¶æœŸè°ƒåº¦å™¨
+	//ÑÓÆÚµ÷¶ÈÆ÷
 	DELAY_SCHEDULE(1, "DELAY_SCHEDULE");
 
 	private int code;

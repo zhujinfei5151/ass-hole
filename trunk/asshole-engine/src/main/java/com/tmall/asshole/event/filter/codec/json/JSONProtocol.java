@@ -11,7 +11,6 @@ import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
 import com.tmall.asshole.event.filter.codec.ProtocolDecoder;
 import com.tmall.asshole.event.filter.codec.ProtocolEncoder;
 /****
- * 闈炴爣鍑咼SON鍗忚 涓轰簡鍏煎
  *  
  * @author tangjinou
  *
@@ -25,7 +24,6 @@ public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>,P
 		for (String key : map.keySet()) {
 			try {
 				Field field  = null;
-				//闇�鎺掓煡 id 鍜�hashnum ,鍘婚櫎 闃叉琚鐩�瀵艰嚧 鏇存柊鏃犳硶鎵惧埌
 				if(key.equals("id")||key.equals("status")||key.equals("env")){
 					continue;
 				}

@@ -12,10 +12,10 @@ public class BeanCopyUtil {
 		
 		for (Entry<String, Object> entry :map.entrySet()) {
 				try{
-					// ç°åœ¨åªæ‹·è´ä¸€çº§
+					// ÏÖÔÚÖ»¿½±´Ò»¼¶
 					Field field = o.getClass().getDeclaredField(entry.getKey());
 					Object value = entry.getValue();
-					//åªæœ‰åå­—å’Œç±»å‹ä¸€ç›´æ—¶å€™æ‰æ‹·è´
+					//Ö»ÓĞÃû×ÖºÍÀàĞÍÒ»Ö±Ê±ºò²Å¿½±´
 					if(field.getType() ==value.getClass())
 					{
 						field.setAccessible(true);

@@ -16,10 +16,10 @@ public class XStreamHelper {
 	}
 
 	public static XStream getInstance() {
-		// åŒé‡æ£€æŸ¥åŠ é”
+		// Ë«ÖØ¼ì²é¼ÓËø
 		if (xstream == null) {
 			synchronized (XStream.class) {
-				// å»¶è¿Ÿå®ä¾‹åŒ–,éœ€è¦æ—¶æ‰åˆ›å»º
+				// ÑÓ³ÙÊµÀı»¯,ĞèÒªÊ±²Å´´½¨
 				if (xstream == null)
 					xstream = new XStream();
 				Class<?>[] classes = new Class<?>[] {Node.class,ProcessTemplate.class,Transition.class,Start.class,End.class};

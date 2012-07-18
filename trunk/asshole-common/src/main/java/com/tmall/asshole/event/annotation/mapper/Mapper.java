@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  *
  * @author hemaodong
- * @date 2012-5-28 ä¸‹åˆ03:49:30
+ * @date 2012-5-28 ÏÂÎç03:49:30
  *
  */
 public interface Mapper {

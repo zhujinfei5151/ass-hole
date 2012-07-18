@@ -1,6 +1,6 @@
 package com.tmall.asshole.util;
 /**
- * spring 姝ｅ父鍚姩鍚庣殑鍥炶皟
+ * spring 正常启动后的回调
  * 
  * @author tangjinou
  */

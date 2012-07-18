@@ -15,6 +15,12 @@
 		<module>asshole-zkclient</module>
 		<module>asshole-test</module>
 	</modules>
+	
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>com.taobao</groupId>
+		<version>1.0.1</version>
+	</parent>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

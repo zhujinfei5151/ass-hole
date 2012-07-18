@@ -11,7 +11,7 @@ import com.tmall.asshole.common.EventEnv;
 public interface IDataLoader<T> {
 	
 	/**
-	 * 鑾峰彇闇�瑕佸鐞嗙殑鏁版嵁鍒楄〃
+	 * 获取需要处理的数据列表
 	 * @param executeMachineAlias TODO
 	 * @return
 	 * @throws LoaderException

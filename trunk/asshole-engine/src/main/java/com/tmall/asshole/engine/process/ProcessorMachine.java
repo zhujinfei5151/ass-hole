@@ -81,7 +81,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	
 	
 	public void createEventProcess(Event event,String processName) throws Exception{
-		//æ ¹æ®ç±»å‹åæ‰¾åˆ°èŠ‚ç‚¹
+		//¸ù¾İÀàĞÍ·´ÕÒµ½½Úµã
 		List<Node> nodes = ProcessTemplateHelper.find(processName, event.getClass());
 		if(nodes.size()==0){
 			throw new NullPointerException("can't find the event, type="+event.getClass()+" in the processs, name="+processName);
@@ -148,7 +148,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  Event newEvent = (Event)eventName.newInstance();
 		  //Map<String, Object> map = context.getMap();
 		  BeanCopyUtil.copy(newEvent, map);
-		//å…³é”®å±æ€§éœ€è¦copy
+		//¹Ø¼üÊôĞÔĞèÒªcopy
 		  newEvent.setProcessName(event.getProcessName());
 		  newEvent.setCurrentName(nextN.getName());
 		  newEvent.setProcessInstanceId(event.getProcessInstanceId());
@@ -160,7 +160,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		
 		  logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		  processor.addData(newEvent);
-		   //ç›®å‰ä¸šåŠ¡åœºæ™¯ ä¸‹ä¸€ä¸ªèŠ‚ç‚¹åªæœ‰1ä¸ªä¼šæ‰§è¡Œ,ä¸æ’é™¤ä»¥åå¤šä¸ªæ‰§è¡Œ
+		   //Ä¿Ç°ÒµÎñ³¡¾° ÏÂÒ»¸ö½ÚµãÖ»ÓĞ1¸ö»áÖ´ĞĞ,²»ÅÅ³ıÒÔºó¶à¸öÖ´ĞĞ
 	}
 	
 
@@ -206,7 +206,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		}
 		
 		
-		//åŠ è½½æµç¨‹æ¨¡ç‰ˆ
+		//¼ÓÔØÁ÷³ÌÄ£°æ
 		ProcessTemplateHelper.deploy(machineConfig.getProcessTemplateFolders());
 		
 		List<INodeChange> iNodeChanges = new ArrayList<INodeChange>();

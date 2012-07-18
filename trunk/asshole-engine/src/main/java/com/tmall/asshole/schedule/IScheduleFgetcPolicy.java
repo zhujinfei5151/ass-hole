@@ -9,14 +9,14 @@ import com.tmall.asshole.zkclient.INodeChange;
 public interface IScheduleFgetcPolicy extends INodeChange{
 	
 	/**
-	 * è¯»å–çº¿ç¨‹éœ€è¦è¦æŠ“å–çš„æ•°æ®èŒƒå›´ de å¼€å§‹index
+	 * ¶ÁÈ¡Ïß³ÌĞèÒªÒª×¥È¡µÄÊı¾İ·¶Î§ de ¿ªÊ¼index
 	 * 
 	 * @return
 	 */
 	int getStartIndex();
 
 	/**
-	 * è¯»å–çº¿ç¨‹éœ€è¦è¦æŠ“å–çš„æ•°æ®èŒƒå›´ de ç»“æŸindex
+	 * ¶ÁÈ¡Ïß³ÌĞèÒªÒª×¥È¡µÄÊı¾İ·¶Î§ de ½áÊøindex
 	 * 
 	 * @return
 	 */
@@ -24,14 +24,14 @@ public interface IScheduleFgetcPolicy extends INodeChange{
 	
 	
 	/***
-	 * ä¸€æ¬¡å–çš„æ•°é‡
+	 * Ò»´ÎÈ¡µÄÊıÁ¿
 	 * 
 	 * @return
 	 */
 	int getRowNum();
 	
 	/***
-	 *  è·å–æœ¬åœ°IPåœ°å€
+	 *  »ñÈ¡±¾µØIPµØÖ·
 	 * @return
 	 */
 	String getExecuteMachineAlias();

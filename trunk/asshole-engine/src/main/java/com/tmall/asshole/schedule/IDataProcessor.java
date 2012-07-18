@@ -6,7 +6,7 @@ package com.tmall.asshole.schedule;
 public interface IDataProcessor<T,C> {
 	
 	/**
-	 * å¤„ç†è¿‡ç¨‹ å¤„ç†å®Œçš„æ•°æ®ä¸€å®šè¦æ˜¾ç¤ºæ›´æ”¹ä¸ºå·²å¤„ç†ï¼Œä¸ç„¶ä¸‹æ¬¡è¿˜ä¼šå–åˆ°
+	 * ´¦Àí¹ı³Ì ´¦ÀíÍêµÄÊı¾İÒ»¶¨ÒªÏÔÊ¾¸ü¸ÄÎªÒÑ´¦Àí£¬²»È»ÏÂ´Î»¹»áÈ¡µ½
 	 * 
 	 * @param data
 	 * @throws SchedulerException

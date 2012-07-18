@@ -26,7 +26,7 @@ public class Schedule<T,C> extends Job {
 	
 	protected IDataProcessorCallBack<T,C> dataProcessorCallBack;
 	
-	// è€ƒè™‘è¿œç¨‹å˜é‡æ¨é€
+	// ¿¼ÂÇÔ¶³Ì±äÁ¿ÍÆËÍ
 	public boolean dealWithReceiveMsg = true;
 	private int schedulingPollingTime;
 	protected int maxHashNum;
@@ -51,7 +51,7 @@ public class Schedule<T,C> extends Job {
 		this.schedulingPollingTime = config.getSchedulingPollingTime();
 		
 		this.threadPool = new SchedulerThreadPoolExecutor(config.getCorePoolSize(),config.getMaxPoolSize(),config.getKeepAliveTime());
-		//æ ¹æ®é…ç½®å†³å®šé€‰æ‹© scheduleFgetcPolicy
+		//¸ù¾İÅäÖÃ¾ö¶¨Ñ¡Ôñ scheduleFgetcPolicy
 		scheduleFgetcPolicy=ScheduleFgetcPolicyFactory.create(config.getAlgorithmType());
 		this.setName("schedule-"+taskName+"-"+config.getProcessorNumber());
 		this.contextCreate = contextCreate;
@@ -71,8 +71,8 @@ public class Schedule<T,C> extends Job {
 
 
 	public synchronized void strart() {
-		// è®¢é˜…
-		// å‘å¸ƒ
+		// ¶©ÔÄ
+		// ·¢²¼
 		this.threadPool.init(taskName);
 		super.start();
 	}
@@ -84,7 +84,7 @@ public class Schedule<T,C> extends Job {
 	public void run() {
 		while (true) {
 			try {
-				if (dealWithReceiveMsg) {// è®¾ç½®ç³»ç»Ÿå‚æ•°--æ˜¯å¦å¤„ç†æ”¶åˆ°çš„æ¶ˆæ¯
+				if (dealWithReceiveMsg) {// ÉèÖÃÏµÍ³²ÎÊı--ÊÇ·ñ´¦ÀíÊÕµ½µÄÏûÏ¢
 					processQueue();
 				} else {
 					logger.debug("Scheduler[" + taskName + "] thread suspend ");

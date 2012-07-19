@@ -27,7 +27,7 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 	
 	private int endIndex;
 	
-	private int rownum=1000;
+	private final int rownum=1000;
 	
 	private int max_hash_num=10000;
 	
@@ -65,8 +65,8 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 		  if(machines==null){
 			  this.startIndex=0;
 			  this.endIndex=0;
-			  this.rownum=0;
-			  logger.info("machines == null , so change startIndex=0,endIndex=0,rownum=0");
+//			  this.rownum=0;
+			  logger.info("machines == null , so change startIndex=0,endIndex=0");
 			  return;
 		  }
 		

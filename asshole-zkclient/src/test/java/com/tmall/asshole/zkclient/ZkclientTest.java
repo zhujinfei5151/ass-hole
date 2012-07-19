@@ -11,6 +11,7 @@ import junit.framework.TestCase;
 import com.tmall.asshole.zkclient.data.ChangeData;
 import com.tmall.asshole.zkclient.data.Data;
 import com.tmall.asshole.zkclient.data.NodeData;
+import com.tmall.asshole.zkclient.ZKServerUtil;
 
 /***
  * 
@@ -27,7 +28,7 @@ public class ZkclientTest  extends TestCase{
 	
 	
 	static{
-		ZKServerUtil.start();	
+		//ZKServerUtil.start();	
 	
 		zkConfig1=new ZKConfig();
 		zkConfig1.setRootPath("/test");
@@ -121,10 +122,9 @@ public class ZkclientTest  extends TestCase{
 		
 		
 		try {
-			//锟斤拷一台锟斤拷锟斤拷锟窖撅拷锟斤拷锟斤拷锟斤拷锟斤拷
 			client1.start();
 			Thread.sleep(3000);
-			//锟节讹拷台锟斤拷锟斤拷锟窖撅拷锟斤拷锟斤拷锟斤拷锟斤拷
+
 			client2.start();
 			Thread.sleep(5000);
 			
@@ -136,30 +136,26 @@ public class ZkclientTest  extends TestCase{
 
 			Assert.assertEquals(2, changeDatas2.get(0).getMachines().size());
 			
-			//锟截闭碉拷一台锟斤拷锟斤拷
 			client1.close();
 			Thread.sleep(5000);
-			//锟节讹拷台锟斤拷锟斤拷锟秸碉拷锟斤拷锟斤拷锟较�目前锟秸碉拷锟斤拷锟斤拷锟斤拷息一锟斤拷锟角革拷诘惴拷偷锟�一锟斤拷锟斤拷锟接节点发锟酵碉拷
+			
 			Assert.assertEquals(2, changeDatas2.size());
 			Assert.assertEquals(1, changeDatas2.get(1).getMachines().size());
 			
-			//锟斤拷锟铰斤拷锟斤拷一台锟斤拷锟斤拷锟斤拷
 			client1.start();
 			Thread.sleep(5000);
 			Assert.assertEquals(3, changeDatas2.size());
 			
 			
-			//锟劫关闭碉拷一台锟斤拷锟斤拷
 			client1.close();
 			Thread.sleep(5000);
 			Assert.assertEquals(4, changeDatas2.size());
 			
 			
-			//锟斤拷锟铰匡拷锟斤拷锟斤拷一台锟斤拷锟斤拷锟酵碉拷锟斤拷台锟斤拷锟斤拷
 			client1.start();
 			client3.start();
 			Thread.sleep(5000);
-			//目前锟斤拷锟斤拷锟斤拷锟斤拷台锟斤拷锟斤拷
+			
 			Assert.assertEquals(3, changeDatas2.get(changeDatas2.size()-1).getMachines().size());
 			Assert.assertEquals(6, changeDatas2.size());
 			
@@ -192,9 +188,9 @@ public class ZkclientTest  extends TestCase{
 				Thread.sleep(10000);
 				Assert.assertEquals(1, changeDatas1.size());
 				
-				ZKServerUtil.close();
-				
 				Thread.sleep(1000000);
+				
+				ZKServerUtil.start();
 				
 				
 			} catch (Exception e) {

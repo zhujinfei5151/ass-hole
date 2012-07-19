@@ -54,7 +54,15 @@ public class ZKManager {
 
 	public void init() throws Exception {
 		if(zKConfig==null){
-			throw new NullPointerException("zkConfig ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½");
+			throw new NullPointerException("zkConfig ²»ÄÜÎª¿Õ");
+		}
+		
+		if(zk!=null){
+			try{
+			zk.close();
+			}catch (Exception e) {
+				log.error("to open new zk client , close the pre zk client fail ", e);
+			}
 		}
 		
 		zk = new ZooKeeper(zKConfig.getZkConnectString(),zKConfig.getZkSessionTimeout(), zKClient);

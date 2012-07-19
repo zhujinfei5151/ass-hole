@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.zookeeper.ZooKeeper.States;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tmall.asshole.zkclient.data.Data;
@@ -52,8 +53,8 @@ public class ZKClient  implements Watcher {
 	
 	private ZKManager zKManager;
 	
-	//榛樿鏃堕棿
-	private long defaultRegisterWatchTime = 600000;
+	//守护ZK客户端运行的线程
+	private long defaultRegisterWatchTime = 6000;
 	
 	private List<INodeChange> iNodeChanges = new ArrayList<INodeChange>();
 	
@@ -94,7 +95,7 @@ public class ZKClient  implements Watcher {
 		zKManager = new ZKManager(this, zKConfig);
 		zKManager.init();
 		//reRegisterWatch();
-		//this.setDaemon(true);
+		//thread.setDaemon(true);
 		
 		thread = new Thread(new Runnable() {
 			public void run() {
@@ -104,9 +105,16 @@ public class ZKClient  implements Watcher {
 							log.error("close the protected thread of zkClient");
 							break;
 						}
+						//发现与ZKServer断开,重连
+						if(zKManager.getZk().getState() == States.CLOSED){
+							zKManager.init();
+							continue;
+						}
+						
 						log.info("the protected thread of zkClient is running");
 						Thread.sleep(defaultRegisterWatchTime);
-						reRegisterWatch();
+						//会有bug,可能会导致服务器端有太多本客户端的地址
+//						reRegisterWatch();
 					} catch (Exception e) {
 						log.error("zkClient dema thread:"+e);
 					}

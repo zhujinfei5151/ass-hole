@@ -1,5 +1,9 @@
 package com.tmall.asshole.common;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public class ScheduleMonitorData {
 
 	private long countOfUnExecuteEvent;

@@ -4,7 +4,7 @@ import java.util.Date;
 
 /****
  *
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class Event {

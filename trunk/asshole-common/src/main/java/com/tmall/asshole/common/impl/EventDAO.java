@@ -1,5 +1,9 @@
 package com.tmall.asshole.common.impl;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

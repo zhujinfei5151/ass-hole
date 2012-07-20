@@ -1,5 +1,9 @@
 package com.tmall.asshole.common;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public enum EventStatus {
 
 	EVENT_STATUS_FAILED(-1, "Ö´ÐÐÊ§°Ü"),

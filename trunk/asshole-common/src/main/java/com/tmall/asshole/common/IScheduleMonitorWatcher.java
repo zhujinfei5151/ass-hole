@@ -1,7 +1,7 @@
 package com.tmall.asshole.common;
 /**
  * ¼à¿Ø½Ó¿Ú
- * @author jiuxian.tjo
+ * @author tangjinou(jiuxian.tjo)
  *
  */
 public interface IScheduleMonitorWatcher {

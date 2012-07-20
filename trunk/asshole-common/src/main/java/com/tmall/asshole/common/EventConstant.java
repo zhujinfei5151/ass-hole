@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 /***
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class EventConstant {

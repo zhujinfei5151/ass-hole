@@ -1,5 +1,9 @@
 package com.tmall.asshole.common;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 import com.tmall.asshole.event.annotation.Extends;
 import com.tmall.asshole.event.annotation.Ignore;
 

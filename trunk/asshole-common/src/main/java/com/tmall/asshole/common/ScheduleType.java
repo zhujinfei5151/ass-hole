@@ -1,7 +1,7 @@
 package com.tmall.asshole.common;
 
 /****
- * @author tangjinou
+ * @author tangjinou(jiuxian.tjo)
  */
 public enum ScheduleType {
      //正常调度器

@@ -54,13 +54,13 @@ public class ZKClient  implements Watcher {
 	private ZKManager zKManager;
 	
 	//守护ZK客户端运行的线程
-	private long defaultRegisterWatchTime = 6000;
+	private final long protectedThreadSleepTime = 6000;
 	
 	private List<INodeChange> iNodeChanges = new ArrayList<INodeChange>();
 	
 	private boolean shutdown;
 	
-	private Thread thread;
+	private Thread protecteThread;
 	
 	
 //	private boolean needRegisterWatch;
@@ -97,7 +97,7 @@ public class ZKClient  implements Watcher {
 		//reRegisterWatch();
 		//thread.setDaemon(true);
 		
-		thread = new Thread(new Runnable() {
+		protecteThread =new Thread(new Runnable() {
 			public void run() {
 				while (true) {
 					try {
@@ -112,8 +112,7 @@ public class ZKClient  implements Watcher {
 						}
 						
 						log.info("the protected thread of zkClient is running");
-						Thread.sleep(defaultRegisterWatchTime);
-						//会有bug,可能会导致服务器端有太多本客户端的地址
+						Thread.sleep(protectedThreadSleepTime);		//会有bug,可能会导致服务器端有太多本客户端的地址
 //						reRegisterWatch();
 					} catch (Exception e) {
 						log.error("zkClient dema thread:"+e);
@@ -121,8 +120,8 @@ public class ZKClient  implements Watcher {
 				}
 			}
 		});
-		thread.setName("zkClient");
-		thread.start();
+		protecteThread.setName("zkprotecteThread");
+		protecteThread.start();
 		}catch (Exception e) {
 			throw e;
 		}finally{

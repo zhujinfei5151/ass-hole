@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/***
+/**
  * 
- * @author tangjinou
- * @since 2012-5-30
- * @version 1.0
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public class NodeData  implements Serializable{
 

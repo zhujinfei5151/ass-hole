@@ -8,9 +8,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
- * @author tangjinou
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
-
 @XStreamAlias("node")
 public class Node {
 	

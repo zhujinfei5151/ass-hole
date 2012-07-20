@@ -16,7 +16,11 @@ import com.tmall.asshole.engine.EventHandlerLocator;
 import com.tmall.asshole.engine.IHandler;
 import com.tmall.asshole.engine.process.EventSchedulerProcessor;
 import com.tmall.asshole.engine.process.ProcessorMachine;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public class ApplicationUtils extends ApplicationObjectSupport implements ApplicationListener{
 	private static ApplicationUtils stools = null;
 

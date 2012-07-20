@@ -1,7 +1,11 @@
 package com.tmall.asshole.config;
 
 import java.util.List;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public class MachineConfig {
 	/**zookeeper client **/
 	private Boolean usePermissions=false;

@@ -1,8 +1,8 @@
 package com.tmall.asshole.config;
 
-/****
+/**
  * 
- * @author jiuxian.tjo
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ProcessorConfig {

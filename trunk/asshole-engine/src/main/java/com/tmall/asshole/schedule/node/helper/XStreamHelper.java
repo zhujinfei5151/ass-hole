@@ -7,7 +7,11 @@ import com.tmall.asshole.schedule.node.Node;
 import com.tmall.asshole.schedule.node.Start;
 import com.tmall.asshole.schedule.node.Transition;
 
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public class XStreamHelper {
 
 	public volatile static XStream xstream;

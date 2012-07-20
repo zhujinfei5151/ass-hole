@@ -7,7 +7,11 @@ import com.tmall.asshole.common.IScheduleMonitorWatcher;
 import com.tmall.asshole.common.ScheduleMonitorData;
 import com.tmall.asshole.engine.process.ProcessorMachine;
 import com.tmall.asshole.mock.ep.TestEvent1;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public class Main {
 	/**
 	 * @param args

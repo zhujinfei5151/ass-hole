@@ -17,10 +17,10 @@ import org.apache.zookeeper.server.auth.DigestAuthenticationProvider;
 import com.tmall.asshole.zkclient.data.NodeData;
 import com.tmall.asshole.zkclient.data.PersistenceUtil;
 
-/****
+/**
  * 
- * @author jiuxian.tjo
- * 
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public class ZKManager {
 	private static transient Log log = LogFactory.getLog(ZKManager.class);

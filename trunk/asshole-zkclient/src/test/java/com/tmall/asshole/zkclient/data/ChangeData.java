@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.zookeeper.WatchedEvent;
 
-/***
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ChangeData {

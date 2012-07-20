@@ -7,10 +7,8 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -25,9 +23,9 @@ import com.tmall.asshole.exception.ProcessTemplateNotFoundException;
 import com.tmall.asshole.schedule.node.Node;
 import com.tmall.asshole.schedule.node.ProcessTemplate;
 
-/***
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ProcessTemplateHelper {

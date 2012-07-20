@@ -13,9 +13,9 @@ import com.tmall.asshole.zkclient.data.Data;
 import com.tmall.asshole.zkclient.data.NodeData;
 import com.tmall.asshole.zkclient.ZKServerUtil;
 
-/***
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ZkclientTest  extends TestCase{

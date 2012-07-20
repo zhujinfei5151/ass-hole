@@ -25,11 +25,10 @@ import com.tmall.asshole.schedule.IDataProducer;
 import com.tmall.asshole.schedule.Schedule;
 
 
-/****
+/**
  * 
- * @author tangjinou
- * 
- * @param <Event>
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event>,IContextCreate<EventContext>{
 

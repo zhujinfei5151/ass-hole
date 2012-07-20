@@ -2,10 +2,9 @@ package com.tmall.asshole.zkclient.data;
 
 import java.io.Serializable;
 
-/***
- * ≤‚ ‘Data
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class TestData implements Serializable{

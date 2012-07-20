@@ -30,9 +30,9 @@ import com.tmall.asshole.util.Initialize;
 import com.tmall.asshole.zkclient.INodeChange;
 import com.tmall.asshole.zkclient.ZKClient;
 import com.tmall.asshole.zkclient.ZKConfig;
-/****
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ProcessorMachine implements IDataProcessorCallBack<Event,EventContext>,Initialize{

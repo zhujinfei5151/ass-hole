@@ -14,11 +14,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-/****
+/**
  * 
- * 内部线程池
- * 
- * @author jiuxian.tjo
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class SchedulerThreadPoolExecutor {

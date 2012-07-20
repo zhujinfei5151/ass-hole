@@ -8,12 +8,10 @@ import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
 
 
-/***
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
- * @param <Event>
- * @param <EventContext>
  */
 public class EventEngine implements IEngine<Event,EventContext> {
 	private static transient Log logger = LogFactory.getLog(EventEngine.class);

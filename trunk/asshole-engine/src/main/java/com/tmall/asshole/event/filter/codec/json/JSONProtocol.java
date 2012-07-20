@@ -10,11 +10,10 @@ import java.util.Map;
 import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
 import com.tmall.asshole.event.filter.codec.ProtocolDecoder;
 import com.tmall.asshole.event.filter.codec.ProtocolEncoder;
-/****
- *  
- * @author tangjinou
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
  *
- * @param <T>
  */
 public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>,ProtocolCodecFactory<T>{
 	public T decode(byte[] bytes,T o)throws Exception {

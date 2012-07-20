@@ -1,7 +1,7 @@
 package com.tmall.asshole.zkclient;
-/***
+/**
  * 
- * @author jiuxian.tjo
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ZKClientVersion {

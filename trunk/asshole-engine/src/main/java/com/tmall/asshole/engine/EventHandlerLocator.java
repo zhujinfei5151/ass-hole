@@ -5,7 +5,11 @@ import java.util.Map;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public class EventHandlerLocator implements IHandlerLocator<Event, EventContext> ,IHandlerRegister<String, Event, EventContext>{
 	private Map<String, IHandler<Event, EventContext>> HANDLER_MAP = new HashMap<String, IHandler<Event, EventContext>>();
 

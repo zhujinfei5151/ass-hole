@@ -7,7 +7,11 @@ import com.tmall.asshole.zkclient.data.PersistenceUtil;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public class PersistenceUtilTest extends TestCase{
 	
 

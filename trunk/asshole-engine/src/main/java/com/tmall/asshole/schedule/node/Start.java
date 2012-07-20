@@ -2,7 +2,11 @@ package com.tmall.asshole.schedule.node;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 @XStreamAlias("start")
 public class Start{
 

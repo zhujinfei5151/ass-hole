@@ -1,10 +1,9 @@
 package com.tmall.asshole.engine;
 
-/****
- * @author tangjinou
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
  *
- * @param <F>
- * @param <C>
  */
 public interface IHandlerLocator<F,C> {
 

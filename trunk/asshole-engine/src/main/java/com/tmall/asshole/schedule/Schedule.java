@@ -12,9 +12,9 @@ import com.tmall.asshole.common.EventEnv;
 import com.tmall.asshole.config.ProcessorConfig;
 
 
-/****
+/**
  * 
- * @author jiuxian.tjo
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class Schedule<T,C> extends Job {

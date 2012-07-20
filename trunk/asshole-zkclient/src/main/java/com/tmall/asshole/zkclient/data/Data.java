@@ -2,8 +2,10 @@ package com.tmall.asshole.zkclient.data;
 
 import java.io.Serializable;
 
-/***
- * @author tangjinou
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public class Data<T> implements Serializable{
 	

@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.tmall.asshole.schedule.IScheduleFgetcPolicy;
 import com.tmall.asshole.zkclient.ZKConfig;
 
-/******
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{

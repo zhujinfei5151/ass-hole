@@ -143,7 +143,6 @@ public class ZKClient  implements Watcher {
 				for (INodeChange  iNodeChange: iNodeChanges) {
 					iNodeChange.onChange(children);
 				}
-				//鏂紑鍚庨噸杩�
 				return;
 			}
 			
@@ -178,7 +177,6 @@ public class ZKClient  implements Watcher {
 
 	
 //	private void reConect() {
-//	     //鍏抽棴ZK client;
 //		close();
 //	 new Thread(
 //		new Runnable() {

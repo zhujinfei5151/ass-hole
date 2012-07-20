@@ -1,6 +1,8 @@
 package com.tmall.asshole.event.filter.codec;
-/***
- * @author tangjinou
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public interface ProtocolEncoder<T> {
 	byte[] encode( T t) throws Exception;

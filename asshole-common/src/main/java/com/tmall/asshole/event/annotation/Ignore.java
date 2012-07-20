@@ -1,8 +1,9 @@
+package com.tmall.asshole.event.annotation;
 /**
+ * 
+ * @author tangjinou (jiuxian.tjo)
  *
  */
-package com.tmall.asshole.event.annotation;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

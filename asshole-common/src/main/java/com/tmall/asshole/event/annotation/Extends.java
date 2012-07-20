@@ -1,4 +1,6 @@
 /**
+ * 
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 package com.tmall.asshole.event.annotation;

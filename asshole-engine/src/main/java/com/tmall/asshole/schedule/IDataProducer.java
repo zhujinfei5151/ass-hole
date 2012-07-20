@@ -1,11 +1,10 @@
 package com.tmall.asshole.schedule;
 
 
-/***
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
- * @param <T>
  */
 public interface IDataProducer<T> {
      public void addData(T t) throws Exception;

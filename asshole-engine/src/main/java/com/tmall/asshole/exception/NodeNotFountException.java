@@ -1,6 +1,8 @@
 package com.tmall.asshole.exception;
 /**
- * @author tangjinou
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public class NodeNotFountException extends Exception {
 	public NodeNotFountException(String errorMsg) {

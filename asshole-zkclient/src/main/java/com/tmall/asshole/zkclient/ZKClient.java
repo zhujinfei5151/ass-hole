@@ -40,7 +40,7 @@ import com.tmall.asshole.zkclient.data.PersistenceUtil;
  *                 
  * 
  * 
- * @author tangjinou
+ * @author tangjinou(jiuxian.tjo)
  *
  */
 public class ZKClient  implements Watcher {

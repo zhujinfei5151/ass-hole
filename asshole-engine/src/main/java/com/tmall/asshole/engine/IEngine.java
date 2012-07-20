@@ -1,9 +1,9 @@
 package com.tmall.asshole.engine;
 
 
-/***
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public interface IEngine<F,C> {

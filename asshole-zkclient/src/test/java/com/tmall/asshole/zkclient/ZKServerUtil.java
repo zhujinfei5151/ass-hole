@@ -3,9 +3,9 @@ package com.tmall.asshole.zkclient;
 import java.lang.reflect.Method;
 
 import org.apache.zookeeper.server.ZooKeeperServerMain;
-/***
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ZKServerUtil {

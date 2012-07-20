@@ -10,10 +10,9 @@ import com.tmall.asshole.common.IEventDAO;
 import com.tmall.asshole.common.IScheduleMonitorWatcher;
 import com.tmall.asshole.common.ScheduleMonitorData;
 import com.tmall.asshole.util.ApplicationUtils;
-/***
- * º‡øÿ π”√
+/**
  * 
- * @author jiuxian.tjo
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ScheduleMonitor{

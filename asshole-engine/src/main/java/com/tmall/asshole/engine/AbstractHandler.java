@@ -4,8 +4,10 @@ import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventContext;
 
 
-/***
- * @author jiuxian.tjo
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public abstract class AbstractHandler<F extends Event,C extends EventContext> implements IHandler<F,C>,IBeforeHandler<F,C>,IAfterHandler<F, C>{
     

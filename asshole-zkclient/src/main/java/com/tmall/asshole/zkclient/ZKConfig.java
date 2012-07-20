@@ -6,8 +6,10 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-/***
- * @author tangjinou
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public class ZKConfig {
 	

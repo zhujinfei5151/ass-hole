@@ -3,9 +3,10 @@ package com.tmall.asshole.zkclient;
 import java.util.List;
 
 
-/****
- *  
- * @author tangjinou
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public interface INodeChange {
 	

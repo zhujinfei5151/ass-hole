@@ -10,7 +10,11 @@ import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public class ZKTools {
 
 	public static void createPath(ZooKeeper zk, String path,byte[] datas,CreateMode createMode, List<ACL> acl) throws Exception {

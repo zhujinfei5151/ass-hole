@@ -6,7 +6,11 @@ import java.util.Stack;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.IEventDAO;
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public class MockEventDAO implements IEventDAO{
 	
 	Stack<Event> s =new Stack<Event>();

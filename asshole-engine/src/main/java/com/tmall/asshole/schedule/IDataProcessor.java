@@ -1,7 +1,9 @@
 package com.tmall.asshole.schedule;
 
-/***
- * @author jiuxian.tjo
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public interface IDataProcessor<T,C> {
 	

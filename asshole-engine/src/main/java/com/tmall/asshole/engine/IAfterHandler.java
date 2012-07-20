@@ -1,7 +1,7 @@
 package com.tmall.asshole.engine;
-/****
+/**
  * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public interface IAfterHandler<F,C> {

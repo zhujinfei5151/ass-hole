@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.tmall.asshole.common.EventEnv;
 
-/***
- * @author jiuxian.tjo
- * @param <T>
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
  */
 public interface IDataLoader<T> {
 	

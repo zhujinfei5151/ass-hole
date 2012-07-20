@@ -10,7 +10,11 @@ import com.tmall.asshole.exception.ParserException;
 import com.tmall.asshole.schedule.node.ProcessTemplate;
 import com.tmall.asshole.schedule.node.helper.XStreamHelper;
 
-
+/**
+ * 
+ * @author tangjinou (jiuxian.tjo)
+ *
+ */
 public class Parser {
 	
 	final static Logger logger = LoggerFactory.getLogger(Parser.class);

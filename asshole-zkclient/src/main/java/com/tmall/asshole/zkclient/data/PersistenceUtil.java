@@ -9,10 +9,9 @@ import java.io.ObjectOutputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/****
+/**
  * 
- * 
- * @author tangjinou
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public class PersistenceUtil {

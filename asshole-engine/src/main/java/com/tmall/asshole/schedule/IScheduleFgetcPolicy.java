@@ -1,9 +1,9 @@
 package com.tmall.asshole.schedule;
 
 import com.tmall.asshole.zkclient.INodeChange;
-/***
+/**
  * 
- * @author jiuxian.tjo
+ * @author tangjinou (jiuxian.tjo)
  *
  */
 public interface IScheduleFgetcPolicy extends INodeChange{

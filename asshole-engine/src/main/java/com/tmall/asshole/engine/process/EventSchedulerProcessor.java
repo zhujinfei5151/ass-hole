@@ -137,16 +137,16 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    	
 	    	   try{
 	    		   Date now = new Date();
-	    		   
 	    		   if(data.isDelayExec()){
 	    			   if(now.getTime()>=data.getExecStartTime().getTime()){
-	    			      updateEventDOSuccess(start, end,executeMachineAlias, noErrorLst, data, newData); 
-	    			      continue;
+	    			      addNoErrorListAndUpdateEventDO(start, end,executeMachineAlias, noErrorLst, data, newData); 
 	    			   }
+	    			   continue;
+	    		   }else{
+	    			   addNoErrorListAndUpdateEventDO(start, end,executeMachineAlias, noErrorLst, data, newData);
 	    		   }
-	    	         updateEventDOSuccess(start, end,executeMachineAlias, noErrorLst, data, newData);
-                	
-                	  
+	    		   
+	    		   
 	    	   } catch (Exception e) {
 	    		    logger.error(e.getStackTrace());
 	    		    data.setStatus(EventConstant.EVENT_STATUS_PARAMETER_ERROR);
@@ -157,9 +157,9 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    return noErrorLst;
 	}
 
-	private Event updateEventDOSuccess(int start, int end, String executeMachineAlias,
+	private Event addNoErrorListAndUpdateEventDO(int start, int end, String executeMachineAlias,
 			List<Event> noErrorLst, Event data, Event newData) throws Exception {
-		Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), newData);
+		  Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), newData);
 		  event.setId(data.getId());
 		  event.setHashNum(data.getHashNum());
 		  noErrorLst.add(event);

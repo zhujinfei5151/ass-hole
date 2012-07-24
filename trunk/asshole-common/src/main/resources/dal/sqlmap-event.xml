@@ -161,7 +161,7 @@
 	   SELECT
 	   <include refid="query_columns" />
 	   <![CDATA[  
-	     FROM process_events  WHERE id = #id# AND hash_num =#hashNum#
+	     FROM process_events  WHERE id = #id# AND hash_num =#hashNum# group by hash_num
 	   ]]>  
 	</select>
 

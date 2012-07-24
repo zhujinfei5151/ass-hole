@@ -93,8 +93,15 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setCurrentName(n.getName());
 		event.setEnv(machineConfig.getEnv());
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
-		// 0 - MAXHASHNUM
-		event.setHashNum(RandomUtils.nextInt(eventSchedulerProcessor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
+		
+		//如果设定了hash值则不会修改
+		if(!StringUtils.isBlank(n.getHashNum())){
+		   event.setHashNum(Integer.parseInt(n.getHashNum()));
+		}else{
+		   // 0 - MAXHASHNUM
+		   event.setHashNum(RandomUtils.nextInt(eventSchedulerProcessor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
+		}
+		
 		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
 		eventSchedulerProcessor.addData(event);
 	}
@@ -155,8 +162,16 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setProcessorNumber(Integer.parseInt(nextN.getProcessorNumber()));
 		  newEvent.setEnv(machineConfig.getEnv());
 		  newEvent.setTypeClass(nextN.getClassname());
-		  // 0 - MAXHASHNUM
-		  newEvent.setHashNum(RandomUtils.nextInt(processor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
+		  
+		  //如果设定了hash值则不会修改
+		  if(!StringUtils.isBlank(nextN.getHashNum())){
+			   event.setHashNum(Integer.parseInt(nextN.getHashNum()));
+		  }else{
+				  // 0 - MAXHASHNUM
+				  newEvent.setHashNum(RandomUtils.nextInt(processor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
+		  }
+		  
+		
 		
 		  logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		  processor.addData(newEvent);

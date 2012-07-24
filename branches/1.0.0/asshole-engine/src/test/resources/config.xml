@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	default-autowire="byName">
+	<context:annotation-config />
+	
+	<bean id="processorMachine" class="com.tmall.asshole.engine.process.ProcessorMachine" >
+	       <property name="machineConfig"  ref="machineConfig"></property>
+	</bean>
+	
+	<bean id="machineConfig" class="com.tmall.asshole.config.MachineConfig" >
+	      <!-- <property name="username"></property>
+	    <property name="password"></property> -->
+	    <property name="zkConnectString">   
+	             <value>localhost:2181</value>
+	     </property>
+	    <property name="zkSessionTimeout">
+	            <value>2000</value>
+	      </property>
+	    <property name="rootPath">
+	           <value>/brandsale</value>
+	      </property>
+	     <!--  <property name="username">
+	            <value>elink</value>
+	      </property>
+	      <property name="password">
+	            <value>12345</value>
+	      </property> -->
+	      <property name="processTemplateFolders">
+			<value>/process/rightFolder</value>
+		 </property>
+	</bean>
+	
+	
+	<bean id="processorConfig1" class="com.tmall.asshole.config.ProcessorConfig" >
+	     <property name="algorithmType">
+			<value>basic</value>
+		</property>
+		 <property name="envionmentGroup">
+			<value>local</value>
+		</property>
+		 <property name="taskName">
+			<value>testEngine1</value>
+		</property>
+		 <property name="groupingName">
+			<value>test</value>
+		</property>
+	    <property name="schedulingPollingTime">
+			<value>600</value>
+		</property>
+		 <property name="maxHashNum">
+			<value>10000</value>
+		</property>
+		 <property name="processorNumber">
+			<value>0</value>
+		 </property>
+	</bean>
+	
+	<bean id="eventSchedulerProcessor1" class="com.tmall.asshole.engine.process.EventSchedulerProcessor" >
+	     <property name="eventEngine"   ref="eventEngine"></property>
+	     <property name="eventDAO"   ref="eventDAO"></property>
+	     <property name="processorConfig"   ref="processorConfig1"></property>
+	</bean>
+	
+	<bean id="eventDAO" class="com.tmall.asshole.mock.dao.MockEventDAO" />
+	
+	<bean id="protocolCodecFactory" class="com.tmall.asshole.event.filter.codec.json.JSONProtocol" />
+	
+	<bean id="eventEngine" class="com.tmall.asshole.engine.EventEngine" />
+
+     <!-- 必须注入的工具类 -->
+    <bean id="applicationUtils" class="com.tmall.asshole.util.ApplicationUtils"/>
+    
+    <bean id="handlerLocator" class="com.tmall.asshole.engine.EventHandlerLocator">
+	</bean>
+    <import resource="classpath:handler/handler_list.xml"/>
+
+</beans>

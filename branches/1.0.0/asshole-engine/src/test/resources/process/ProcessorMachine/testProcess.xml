@@ -1,0 +1,31 @@
+<process name="order_card">
+  <start name="start" >
+    <transition to="order_create"/>
+  </start>
+ 
+  <node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1"  processorNumber="0">
+    <transitions>
+      <transition to="order_execute" />
+    </transitions>
+  </node>
+  
+  <node name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="1">
+    <transitions>
+      <transition to="order_finish"/>
+    </transitions>
+  </node>
+  
+   <node foreach='true'  name="order_finish" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="1">
+      <transitions>
+        <transition to="order_end"/>
+      </transitions>
+   </node>
+  
+ 
+  
+  
+  
+  
+  
+  <end name="end"/>
+</process>

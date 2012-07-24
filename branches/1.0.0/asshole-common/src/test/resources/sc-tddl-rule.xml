@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="vtabroot" class="com.taobao.tddl.interact.rule.VirtualTableRoot" init-method="init">
+        <property name="dbType" value="MYSQL" />
+        <property name="defaultDbIndex" value="TMALL_ELINKCORE_GROUP" />
+        <property name="tableRules">
+             <map>
+                <entry key="process_events" 		value-ref="process_events_rule" />
+			</map>
+        </property>
+    </bean>
+
+	<bean id="process_events_rule" class="com.taobao.tddl.interact.rule.TableRule">
+        <property name="disableFullTableScan" value="false"/>
+        <property name="tbNamePattern" value="process_events"/>
+        <property name="dbNamePattern" value="TMALL_ELINKCORE_GROUP"/>
+    </bean>
+    
+</beans>

@@ -1,3 +1,5 @@
+下面是一个流程模板的配置
+
 <process name="order_card">
   <start name="start" >
     <transition to="order_create"/>
@@ -15,7 +17,7 @@
     </transitions>
   </node>
   
-  <node foreach ="true"  name="order_end" classname="com.tmall.asshole.mock.ep.TestEvent1">
+  <node foreach ="true"  name="order_end"    classname="com.tmall.asshole.mock.ep.TestEvent1">
     <transitions>
       <transition to="end"/>
     </transitions>
@@ -24,3 +26,19 @@
   
   <end name="end"/>
 </process>
+
+对于
+<node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1" hashNum="1">
+    <transitions>
+      <transition to="order_execute" />
+    </transitions>
+  </node>
+
+node name 表示流程节点的名称   --- 必选
+classname 表示该节点的事件类型  --- 必选
+hashNum   用来指定执行该节点的执行hash值，如果不填则随机分配，如果指定则会指定到某台机器的某个线程执行（对于有并发问题的可以考虑用此法解决）
+foreach  用来指定该节点处理后可能会有多个节点并行处理 详见foreach的用法
+
+
+
+

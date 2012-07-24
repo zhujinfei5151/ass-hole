@@ -162,11 +162,11 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		  Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), newData);
 		  event.setId(data.getId());
 		  event.setHashNum(data.getHashNum());
-		  noErrorLst.add(event);
 		  event.setStatus(EventConstant.EVENT_STATUS_LOADED);
 		  event.setExecCount(event.getExecCount() + 1);
 		  event.setExecuteMachineHashRange(start+"--"+end);
 		  event.setExecuteMachineIp(executeMachineAlias);
+		  noErrorLst.add(event);
 		  eventDAO.updateEventDO(event);
 		return event;
 	}

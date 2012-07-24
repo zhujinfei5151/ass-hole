@@ -27,6 +27,9 @@ public class Node {
 	@XStreamAsAttribute
 	private String foreach;
 	
+	@XStreamAsAttribute
+	private String hashNum;
+	
 	@XStreamAlias("transitions")
 	public List<Transition> transitions;
 	
@@ -74,6 +77,15 @@ public class Node {
 		this.foreach = foreach;
 	}
 	
+	
+	public String getHashNum() {
+		return hashNum;
+	}
+
+	public void setHashNum(String hashNum) {
+		this.hashNum = hashNum;
+	}
+
 	@Override
 	public String toString() {
 		return "Node [name=" + name + ","+"classname="+classname +", + transitions=" + transitions + "]";

@@ -140,21 +140,11 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	    		   
 	    		   if(data.isDelayExec()){
 	    			   if(now.getTime()>=data.getExecStartTime().getTime()){
-	    			      Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), newData);
-	    			      eventDAO.updateEventDO(event); 
+	    			      updateEventDOSuccess(start, end,executeMachineAlias, noErrorLst, data, newData); 
 	    			      continue;
 	    			   }
 	    		   }
-	    		   
-	    	          Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), newData);
-	    	          event.setId(data.getId());
-	    	          event.setHashNum(data.getHashNum());
-	    	          noErrorLst.add(event);
-	    	  	      event.setStatus(EventConstant.EVENT_STATUS_LOADED);
-	    	          event.setExecCount(event.getExecCount() + 1);
-	    	  	      event.setExecuteMachineHashRange(start+"--"+end);
-	    	  	      event.setExecuteMachineIp(executeMachineAlias);
-				      eventDAO.updateEventDO(event);
+	    	         updateEventDOSuccess(start, end,executeMachineAlias, noErrorLst, data, newData);
                 	
                 	  
 	    	   } catch (Exception e) {
@@ -165,6 +155,20 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 			   }
 		}
 	    return noErrorLst;
+	}
+
+	private Event updateEventDOSuccess(int start, int end, String executeMachineAlias,
+			List<Event> noErrorLst, Event data, Event newData) throws Exception {
+		Event event = protocolCodecFactory.getDecoder().decode(data.getContext().getBytes(), newData);
+		  event.setId(data.getId());
+		  event.setHashNum(data.getHashNum());
+		  noErrorLst.add(event);
+		  event.setStatus(EventConstant.EVENT_STATUS_LOADED);
+		  event.setExecCount(event.getExecCount() + 1);
+		  event.setExecuteMachineHashRange(start+"--"+end);
+		  event.setExecuteMachineIp(executeMachineAlias);
+		  eventDAO.updateEventDO(event);
+		return event;
 	}
 
 	@Override

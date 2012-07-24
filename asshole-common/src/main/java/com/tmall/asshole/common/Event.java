@@ -61,6 +61,11 @@ public class Event {
 	private boolean isDelayExec;//
 	
     private int processorNumber;
+    
+    /***
+     *  指定一个线程运行
+     */
+    private boolean assignedThread;
 	
 
     public Long getProcessInstanceId() {
@@ -258,7 +263,6 @@ public class Event {
 		this.source = source;
 	}
 
-	
 
 	public int getProcessorNumber() {
 		return processorNumber;
@@ -268,10 +272,14 @@ public class Event {
 		this.processorNumber = processorNumber;
 	}
 
+	public boolean isAssignedThread() {
+		return assignedThread;
+	}
 
+	public void setAssignedThread(boolean assignedThread) {
+		this.assignedThread = assignedThread;
+	}
 	
-	
-
 	
 
 }

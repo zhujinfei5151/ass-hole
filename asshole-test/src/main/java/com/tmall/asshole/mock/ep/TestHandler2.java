@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.engine.AbstractHandler;
 
+@Component
 public class TestHandler2 extends AbstractHandler<TestEvent2,EventContext> {
 
 	public boolean handle(TestEvent2 event, EventContext context)

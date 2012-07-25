@@ -116,6 +116,9 @@ public class ApplicationUtils extends ApplicationObjectSupport implements Applic
     		AbstractHandler handler = (AbstractHandler)ApplicationUtils.getInstance().getApplicationContext().getBean(name);
     		map.put(handler.getHANDLER_MAP_KEY(), handler);
 		}
+    	
+    	
+    	
 		return map;
 	}
 }

@@ -63,12 +63,17 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 
 	public void onChange(List<String> machines) {
 		  if(machines==null){
+			  logger.warn("machines == null");
+			  return;
+		  }
+		  if(machines.size()==0){
 			  this.startIndex=0;
 			  this.endIndex=0;
 //			  this.rownum=0;
-			  logger.info("machines == null , so change startIndex=0,endIndex=0");
+			  logger.warn("machines size=0 , so change startIndex=0,endIndex=0");
 			  return;
 		  }
+		  
 		
 	      Collections.sort(machines);
 	      try{
@@ -93,6 +98,14 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 			zKConfig = new ZKConfig();
 		}
 		int machine_num = _machines.size();
+		
+		if(machine_num==0){
+			this.startIndex=0;
+			this.endIndex=0;
+			logger.warn("machines size=0 , so change startIndex=0,endIndex=0");
+			return;
+		}
+		
 		int index = _machines.indexOf(zKConfig.getLocalIPAddress());
 		int hash_range= max_hash_num/machine_num;
 		

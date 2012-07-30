@@ -158,6 +158,15 @@ public class ProcessTemplateHelper {
 		return l;
 	}
 	
+	public static Node find(String processName, Class<? extends Event> className,String nodeName) throws Exception{
+		ProcessTemplate processTemplate = ProcessTemplateHelper.getProcessTemplate(processName);
+		for (Node node :processTemplate.nodes) {
+			  if(node.getClassname().equals(className.getName())&& node.getName().equals(nodeName)){
+				   return node;
+			  }
+		}
+		return null;
+	}
 	
 	/****
 	 * 获取流程的ID
@@ -169,6 +178,7 @@ public class ProcessTemplateHelper {
 		String process_instance_id_str= System.currentTimeMillis() +"" + random;
 		return Long.parseLong(process_instance_id_str);
 	}
+
 	
 	
 }

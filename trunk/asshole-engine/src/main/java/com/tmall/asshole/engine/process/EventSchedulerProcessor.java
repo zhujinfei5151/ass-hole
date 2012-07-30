@@ -108,6 +108,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		           data.setStatus(EventStatus.EVENT_STATUS_SUCCESS);
 		           data.setProcessLogs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	               data.setOperator(context.getOperator());
+	               data.setExecCount(data.getExecCount() + 1);
 		     } else {
 	                data.setExecCount(data.getExecCount() + 1);
 	                data.setStatus(EventStatus.EVENT_STATUS_FAILED);

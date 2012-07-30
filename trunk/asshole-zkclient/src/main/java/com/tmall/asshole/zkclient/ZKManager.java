@@ -80,7 +80,9 @@ public class ZKManager {
 		
 		if(zk.exists(zKConfig.getRootPath(), false)==null){
 			zk.create(zKConfig.getRootPath(), null, acl.size()==0?Ids.OPEN_ACL_UNSAFE:acl,CreateMode.PERSISTENT);
-			return ;
+			//return ;
+			Thread.sleep(500);
+			log.warn("create the rootpath success  path="+ zKConfig.getRootPath());
 		}
 		
 		if (zk.exists(zKConfig.getFullPath(), false) == null) {

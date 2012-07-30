@@ -119,7 +119,15 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		
 	}
 	
-	
+	/***
+	 * 继续流程的流转
+	 * 
+	 * @param event
+	 * @param processName
+	 * @param nodeName
+	 * @param processInstanceID
+	 * @throws Exception
+	 */
 	public void contineEventProcess(Event event,String processName,String nodeName,Long processInstanceID) throws Exception{
 		Node n = ProcessTemplateHelper.find(processName, event.getClass(),nodeName);
 		if(n==null){

@@ -10,6 +10,7 @@ import java.util.Map;
 import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
 import com.tmall.asshole.event.filter.codec.ProtocolDecoder;
 import com.tmall.asshole.event.filter.codec.ProtocolEncoder;
+import com.tmall.asshole.util.JsonUtil;
 /**
  * 
  * @author tangjinou (jiuxian.tjo)

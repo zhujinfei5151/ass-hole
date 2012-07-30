@@ -79,21 +79,73 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	}
 
 	
-	
+	/***
+	 * 创建流程实例，流程实例ID随机产生
+	 * 
+	 * @param event
+	 * @param processName
+	 * @throws Exception
+	 */
 	public void createEventProcess(Event event,String processName) throws Exception{
+		createEventProcess(event,processName,ProcessTemplateHelper.createProcessInstanceID());
+	}
+	
+	
+	/***
+	 * 创建流程实例，流程实例ID根据需要定制 ,如交易订单号之类的组成的唯一processInstanceID
+	 * 
+	 * @param event
+	 * @param processName
+	 * @throws Exception
+	 */
+	public void createEventProcess(Event event,String processName,Long processInstanceID) throws Exception{
 		//根据类型反找到节点
 		List<Node> nodes = ProcessTemplateHelper.find(processName, event.getClass());
 		if(nodes.size()==0){
+					throw new NullPointerException("can't find the event, type="+event.getClass()+" in the processs, name="+processName);
+		}
+	    Node n = nodes.get(0);
+		event.setProcessName(processName);
+		event.setProcessInstanceId(processInstanceID);
+		event.setTypeClass(event.getClass().getName());
+		event.setCurrentName(n.getName());
+		event.setEnv(machineConfig.getEnv());
+	    EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
+				
+		setHashNum(event, n, eventSchedulerProcessor);
+				
+		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
+		eventSchedulerProcessor.addData(event);
+		
+	}
+	
+	
+	public void contineEventProcess(Event event,String processName,String nodeName,Long processInstanceID) throws Exception{
+		Node n = ProcessTemplateHelper.find(processName, event.getClass(),nodeName);
+		if(n==null){
 			throw new NullPointerException("can't find the event, type="+event.getClass()+" in the processs, name="+processName);
 		}
-		Node n = nodes.get(0);
+		if(processInstanceID==null || processInstanceID==0){
+			throw new NullPointerException("processInstanceID can't be null or 0");
+		}
+		
 		event.setProcessName(processName);
-		event.setProcessInstanceId(ProcessTemplateHelper.createProcessInstanceID());
+		event.setProcessInstanceId(processInstanceID);
 		event.setTypeClass(event.getClass().getName());
 		event.setCurrentName(n.getName());
 		event.setEnv(machineConfig.getEnv());
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
 		
+		setHashNum(event, n, eventSchedulerProcessor);
+		
+		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
+		eventSchedulerProcessor.addData(event);
+		
+	}
+
+
+	private void setHashNum(Event event, Node n,
+			EventSchedulerProcessor eventSchedulerProcessor) {
 		//如果设定了hash值则不会修改
 		if(!StringUtils.isBlank(n.getHashNum())){
 		   event.setHashNum(Integer.parseInt(n.getHashNum()));
@@ -101,10 +153,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		   // 0 - MAXHASHNUM
 		   event.setHashNum(RandomUtils.nextInt(eventSchedulerProcessor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
 		}
-		
-		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
-		eventSchedulerProcessor.addData(event);
 	}
+	
     
 
 	public void callback(Event event,EventContext context) throws Exception {

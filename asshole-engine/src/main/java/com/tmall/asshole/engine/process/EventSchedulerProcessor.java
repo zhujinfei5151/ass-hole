@@ -164,7 +164,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		  event.setId(data.getId());
 		  event.setHashNum(data.getHashNum());
 		  event.setStatus(EventConstant.EVENT_STATUS_LOADED);
-		  event.setExecCount(event.getExecCount() + 1);
+		  //event.setExecCount(event.getExecCount() + 1);
 		  event.setExecuteMachineHashRange(start+"--"+end);
 		  event.setExecuteMachineIp(executeMachineAlias);
 		  noErrorLst.add(event);

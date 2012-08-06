@@ -1,8 +1,13 @@
-<process name="order_card">
-  <start name="start" >
-    <transition to="order_create"/>
+<?xml version="1.0" ?> 
+
+<process name="order_card"  
+  xmlns:xsl="http://www.w3.org/2001/XMLSchema-instance" 
+  xsl:noNamespaceSchemaLocation="D:\taobao\code\ass-hole\asshole-engine\src\main\resources\schema\processes\process_definition.xsd">
+      
+  <start name="start" > 
+    <transition to="order_create"/>     
   </start>
- 
+  
   <node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1"  processorNumber="0" >
     <transitions>
       <transition to="order_execute"  exp="$a==$b"/>

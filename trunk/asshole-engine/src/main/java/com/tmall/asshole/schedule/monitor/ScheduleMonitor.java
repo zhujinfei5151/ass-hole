@@ -36,8 +36,8 @@ public class ScheduleMonitor{
 			public void run() {
               while(true){
 				try {
-				   //一分钟工作一次
-				   Thread.sleep(60000);
+				   //每5秒钟一次
+				   Thread.sleep(5000);
 				   logger.info("schedule monitor is working");
 				   ScheduleMonitorData data=new ScheduleMonitorData(eventDAO.queryCountOfUnExecuteEvent());
 				   for(IScheduleMonitorWatcher watch:watchers){

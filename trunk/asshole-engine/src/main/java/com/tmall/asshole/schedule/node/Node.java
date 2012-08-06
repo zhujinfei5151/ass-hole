@@ -30,8 +30,12 @@ public class Node {
 	@XStreamAsAttribute
 	private String hashNum;
 	
+	@XStreamAsAttribute
+	private Boolean syn;
+	
 	@XStreamAlias("transitions")
 	public List<Transition> transitions;
+	
 	
 
 	public String getClassname() {
@@ -77,7 +81,14 @@ public class Node {
 		this.foreach = foreach;
 	}
 	
-	
+	public Boolean getSyn() {
+		return syn==null?false:syn;
+	}
+
+	public void setSyn(Boolean syn) {
+		this.syn = syn;
+	}
+
 	public String getHashNum() {
 		return hashNum;
 	}

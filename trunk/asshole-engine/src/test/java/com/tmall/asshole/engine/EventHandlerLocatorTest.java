@@ -11,7 +11,6 @@ import com.tmall.asshole.mock.ep.TestHandler1;
 
 public class EventHandlerLocatorTest {
 	/***
-	 * 测试需要启动Spring容器
 	 */
 	@Test
 	public void testEventHandlerLocator(){

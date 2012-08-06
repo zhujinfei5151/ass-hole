@@ -30,7 +30,8 @@ public class MockEventDAO implements IEventDAO {
 			int processorNumber) {
 		List<Event> l = new ArrayList<Event>();
 		if (s.size() > 0) {
-			if (s.peek().getProcessorNumber()== processorNumber) {
+			//非同步商品
+			if (s.peek().getProcessorNumber()== processorNumber  &&  !s.peek().getSynInvoke()) {
 				l.add(s.pop());
 			}
 		}

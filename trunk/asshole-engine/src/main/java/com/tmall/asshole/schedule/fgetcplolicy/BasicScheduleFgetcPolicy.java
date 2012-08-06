@@ -126,6 +126,11 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 	public int getMaxHashNum() {
 		return max_hash_num;
 	}
+	public List<String> get_machines() {
+		return _machines;
+	}
+	
+	
 	
 
 

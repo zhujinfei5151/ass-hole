@@ -9,7 +9,8 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 	default-autowire="byName">
-	<context:annotation-config />
+	
+	<context:component-scan base-package="com.tmall" />
 	
 	<bean id="processorMachine" class="com.tmall.asshole.engine.process.ProcessorMachine" >
 	       <property name="machineConfig"  ref="machineConfig"></property>
@@ -80,6 +81,5 @@
     
     <bean id="handlerLocator" class="com.tmall.asshole.engine.EventHandlerLocator">
 	</bean>
-    <import resource="classpath:handler/handler_list.xml"/>
 
 </beans>

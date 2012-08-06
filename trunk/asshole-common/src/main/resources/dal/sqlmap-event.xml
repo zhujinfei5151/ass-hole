@@ -26,12 +26,13 @@
 		<result property="execStartTime" column="exec_start_time" />
 		<result property="isDelayExec" column="is_delay_exec" />
 		<result property="processorNumber" column="process_number" />
+		<result property="synInvoke" column="syn_invoke" />
 	</resultMap>
 	
 
  	<sql id="query_columns" >
     id,status,env,process_logs,memo,type_class,context,execute_machine_ip,execute_machine_hash_range,gmt_create,gmt_modified,operator,hash_num,exec_count,process_instance_id,source,
-		process_name,current_name,exec_start_time,is_delay_exec,process_number   
+		process_name,current_name,exec_start_time,is_delay_exec,process_number,syn_invoke   
   	</sql>
 
 	<insert id="insert" parameterClass="EventDO">
@@ -39,12 +40,12 @@
 		INSERT INTO
 		process_events(status,env,process_logs,memo,type_class,context,execute_machine_ip,
 		execute_machine_hash_range,gmt_create,gmt_modified,operator,hash_num,exec_count,process_instance_id,source,
-		process_name,current_name,exec_start_time,is_delay_exec,process_number)
+		process_name,current_name,exec_start_time,is_delay_exec,process_number,syn_invoke)
 
 		VALUES
 		(#status#,#env#,#processLogs#,#memo#,#typeClass#,#context#,#executeMachineIp#,
 		#executeMachineHashRange#,now(),now(),#operator#,#hashNum#,#execCount#,#processInstanceId#,#source#,
-		#processName#,#currentName#,now(),#isDelayExec#,#processorNumber#)
+		#processName#,#currentName#,now(),#isDelayExec#,#processorNumber#,#synInvoke#)
 		<selectKey keyProperty="id" resultClass="java.lang.Long">
 			SELECT
 			LAST_INSERT_ID() AS value
@@ -145,7 +146,13 @@
 				<![CDATA[
 				process_number = #processorNumber#
 				]]>
-			</isNotNull>		
+			</isNotNull>
+			<isNotNull property="synInvoke" prepend=",">
+				<![CDATA[
+				syn_invoke= #synInvoke#
+				]]>
+			</isNotNull>
+					
 		</dynamic>
 		WHERE id = #id# 
 	</update>
@@ -165,15 +172,15 @@
 	   ]]>  
 	</select>
 
-      <!-- 开始查询 -->
-
+      
+     <!-- 开始查询  此处仅返回  异步执行事件  的结果 2012-8-6 -->
 
     <select id="eventQuery" resultMap="eventsDOResultMap" >
 	   SELECT
 	   <include refid="query_columns" />
 	   FROM process_events  WHERE
 	   <![CDATA[  
-	     hash_num >= #start# AND hash_num<= #end# AND env = #env# AND process_number = #processorNumber# AND status = 0
+	     hash_num >= #start# AND hash_num<= #end# AND env = #env# AND process_number = #processorNumber# AND status = 0 AND syn_invoke = 0
 	  	 order by gmt_modified asc 
 	     limit #count#
 	   ]]>  

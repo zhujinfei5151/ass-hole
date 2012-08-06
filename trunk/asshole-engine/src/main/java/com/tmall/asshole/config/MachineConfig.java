@@ -1,5 +1,10 @@
 package com.tmall.asshole.config;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.List;
 /**
  * 
@@ -60,7 +65,27 @@ public class MachineConfig {
 		this.rootPath = rootPath;
 	}
 	public String getLocalIPAddress() {
-		return localIPAddress;
+		  if(localIPAddress==null){
+	    	   try {
+	               Enumeration<?> e1 = (Enumeration<?>) NetworkInterface.getNetworkInterfaces();
+	               while (e1.hasMoreElements()) {
+	                      NetworkInterface ni = (NetworkInterface) e1.nextElement();
+	                      Enumeration<?> e2 = ni.getInetAddresses();
+	                      while (e2.hasMoreElements()) {
+	                             InetAddress ia = (InetAddress) e2.nextElement();
+	                             // ip = ia.getHostAddress ();
+	                             if (!ia.isLoopbackAddress()) {
+	                                    if (ia instanceof Inet4Address) {
+	                                    	  localIPAddress = ia.getHostAddress();
+	                                    }
+	                             }
+	                      }
+	               }
+
+	        } catch (SocketException e) {
+	        }
+	    }
+       return localIPAddress;
 	}
 	public void setLocalIPAddress(String localIPAddress) {
 		this.localIPAddress = localIPAddress;

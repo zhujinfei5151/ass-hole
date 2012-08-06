@@ -3,9 +3,9 @@
     <transition to="order_create"/>
   </start>
  
-  <node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1" hashNum="1">
+  <node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1" hashNum="1" syn="true">
     <transitions>
-      <transition to="order_execute" />
+      <transition to="order_execute" exp="a &amp;&amp; b"/>
     </transitions>
   </node>
   

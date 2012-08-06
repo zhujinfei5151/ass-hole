@@ -6,6 +6,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.tmall.asshole.schedule.node.Node;
+
 public class ProcessTemplateHelperTest {
 	 @Test
      public void testDeploybyPath(){
@@ -15,6 +17,15 @@ public class ProcessTemplateHelperTest {
 			
 			Assert.assertTrue(ProcessTemplateHelper.processes.size()>0);
 		    Assert.assertNotNull(ProcessTemplateHelper.getProcessTemplate("order_card"));
+		    
+		    
+		    Node order_create = ProcessTemplateHelper.find("order_card", "order_create");
+		    Assert.assertEquals(true, order_create.getSyn());
+		    
+		    
+		    Node order_execute = ProcessTemplateHelper.find("order_card", "order_execute");
+		    Assert.assertEquals(false, order_execute.getSyn()); 
+		    
 		    
 		    try{
 		          ProcessTemplateHelper.deploy("/process/fake.xml");

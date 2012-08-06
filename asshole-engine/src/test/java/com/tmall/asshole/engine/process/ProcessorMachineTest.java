@@ -13,7 +13,6 @@ import com.tmall.asshole.schedule.node.helper.ProcessTemplateHelper;
 
 public class ProcessorMachineTest {
 	/***
-	 * 测试需要启动Spring容器
 	 */
 	static ApplicationContext context = new ClassPathXmlApplicationContext(
 			"config.xml");

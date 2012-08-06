@@ -66,6 +66,8 @@ public class Event {
      *  指定一个线程运行
      */
     private boolean assignedThread;
+    
+    private boolean synInvoke;
 	
 
     public Long getProcessInstanceId() {
@@ -279,6 +281,16 @@ public class Event {
 	public void setAssignedThread(boolean assignedThread) {
 		this.assignedThread = assignedThread;
 	}
+
+	public void setSynInvoke(Boolean syn) {
+		this.synInvoke=syn;
+	}
+
+	public boolean getSynInvoke() {
+		return synInvoke;
+	}
+	
+	
 	
 	
 

@@ -18,7 +18,9 @@ import org.apache.commons.logging.LogFactory;
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventConstant;
 import com.tmall.asshole.common.EventContext;
+import com.tmall.asshole.common.EventResult;
 import com.tmall.asshole.config.MachineConfig;
+import com.tmall.asshole.engine.http.JettyServer;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
 import com.tmall.asshole.schedule.Schedule;
 import com.tmall.asshole.schedule.monitor.ScheduleMonitor;
@@ -94,11 +96,13 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	/***
 	 * 创建流程实例，流程实例ID根据需要定制 ,如交易订单号之类的组成的唯一processInstanceID
 	 * 
+	 * 支持同步调用和异步调用
+	 * 
 	 * @param event
 	 * @param processName
 	 * @throws Exception
 	 */
-	public void createEventProcess(Event event,String processName,Long processInstanceID) throws Exception{
+	public EventResult createEventProcess(Event event,String processName,Long processInstanceID) throws Exception{
 		//根据类型反找到节点
 		List<Node> nodes = ProcessTemplateHelper.find(processName, event.getClass());
 		if(nodes.size()==0){
@@ -110,17 +114,15 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setTypeClass(event.getClass().getName());
 		event.setCurrentName(n.getName());
 		event.setEnv(machineConfig.getEnv());
-	    EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
-				
-		setHashNum(event, n, eventSchedulerProcessor);
-				
-		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
-		eventSchedulerProcessor.addData(event);
+		event.setSynInvoke(n.getSyn());
 		
+		return invokeNextNode(event, n);
 	}
 	
 	/***
 	 * 继续流程的流转
+	 * 
+	 * 支持同步调用和异步调用
 	 * 
 	 * @param event
 	 * @param processName
@@ -128,7 +130,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	 * @param processInstanceID
 	 * @throws Exception
 	 */
-	public void contineEventProcess(Event event,String processName,String nodeName,Long processInstanceID) throws Exception{
+	public EventResult contineEventProcess(Event event,String processName,String nodeName,Long processInstanceID) throws Exception{
 		Node n = ProcessTemplateHelper.find(processName, event.getClass(),nodeName);
 		if(n==null){
 			throw new NullPointerException("can't find the event, type="+event.getClass()+" in the processs, name="+processName);
@@ -142,13 +144,45 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setTypeClass(event.getClass().getName());
 		event.setCurrentName(n.getName());
 		event.setEnv(machineConfig.getEnv());
-		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
 		
-		setHashNum(event, n, eventSchedulerProcessor);
+		return invokeNextNode(event, n);		
 		
-		logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
-		eventSchedulerProcessor.addData(event);
-		
+	}
+
+
+	private EventResult invokeNextNode(Event event, Node n) throws Exception {
+		if(n.getSyn()==true){
+			//同步调用
+			//直接调用
+			EventResult result=new EventResult();
+			result.setSynInvoke(true);
+			EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
+			//setHashNum(event, n, eventSchedulerProcessor);
+		    logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+" syn=true");
+		    try{
+		      eventSchedulerProcessor.addData(event);
+		      EventContext context= new EventContext();
+		      eventSchedulerProcessor.process(event, context);
+		      result.setSuccess(event.getStatus().intValue()==EventConstant.EVENT_STATUS_SUCCESS?true:false);
+		      result.setErrorMsg(event.getMemo());
+		    }catch (Exception e) {
+		    	result.setSuccess(false);
+		    	result.setErrorMsg(e.getMessage());
+		    	//throw e;
+			}
+			return result;
+			
+		}else{
+			
+			//异步调用
+		    EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
+			setHashNum(event, n, eventSchedulerProcessor);
+			logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
+			eventSchedulerProcessor.addData(event);
+			EventResult result=new EventResult();
+			result.setSuccess(true);
+			return result;
+		}
 	}
 
 
@@ -301,9 +335,13 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		ZKConfig zkConfig =new ZKConfig(machineConfig.getUsePermissions(), machineConfig.getUsername(), machineConfig.getPassword(), machineConfig.getZkConnectString(), machineConfig.getZkSessionTimeout(), machineConfig.getRootPath(), machineConfig.getLocalIPAddress());
 		 
 		 
-		  logger.info("start the the  zookeeper client");
-		  zkClient = new ZKClient(iNodeChanges,zkConfig);
-		  zkClient.start();
+		logger.info("start the the  zookeeper client");
+		zkClient = new ZKClient(iNodeChanges,zkConfig);
+		zkClient.start();
+		  
+		new JettyServer(this).start();
+		
+		  
 	}
   	
 

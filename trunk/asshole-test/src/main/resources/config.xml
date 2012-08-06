@@ -113,6 +113,5 @@
     <bean id="applicationUtils" class="com.tmall.asshole.util.ApplicationUtils"/>
     <bean id="handlerLocator" class="com.tmall.asshole.engine.EventHandlerLocator">
 	</bean>
-    <import resource="classpath:handler/handler_list.xml"/>
 
 </beans>

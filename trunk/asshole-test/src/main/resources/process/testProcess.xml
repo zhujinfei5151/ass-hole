@@ -8,19 +8,19 @@
     <transition to="order_create"/>     
   </start>
   
-  <node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1"  processorNumber="0" >
+  <node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1"  processorNumber="0" syn="true">
     <transitions>
       <transition to="order_execute"  exp="$a==$b"/>
     </transitions>
   </node>
   
-  <node name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="1">
+  <node name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="1" syn="true">
     <transitions>
       <transition to="order_end"/>
     </transitions>
   </node>
   
-   <node foreach ="true"  name="order_end" classname="com.tmall.asshole.mock.ep.TestEvent3">
+   <node foreach ="true"  name="order_end" classname="com.tmall.asshole.mock.ep.TestEvent3" syn="true">
     <transitions>
       <transition to="end"/>
     </transitions>

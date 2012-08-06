@@ -20,7 +20,6 @@ import com.tmall.asshole.common.EventConstant;
 import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.common.EventResult;
 import com.tmall.asshole.config.MachineConfig;
-import com.tmall.asshole.engine.http.JettyServer;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
 import com.tmall.asshole.schedule.Schedule;
 import com.tmall.asshole.schedule.monitor.ScheduleMonitor;
@@ -149,7 +148,14 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		
 	}
 
-
+    /***
+     * 同步和异步的调度
+     * 
+     * @param event
+     * @param n
+     * @return
+     * @throws Exception
+     */
 	private EventResult invokeNextNode(Event event, Node n) throws Exception {
 		if(n.getSyn()==true){
 			//同步调用
@@ -159,10 +165,13 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
 			//setHashNum(event, n, eventSchedulerProcessor);
 		    logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+" syn=true");
+		    event.setHashNum(0);
+		    EventContext context= new EventContext();
 		    try{
+		      event.setExecuteMachineIp(machineConfig.getLocalIPAddress());
 		      eventSchedulerProcessor.addData(event);
-		      EventContext context= new EventContext();
 		      eventSchedulerProcessor.process(event, context);
+		      //同步调用也需要记录IP
 		      result.setSuccess(event.getStatus().intValue()==EventConstant.EVENT_STATUS_SUCCESS?true:false);
 		      result.setErrorMsg(event.getMemo());
 		    }catch (Exception e) {
@@ -170,7 +179,10 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		    	result.setErrorMsg(e.getMessage());
 		    	//throw e;
 			}
-			return result;
+		    
+		    triggerNodeTransitions(event, context, n);
+		    
+		    return result;
 			
 		}else{
 			
@@ -210,13 +222,20 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			logger.info("no transitions ,procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 			return;
 		}
-		
+		triggerNodeTransitions(event, context, n);
+		return;
+	}
+
+
+	private void triggerNodeTransitions(Event event, EventContext context,
+			Node n) throws Exception, ClassNotFoundException,
+			InstantiationException, IllegalAccessException {
 		for (Transition transition : n.transitions) {
 			if(trigger(context,transition.exp)){
 				
 				if(StringUtils.isBlank( transition.to) || transition.to.trim().toLowerCase().equals("end")){
 					logger.info("procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
-					return;
+					break;
 				}
 				
 				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
@@ -234,7 +253,6 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 				}
 			}
 		}
-		
 	}
 
 
@@ -242,7 +260,6 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	private void callback(Event event, EventContext context, Node nextN,Map<String, Object> map)
 			throws Exception, ClassNotFoundException, InstantiationException,
 			IllegalAccessException {
-		EventSchedulerProcessor processor = getEventSchedulerProcessor(Integer.parseInt(nextN.getProcessorNumber()));
 		  Class<?> eventName = Class.forName(nextN.getClassname());
 		  Event newEvent = (Event)eventName.newInstance();
 		  //Map<String, Object> map = context.getMap();
@@ -254,19 +271,11 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setProcessorNumber(Integer.parseInt(nextN.getProcessorNumber()));
 		  newEvent.setEnv(machineConfig.getEnv());
 		  newEvent.setTypeClass(nextN.getClassname());
-		  
-		  //如果设定了hash值则不会修改
-		  if(!StringUtils.isBlank(nextN.getHashNum())){
-			   event.setHashNum(Integer.parseInt(nextN.getHashNum()));
-		  }else{
-				  // 0 - MAXHASHNUM
-				  newEvent.setHashNum(RandomUtils.nextInt(processor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
-		  }
-		  
-		
+		  newEvent.setSynInvoke(nextN.getSyn());
 		
 		  logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
-		  processor.addData(newEvent);
+		  
+		  invokeNextNode(newEvent,nextN);
 		   //目前业务场景 下一个节点只有1个会执行,不排除以后多个执行
 	}
 	
@@ -339,7 +348,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		zkClient = new ZKClient(iNodeChanges,zkConfig);
 		zkClient.start();
 		  
-		new JettyServer(this).start();
+	//	new JettyServer(this).start();
 		
 		  
 	}

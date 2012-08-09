@@ -186,6 +186,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			
 		}else{
 			
+			event.setSynInvoke(false);
 			//Òì²½µ÷ÓÃ
 		    EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
 			setHashNum(event, n, eventSchedulerProcessor);

@@ -87,8 +87,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	 * @param processName
 	 * @throws Exception
 	 */
-	public void createEventProcess(Event event,String processName) throws Exception{
-		createEventProcess(event,processName,ProcessTemplateHelper.createProcessInstanceID());
+	public EventResult createEventProcess(Event event,String processName) throws Exception{
+		return createEventProcess(event,processName,ProcessTemplateHelper.createProcessInstanceID());
 	}
 	
 	

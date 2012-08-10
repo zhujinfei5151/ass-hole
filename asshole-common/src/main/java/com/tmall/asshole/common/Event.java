@@ -65,7 +65,7 @@ public class Event {
     /***
      *  指定一个线程运行
      */
-    private boolean assignedThread;
+    //private boolean assignedThread;
     
     private boolean synInvoke;
 	
@@ -274,13 +274,13 @@ public class Event {
 		this.processorNumber = processorNumber;
 	}
 
-	public boolean isAssignedThread() {
-		return assignedThread;
-	}
-
-	public void setAssignedThread(boolean assignedThread) {
-		this.assignedThread = assignedThread;
-	}
+//	public boolean isAssignedThread() {
+//		return assignedThread;
+//	}
+//
+//	public void setAssignedThread(boolean assignedThread) {
+//		this.assignedThread = assignedThread;
+//	}
 
 	public void setSynInvoke(Boolean syn) {
 		this.synInvoke=syn;

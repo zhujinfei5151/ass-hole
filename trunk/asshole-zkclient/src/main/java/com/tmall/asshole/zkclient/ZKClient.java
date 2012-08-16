@@ -105,6 +105,7 @@ public class ZKClient  implements Watcher {
 							log.error("close the protected thread of zkClient");
 							break;
 						}
+						log.info("client current state : " + zKManager.getZk().getState());
 						//发现与ZKServer断开,重连
 						if(zKManager.getZk().getState() == States.CLOSED){
 							zKManager.init();
@@ -138,7 +139,7 @@ public class ZKClient  implements Watcher {
 			String path = event.getPath();
 
 			if( event.getState() ==KeeperState.Disconnected ||   event.getState() ==KeeperState.Expired){
-				log.info("lost the conection with zk server");
+				log.info("lost the conection with zk server,status:" + event.getState().getIntValue());
 				for (INodeChange  iNodeChange: iNodeChanges) {
 					iNodeChange.onChange(children);
 				}

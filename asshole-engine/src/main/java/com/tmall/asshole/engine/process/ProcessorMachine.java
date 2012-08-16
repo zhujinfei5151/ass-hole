@@ -13,15 +13,14 @@ import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventConstant;
 import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.common.EventResult;
+import com.tmall.asshole.common.LoggerInitUtil;
 import com.tmall.asshole.config.MachineConfig;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
-import com.tmall.asshole.schedule.Schedule;
 import com.tmall.asshole.schedule.monitor.ScheduleMonitor;
 import com.tmall.asshole.schedule.node.Node;
 import com.tmall.asshole.schedule.node.Transition;
@@ -32,25 +31,25 @@ import com.tmall.asshole.zkclient.INodeChange;
 import com.tmall.asshole.zkclient.ZKClient;
 import com.tmall.asshole.zkclient.ZKConfig;
 /**
- * 
+ *
  * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ProcessorMachine implements IDataProcessorCallBack<Event,EventContext>,Initialize{
-	
-	private static transient Log logger = LogFactory.getLog(Schedule.class);
-	
+
+	private final static Log logger = LoggerInitUtil.LOGGER;
+
 	private ScriptEngineManager factory;
-	
+
 	private ScriptEngine scriptEngine;
-	
+
 	private MachineConfig machineConfig;
-	
-	
+
+
 	private  ZKClient zkClient;
-	
+
 	private  ScheduleMonitor scheduleMonitor;
-	
+
 
 	public MachineConfig getMachineConfig() {
 		return machineConfig;
@@ -72,17 +71,17 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		 factory = new ScriptEngineManager();
 		 scriptEngine = factory.getEngineByName("javascript");
 	}
-	
+
 	private List<EventSchedulerProcessor> eventSchedulerProcessors=new ArrayList<EventSchedulerProcessor>();
-	
+
 	public List<EventSchedulerProcessor> getEventSchedulerProcessors() {
 		return eventSchedulerProcessors;
 	}
 
-	
+
 	/***
 	 * 创建流程实例，流程实例ID随机产生
-	 * 
+	 *
 	 * @param event
 	 * @param processName
 	 * @throws Exception
@@ -90,13 +89,13 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	public EventResult createEventProcess(Event event,String processName) throws Exception{
 		return createEventProcess(event,processName,ProcessTemplateHelper.createProcessInstanceID());
 	}
-	
-	
+
+
 	/***
 	 * 创建流程实例，流程实例ID根据需要定制 ,如交易订单号之类的组成的唯一processInstanceID
-	 * 
+	 *
 	 * 支持同步调用和异步调用
-	 * 
+	 *
 	 * @param event
 	 * @param processName
 	 * @throws Exception
@@ -114,15 +113,15 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setCurrentName(n.getName());
 		event.setEnv(machineConfig.getEnv());
 		event.setSynInvoke(n.getSyn());
-		
+
 		return invokeNextNode(event, n);
 	}
-	
+
 	/***
 	 * 继续流程的流转
-	 * 
+	 *
 	 * 支持同步调用和异步调用
-	 * 
+	 *
 	 * @param event
 	 * @param processName
 	 * @param nodeName
@@ -137,20 +136,20 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		if(processInstanceID==null || processInstanceID==0){
 			throw new NullPointerException("processInstanceID can't be null or 0");
 		}
-		
+
 		event.setProcessName(processName);
 		event.setProcessInstanceId(processInstanceID);
 		event.setTypeClass(event.getClass().getName());
 		event.setCurrentName(n.getName());
 		event.setEnv(machineConfig.getEnv());
-		
-		return invokeNextNode(event, n);		
-		
+
+		return invokeNextNode(event, n);
+
 	}
 
     /***
      * 同步和异步的调度
-     * 
+     *
      * @param event
      * @param n
      * @return
@@ -179,13 +178,13 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		    	result.setErrorMsg(e.getMessage());
 		    	//throw e;
 			}
-		    
+
 		    triggerNodeTransitions(event, context, n);
-		    
+
 		    return result;
-			
+
 		}else{
-			
+
 			event.setSynInvoke(false);
 			//异步调用
 		    EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
@@ -209,15 +208,15 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		   event.setHashNum(RandomUtils.nextInt(eventSchedulerProcessor.getSchedule().getScheduleFgetcPolicy().getMaxHashNum()));
 		}
 	}
-	
-    
+
+
 
 	public void callback(Event event,EventContext context) throws Exception {
 		if(event.getStatus()!=EventConstant.EVENT_STATUS_SUCCESS){
 			logger.error("due to node "+event.getCurrentName()+" execute not success, procss "+event.getProcessName()+" finished, process id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 		    return;
 		}
-		
+
 		Node n = ProcessTemplateHelper.find(event.getProcessName(), event.getCurrentName());
 		if(n.transitions==null || n.transitions.size()==0){
 			logger.info("no transitions ,procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
@@ -233,12 +232,12 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			InstantiationException, IllegalAccessException {
 		for (Transition transition : n.transitions) {
 			if(trigger(context,transition.exp)){
-				
+
 				if(StringUtils.isBlank( transition.to) || transition.to.trim().toLowerCase().equals("end")){
 					logger.info("procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 					break;
 				}
-				
+
 				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
 				if(nextN.isForeach()){
 					if(context.getDataList()!=null){
@@ -273,13 +272,13 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setEnv(machineConfig.getEnv());
 		  newEvent.setTypeClass(nextN.getClassname());
 		  newEvent.setSynInvoke(nextN.getSyn());
-		
+
 		  logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
-		  
+
 		  invokeNextNode(newEvent,nextN);
 		   //目前业务场景 下一个节点只有1个会执行,不排除以后多个执行
 	}
-	
+
 
 	private EventSchedulerProcessor getEventSchedulerProcessor(int processNumber)  throws Exception{
 		for (EventSchedulerProcessor processor : eventSchedulerProcessors) {
@@ -290,7 +289,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		logger.error("can't find the processor, processorNumber="+processNumber);
 		throw new NullPointerException("can't find the processorr, processorNumber="+processNumber);
 	}
-	
+
 	private boolean trigger(EventContext context,String exec) {
 		for (Entry<String, Object> entry : context.getMap().entrySet()) {
 			scriptEngine.put(entry.getKey(), entry.getValue());
@@ -300,12 +299,12 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 				return true;
 			}
 			Boolean result = (Boolean) scriptEngine.eval(exec.replace("$", ""));
-			
-			
+
+
 			if(!result){
 				logger.info("exectue '"+exec+"' fail, so can't move to next node ");
 			}
-			
+
 		    return result;
 		} catch (ScriptException e) {
 			logger.error("execute the script error :"+ exec +"  " +e.getStackTrace());
@@ -317,44 +316,44 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		if(machineConfig==null){
 			throw new NullArgumentException("can' t find the machineConfig in "+this.getClass()+", could not find the engineConfig, pls check if the engineConfig is setted in spring config file;");
 		}
-		
+
 		if(machineConfig.getProcessTemplateFolders()==null || machineConfig.getProcessTemplateFolders().size()==0){
 			throw new NullArgumentException("process template folder in machineconfig can't be empty!");
 		}
-		
-		
+
+
 		//加载流程模版
 		ProcessTemplateHelper.deploy(machineConfig.getProcessTemplateFolders());
-		
+
 		List<INodeChange> iNodeChanges = new ArrayList<INodeChange>();
-		
+
 		for (EventSchedulerProcessor processor : eventSchedulerProcessors) {
 			iNodeChanges.add(processor.getSchedule().getScheduleFgetcPolicy());
 		}
-		
+
 		if(!machineConfig.getStartZK()){
 			logger.error("no need to start zookeeper client, pls check the var of startZK  in EngineConfig");
 			return;
 		}
-		
+
 		scheduleMonitor = new ScheduleMonitor();
-        
+
 		scheduleMonitor.start();
-		
-		
+
+
 		ZKConfig zkConfig =new ZKConfig(machineConfig.getUsePermissions(), machineConfig.getUsername(), machineConfig.getPassword(), machineConfig.getZkConnectString(), machineConfig.getZkSessionTimeout(), machineConfig.getRootPath(), machineConfig.getLocalIPAddress());
-		 
-		 
+
+
 		logger.info("start the the  zookeeper client");
 		zkClient = new ZKClient(iNodeChanges,zkConfig);
 		zkClient.start();
-		  
-	//	new JettyServer(this).start();
-		
-		  
-	}
-  	
 
-	
+	//	new JettyServer(this).start();
+
+
+	}
+
+
+
 
 }

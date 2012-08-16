@@ -12,10 +12,10 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
 
 import com.tmall.asshole.common.Event;
+import com.tmall.asshole.common.LoggerInitUtil;
 import com.tmall.asshole.engine.process.template.Parser;
 import com.tmall.asshole.exception.FolderNotFountException;
 import com.tmall.asshole.exception.NodeNotFountException;
@@ -24,17 +24,17 @@ import com.tmall.asshole.schedule.node.Node;
 import com.tmall.asshole.schedule.node.ProcessTemplate;
 
 /**
- * 
+ *
  * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ProcessTemplateHelper {
-	
-	final static Logger logger = LoggerFactory.getLogger(ProcessTemplateHelper.class);
-   
+
+	private final static Log logger = LoggerInitUtil.LOGGER;
+
 	public static Map<String, ProcessTemplate> processes = new HashMap<String, ProcessTemplate>();
-	
-	
+
+
 	public static ProcessTemplate getProcessTemplate(String name) {
 		return processes.get(name);
 	}
@@ -43,12 +43,12 @@ public class ProcessTemplateHelper {
 		if(p==null) return null;
 		return processes.put(p.name, p);
 	}
-	
-	
+
+
 	/**
 	 * deploy a processTemplate by file folder
 	 * @param path
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static void deploy(List<String> folders)  throws Exception {
 	    List<String> paths= new ArrayList<String>();
@@ -62,8 +62,8 @@ public class ProcessTemplateHelper {
 			if(resource == null){
 				  throw new FolderNotFountException("can't find the folder, name="+folder);
 			}
-			
-			
+
+
 			if (resource.getProtocol().equals("jar")) {
 			        String jarPath = resource.getPath().substring(5, resource.getPath().indexOf("!")); //strip out only the JAR file
 			        JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
@@ -73,40 +73,40 @@ public class ProcessTemplateHelper {
 			          if(name.endsWith("/")){
 			        	  continue;
 			          }
-			          if (name.startsWith(folder.startsWith("/")?folder.substring(1):folder)) { 
+			          if (name.startsWith(folder.startsWith("/")?folder.substring(1):folder)) {
 			            paths.add(name.startsWith("/")?name:("/"+name));
 			          }
 			        }
-				
+
 			}else{
 				String[] subfilenames = null;
 				File f = new File(resource.getPath());
 				subfilenames = f.list();
-			
+
 				if(subfilenames == null){
 					throw new FolderNotFountException("can't find the subfilenames, path="+resource.getPath());
 				}
-				
+
 				for (String subfilename : subfilenames) {
 					if(!folder.endsWith("/")){
 						folder=folder+"/";
 					}
 					paths.add(folder+subfilename);
 				}
-			
+
 			}
-			
+
 		}
 		for (String path : paths) {
 			ProcessTemplateHelper.deploy(path);
 		}
 	}
-	
-	
+
+
 	/**
 	 * deploy a processTemplate by file path
 	 * @param path
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static void deploy(String path) throws Exception {
 		ProcessTemplate template = null;
@@ -120,7 +120,7 @@ public class ProcessTemplateHelper {
 	}
 	/***
 	 * find a node in a processTemplate
-	 * 
+	 *
 	 * @param processName
 	 * @param node
 	 * @return
@@ -142,7 +142,7 @@ public class ProcessTemplateHelper {
 	}
 	/**
 	 * find list<Node> by processName and className
-	 * 
+	 *
 	 * @param className
 	 * @return
 	 * @throws Exception
@@ -157,7 +157,7 @@ public class ProcessTemplateHelper {
 		}
 		return l;
 	}
-	
+
 	public static Node find(String processName, Class<? extends Event> className,String nodeName) throws Exception{
 		ProcessTemplate processTemplate = ProcessTemplateHelper.getProcessTemplate(processName);
 		for (Node node :processTemplate.nodes) {
@@ -167,10 +167,10 @@ public class ProcessTemplateHelper {
 		}
 		return null;
 	}
-	
+
 	/****
 	 * 获取流程的ID
-	 * 
+	 *
 	 * @return
 	 */
 	public static Long createProcessInstanceID(){
@@ -179,6 +179,6 @@ public class ProcessTemplateHelper {
 		return Long.parseLong(process_instance_id_str);
 	}
 
-	
-	
+
+
 }

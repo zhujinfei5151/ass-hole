@@ -13,17 +13,17 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import com.tmall.asshole.common.LoggerInitUtil;
 /**
- * 
+ *
  * @author tangjinou (jiuxian.tjo)
  *
  */
 public class SchedulerThreadPoolExecutor {
-	
-	private static transient Log logger = LogFactory.getLog(SchedulerThreadPoolExecutor.class);
-	
-	
+
+	private final static Log logger = LoggerInitUtil.LOGGER;
+
 	/** *线程池维护线程的最少数量 */
 	private int corePoolSize = 20;
 
@@ -118,7 +118,7 @@ public class SchedulerThreadPoolExecutor {
 
 	/**
 	 * 实现java.util.concurrent.ThreadFactory接口
-	 * 
+	 *
 	 */
 	private static final class ThreadFactoryImpl implements ThreadFactory {
 		private String name = "";

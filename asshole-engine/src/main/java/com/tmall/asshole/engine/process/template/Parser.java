@@ -2,22 +2,22 @@ package com.tmall.asshole.engine.process.template;
 
 import java.io.InputStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
 
 import com.thoughtworks.xstream.XStream;
+import com.tmall.asshole.common.LoggerInitUtil;
 import com.tmall.asshole.exception.ParserException;
 import com.tmall.asshole.schedule.node.ProcessTemplate;
 import com.tmall.asshole.schedule.node.helper.XStreamHelper;
 
 /**
- * 
+ *
  * @author tangjinou (jiuxian.tjo)
  *
  */
 public class Parser {
-	
-	final static Logger logger = LoggerFactory.getLogger(Parser.class);
+
+	private final static Log logger = LoggerInitUtil.LOGGER;
 
 	public static XStream xstream = XStreamHelper.getInstance();
 

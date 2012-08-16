@@ -18,6 +18,10 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.tmall.asshole</groupId>
+			<artifactId>asshole-common</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

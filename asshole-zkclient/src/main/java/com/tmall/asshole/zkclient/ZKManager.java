@@ -54,7 +54,7 @@ public class ZKManager {
 
 	public void init() throws Exception {
 		if(zKConfig==null){
-			throw new NullPointerException("zkConfig ²»ÄÜÎª¿Õ");
+			throw new NullPointerException("zkConfig can not be null");
 		}
 
 		if(zk!=null){
@@ -86,10 +86,19 @@ public class ZKManager {
 		}
 
 		if (zk.exists(zKConfig.getFullPath(), false) == null) {
-			ZKTools.createPath(zk, zKConfig.getFullPath(), PersistenceUtil.serializable(createPathData()),
-					CreateMode.EPHEMERAL, acl.size()>0?acl:null);
+			int times = 0;
+			boolean isSuccess = false;
+			while (!isSuccess && times < 3) {
+				try {
+					ZKTools.createPath(zk, zKConfig.getFullPath(), PersistenceUtil.serializable(createPathData()),
+							CreateMode.EPHEMERAL, acl.size()>0?acl:null);
+					isSuccess = true;
+				} catch (Exception e) {
+					log.error("zkclient connect exception", e);
+					times ++;
+				}
+			}
 		}
-
 
 	}
 

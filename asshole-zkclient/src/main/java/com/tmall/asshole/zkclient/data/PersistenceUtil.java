@@ -7,51 +7,52 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import com.tmall.asshole.common.LoggerInitUtil;
 
 /**
- * 
+ *
  * @author tangjinou (jiuxian.tjo)
  *
  */
 public class PersistenceUtil {
-	  private static transient Log log = LogFactory.getLog(PersistenceUtil.class);
-	
+	private final static Log log = LoggerInitUtil.LOGGER;
+
 	  public static byte[]  serializable(NodeData data) throws IOException{
-		  
-		  ByteArrayOutputStream bout = new ByteArrayOutputStream(); 
-		  
+
+		  ByteArrayOutputStream bout = new ByteArrayOutputStream();
+
 		  ObjectOutputStream out=new ObjectOutputStream(bout);
-		  
+
 		  out.writeObject(data);
 		  out.flush();
-		  byte[] bytes = bout.toByteArray();  
-		  
+		  byte[] bytes = bout.toByteArray();
+
 		  bout.close();
-		  
+
 		  out.close();
 
 		  return bytes;
 	   }
-	  
+
 	  public static NodeData deSerializable(byte[] bytes) {
 		   if(bytes.length==0){
 			   return null;
 		   }
 		   try {
-		  
-		   ByteArrayInputStream bi = new ByteArrayInputStream(bytes);   
+
+		   ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
 		   ObjectInputStream oi=  new ObjectInputStream(bi);
-		   Object obj = oi.readObject();   
-		   bi.close();   
-		   oi.close();   
-		   
-		   return obj instanceof NodeData ?(NodeData)obj:null;   
-		   
+		   Object obj = oi.readObject();
+		   bi.close();
+		   oi.close();
+
+		   return obj instanceof NodeData ?(NodeData)obj:null;
+
 		} catch (Exception e) {
 			log.error(e.getStackTrace());
 			return null;
-		}   
+		}
 	  }
 
 }

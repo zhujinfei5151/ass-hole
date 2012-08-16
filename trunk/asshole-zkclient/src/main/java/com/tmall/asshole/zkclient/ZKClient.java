@@ -93,7 +93,13 @@ public class ZKClient  implements Watcher {
 			throw new Exception("zKConfig can't be null");
 		}
 		zKManager = new ZKManager(this, zKConfig);
-		zKManager.init();
+
+		// 初始化连接的时候可能会抛错，捕获住异常，让protecteThread重连来保证
+		try {
+			zKManager.init();
+		} catch (Exception e) {
+			log.error("zk客户端连接失败：", e);
+		}
 		//reRegisterWatch();
 		//thread.setDaemon(true);
 
@@ -116,7 +122,7 @@ public class ZKClient  implements Watcher {
 						Thread.sleep(protectedThreadSleepTime);		//会有bug,可能会导致服务器端有太多本客户端的地
 //						reRegisterWatch();
 					} catch (Exception e) {
-						log.error("zkClient dema thread:"+e);
+						log.error("zkClient dema thread:", e);
 					}
 				}
 			}

@@ -86,10 +86,11 @@ public class ZKManager {
 		}
 
 		if (zk.exists(zKConfig.getFullPath(), false) == null) {
-			int times = 0;
+			int times = 1;
 			boolean isSuccess = false;
-			while (!isSuccess && times < 3) {
+			while (!isSuccess && times <= 3) {
 				try {
+					log.info("try to create path on zk server,exexute times------>" + times);
 					ZKTools.createPath(zk, zKConfig.getFullPath(), PersistenceUtil.serializable(createPathData()),
 							CreateMode.EPHEMERAL, acl.size()>0?acl:null);
 					isSuccess = true;

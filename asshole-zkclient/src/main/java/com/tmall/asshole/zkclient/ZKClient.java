@@ -112,7 +112,7 @@ public class ZKClient  implements Watcher {
 						}
 
 						log.info("the protected thread of zkClient is running");
-						Thread.sleep(protectedThreadSleepTime);		//会有bug,可能会导致服务器端有太多本客户端的地坄1�7
+						Thread.sleep(protectedThreadSleepTime);		//会有bug,可能会导致服务器端有太多本客户端的地
 //						reRegisterWatch();
 					} catch (Exception e) {
 						log.error("zkClient dema thread:"+e);

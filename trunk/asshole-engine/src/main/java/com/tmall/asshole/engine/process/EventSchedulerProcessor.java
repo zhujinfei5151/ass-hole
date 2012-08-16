@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tmall.asshole.common.Event;
@@ -15,6 +14,7 @@ import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.common.EventEnv;
 import com.tmall.asshole.common.EventStatus;
 import com.tmall.asshole.common.IEventDAO;
+import com.tmall.asshole.common.LoggerInitUtil;
 import com.tmall.asshole.config.ProcessorConfig;
 import com.tmall.asshole.engine.IEngine;
 import com.tmall.asshole.event.filter.codec.ProtocolCodecFactory;
@@ -26,25 +26,24 @@ import com.tmall.asshole.schedule.Schedule;
 
 
 /**
- * 
+ *
  * @author tangjinou (jiuxian.tjo)
  *
  */
 public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event>,IContextCreate<EventContext>{
 
-	private static transient Log logger = LogFactory
-			.getLog(EventSchedulerProcessor.class);
-	
+	private final static Log logger = LoggerInitUtil.LOGGER;
+
 	private IEngine<Event, EventContext> eventEngine;
-	
+
 	private IEventDAO eventDAO;
-	
+
 	private ProcessorConfig processorConfig;
-	
+
 	private Schedule<Event,EventContext> schedule;
-	
+
     private int processorNumber;
-	
+
 	public ProcessorConfig getProcessorConfig() {
 		return processorConfig;
 	}
@@ -70,11 +69,11 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		   schedule.strart();
 		   processorNumber =  processorConfig.getProcessorNumber();
 	}
-	
+
 	public void stopSchedule(){
 		schedule.stopSchedule();
 	}
-	
+
 
 	public void setEventDAOForTest(IEventDAO eventDAO) {
 		this.eventDAO = eventDAO;
@@ -87,7 +86,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	public void setEventEngine(IEngine<Event, EventContext> eventEngine) {
 		this.eventEngine = eventEngine;
 	}
-	
+
 
 	public int getProcessorNumber() {
 		return processorNumber;
@@ -96,7 +95,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 
 	@Autowired
 	private ProtocolCodecFactory<Event> protocolCodecFactory;
-	
+
 
 	public void setProtocolCodecFactoryForTest(ProtocolCodecFactory<Event> protocolCodecFactory) {
 		this.protocolCodecFactory = protocolCodecFactory;
@@ -115,7 +114,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 	                data.setProcessLogs(StringUtils.isBlank(context.getProcessLogs())?"":context.getProcessLogs());
 	                data.setOperator(context.getOperator());
 	          }
-			
+
 		} catch (Exception e) {
 			    data.setExecCount(data.getExecCount()+1);
 	            data.setStatus(EventStatus.EVENT_STATUS_EXCEPTION);
@@ -135,19 +134,19 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		List<Event> noErrorLst = new ArrayList<Event>();
 	    for (Event data : l) {
 	    	  Event newData = (Event) Class.forName(data.getTypeClass()).newInstance();
-	    	
+
 	    	   try{
 	    		   Date now = new Date();
 	    		   if(data.isDelayExec()){
 	    			   if(now.getTime()>=data.getExecStartTime().getTime()){
-	    			      addNoErrorListAndUpdateEventDO(start, end,executeMachineAlias, noErrorLst, data, newData); 
+	    			      addNoErrorListAndUpdateEventDO(start, end,executeMachineAlias, noErrorLst, data, newData);
 	    			   }
 	    			   continue;
 	    		   }else{
 	    			   addNoErrorListAndUpdateEventDO(start, end,executeMachineAlias, noErrorLst, data, newData);
 	    		   }
-	    		   
-	    		   
+
+
 	    	   } catch (Exception e) {
 	    		    logger.error(e.getStackTrace());
 	    		    data.setStatus(EventConstant.EVENT_STATUS_PARAMETER_ERROR);

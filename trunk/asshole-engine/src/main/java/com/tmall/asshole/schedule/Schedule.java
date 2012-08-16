@@ -6,26 +6,26 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.tmall.asshole.common.EventEnv;
+import com.tmall.asshole.common.LoggerInitUtil;
 import com.tmall.asshole.config.ProcessorConfig;
 
 
 /**
- * 
+ *
  * @author tangjinou (jiuxian.tjo)
  *
  */
 public class Schedule<T,C> extends Job {
-	private static transient Log logger = LogFactory.getLog(Schedule.class);
+	private final static Log logger = LoggerInitUtil.LOGGER;
 	protected SchedulerThreadPoolExecutor threadPool;
 	protected final IDataLoader<T> dataLoader;
 	protected final IDataProcessor<T,C> dataProcessor;
 	protected final IContextCreate<C> contextCreate;
-	
+
 	protected IDataProcessorCallBack<T,C> dataProcessorCallBack;
-	
+
 	// 考虑远程变量推送
 	public boolean dealWithReceiveMsg = true;
 	private int schedulingPollingTime;
@@ -34,14 +34,14 @@ public class Schedule<T,C> extends Job {
 	protected String taskName;
 	protected String groupingName;
 	protected IScheduleFgetcPolicy scheduleFgetcPolicy;
-	
-	
+
+
 	private AtomicBoolean stop=new AtomicBoolean(false);
-	
+
 //	@Autowired
 //	protected ScheduleFgetcPolicyFactory scheduleFgetcPolicyFactory;
-	
-	
+
+
 	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T,C> dataProcessor, IContextCreate<C> contextCreate , ProcessorConfig config) {
 		this.dataLoader = dataLoader;
 		this.dataProcessor = dataProcessor;
@@ -49,16 +49,16 @@ public class Schedule<T,C> extends Job {
 		this.taskName = config.getTaskName();
 		this.groupingName = config.getGroupingName();
 		this.schedulingPollingTime = config.getSchedulingPollingTime();
-		
+
 		this.threadPool = new SchedulerThreadPoolExecutor(config.getCorePoolSize(),config.getMaxPoolSize(),config.getKeepAliveTime());
 		//根据配置决定选择 scheduleFgetcPolicy
 		scheduleFgetcPolicy=ScheduleFgetcPolicyFactory.create(config.getAlgorithmType());
 		this.setName("schedule-"+taskName+"-"+config.getProcessorNumber());
 		this.contextCreate = contextCreate;
-		
+
 	}
-	
-	
+
+
 	public void setDataProcessorCallBack(IDataProcessorCallBack<T,C> dataProcessorCallBack) {
 		this.dataProcessorCallBack = dataProcessorCallBack;
 	}
@@ -76,11 +76,11 @@ public class Schedule<T,C> extends Job {
 		this.threadPool.init(taskName);
 		super.start();
 	}
-	
+
 	public synchronized void stopSchedule(){
 		this.stop.set(true);
 	}
-	
+
 	public void run() {
 		while (true) {
 			try {
@@ -99,7 +99,7 @@ public class Schedule<T,C> extends Job {
 			}
 		}
 	}
-	
+
 	protected void processQueue() {
 		List<T> dataList = null;
 		try {
@@ -125,7 +125,7 @@ public class Schedule<T,C> extends Job {
 		}else{
 			logger.warn("Scheduler[" + taskName + "]  no datalist ");
 		}
-		
+
 		try {
 			Thread.sleep(schedulingPollingTime);
 		} catch (Throwable e) {
@@ -133,7 +133,7 @@ public class Schedule<T,C> extends Job {
 		}
 
 	}
-	
+
 	protected void dealDataList(final List<T> dataList) {
 		try {
 			Runnable task = new Runnable() {
@@ -167,7 +167,7 @@ public class Schedule<T,C> extends Job {
 			logger.error("Scheduler[" + taskName + "] processQueue error on threadPool.execute ", e);
 		}
 	}
-	
-	
+
+
 
 }

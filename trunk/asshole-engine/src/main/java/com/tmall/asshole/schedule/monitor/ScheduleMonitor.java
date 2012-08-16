@@ -4,34 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.tmall.asshole.common.IEventDAO;
 import com.tmall.asshole.common.IScheduleMonitorWatcher;
+import com.tmall.asshole.common.LoggerInitUtil;
 import com.tmall.asshole.common.ScheduleMonitorData;
 import com.tmall.asshole.util.ApplicationUtils;
 /**
- * 
+ *
  * @author tangjinou (jiuxian.tjo)
  *
  */
 public class ScheduleMonitor{
-	
+
 	private IEventDAO eventDAO;
-	
+
 	private Thread monitor;
-	
+
 	private List<IScheduleMonitorWatcher> watchers=new ArrayList<IScheduleMonitorWatcher>();
-	
-	
-	private static transient Log logger = LogFactory.getLog(ScheduleMonitor.class);
-    	
+
+	private final static Log logger = LoggerInitUtil.LOGGER;
 
 	public void start() throws Exception {
 		if(eventDAO==null){
 			eventDAO= (IEventDAO) ApplicationUtils.getBean("eventDAO");
 		}
-		
+
 		monitor = new Thread(){
 			public void run() {
               while(true){
@@ -52,7 +50,7 @@ public class ScheduleMonitor{
 		};
 		monitor.start();
 	}
-	
+
 	public void addWatcher(IScheduleMonitorWatcher watcher){
 		watchers.add(watcher);
 	}

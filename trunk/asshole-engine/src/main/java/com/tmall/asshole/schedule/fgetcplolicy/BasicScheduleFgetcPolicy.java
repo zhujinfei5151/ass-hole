@@ -8,36 +8,35 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tmall.asshole.common.LoggerInitUtil;
 import com.tmall.asshole.schedule.IScheduleFgetcPolicy;
 import com.tmall.asshole.zkclient.ZKConfig;
 
 /**
- * 
+ *
  * @author tangjinou (jiuxian.tjo)
  *
  */
 public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
-	private static transient Log logger = LogFactory
-			.getLog(BasicScheduleFgetcPolicy.class);
-	
+	private final static Log logger = LoggerInitUtil.LOGGER;
+
 	private int startIndex;
-	
+
 	private int endIndex;
-	
+
 	private final int rownum=1000;
-	
+
 	private int max_hash_num=10000;
-	
+
 	@Autowired
 	private ZKConfig zKConfig;
-	
+
 	private List<String> _machines=new ArrayList<String>();
-	
+
 	private Lock lock = new ReentrantLock();
-	
+
 	public ZKConfig getZKConfig() {
 		return zKConfig;
 	}
@@ -49,7 +48,7 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 	}
 	public BasicScheduleFgetcPolicy() {
 	}
-	
+
 	public int getStartIndex() {
 		return startIndex;
 	}
@@ -73,19 +72,19 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 			  logger.warn("machines size=0 , so change startIndex=0,endIndex=0");
 			  return;
 		  }
-		  
-		
+
+
 	      Collections.sort(machines);
 	      try{
 	      lock.lock();
-	      
+
 	      for (String ip : machines) {
 			    	_machines.clear();
 			    	_machines.addAll(machines);
 			    	onChange();
 		  }
 	      }catch (Exception e) {
-	    	  
+
 		 }
 	      finally{
 	    	  lock.unlock();
@@ -98,17 +97,17 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 			zKConfig = new ZKConfig();
 		}
 		int machine_num = _machines.size();
-		
+
 		if(machine_num==0){
 			this.startIndex=0;
 			this.endIndex=0;
 			logger.warn("machines size=0 , so change startIndex=0,endIndex=0");
 			return;
 		}
-		
+
 		int index = _machines.indexOf(zKConfig.getLocalIPAddress());
 		int hash_range= max_hash_num/machine_num;
-		
+
 		if((machine_num-1)==index){
 			startIndex =  index * hash_range;
 			endIndex =max_hash_num;
@@ -116,7 +115,7 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 			startIndex = index * hash_range;
 			endIndex = (index+1) * hash_range -1;
 		}
-		  
+
 	}
 	@Override
 	public String getExecuteMachineAlias() {
@@ -129,9 +128,9 @@ public class BasicScheduleFgetcPolicy implements IScheduleFgetcPolicy{
 	public List<String> get_machines() {
 		return _machines;
 	}
-	
-	
-	
+
+
+
 
 
 }

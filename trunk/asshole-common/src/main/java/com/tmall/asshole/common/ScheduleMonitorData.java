@@ -1,6 +1,10 @@
 package com.tmall.asshole.common;
 
 import java.util.List;
+import java.util.Map;
+
+import com.tmall.asshole.schedule.node.ProcessTemplate;
+
 
 /**
  * 
@@ -16,17 +20,17 @@ public class ScheduleMonitorData {
 	private String env;
 	
 	private List<String> machines;
+
+	private Map<String, ProcessTemplate> processes;
 	
+	public ScheduleMonitorData(){
+	}
 
 	public long getCountOfUnExecuteEvent() {
 		return countOfUnExecuteEvent;
 	}
 
 	public void setCountOfUnExecuteEvent(long countOfUnExecuteEvent) {
-		this.countOfUnExecuteEvent = countOfUnExecuteEvent;
-	}
-
-	public ScheduleMonitorData(long countOfUnExecuteEvent) {
 		this.countOfUnExecuteEvent = countOfUnExecuteEvent;
 	}
 
@@ -45,9 +49,14 @@ public class ScheduleMonitorData {
 	public void setMachines(List<String> machines) {
 		this.machines = machines;
 	}
-	
-	
-   
+
+	public Map<String, ProcessTemplate> getProcesses() {
+		return processes;
+	}
+
+	public void setProcesses(Map<String, ProcessTemplate> processes) {
+		this.processes = processes;
+	}
 	
    
 	

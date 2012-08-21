@@ -16,17 +16,17 @@
 		<dependency>
 			<groupId>com.tmall.asshole</groupId>
 			<artifactId>asshole-zkclient</artifactId>
-			<version>1.0.2-SNAPSHOT</version>
+			<version>1.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tmall.asshole</groupId>
 			<artifactId>asshole-engine</artifactId>
-			<version>1.0.2-SNAPSHOT</version>
+			<version>1.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tmall.asshole</groupId>
 			<artifactId>asshole-common</artifactId>
-			<version>1.0.2-SNAPSHOT</version>
+			<version>1.0.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -2,6 +2,7 @@ package com.tmall.asshole.schedule.monitor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 
@@ -9,6 +10,8 @@ import com.tmall.asshole.common.IEventDAO;
 import com.tmall.asshole.common.IScheduleMonitorWatcher;
 import com.tmall.asshole.common.LoggerInitUtil;
 import com.tmall.asshole.common.ScheduleMonitorData;
+import com.tmall.asshole.schedule.node.ProcessTemplate;
+import com.tmall.asshole.schedule.node.helper.ProcessTemplateHelper;
 import com.tmall.asshole.util.ApplicationUtils;
 /**
  *
@@ -54,5 +57,22 @@ public class ScheduleMonitor{
 	public void addWatcher(IScheduleMonitorWatcher watcher){
 		watchers.add(watcher);
 	}
+	
+	/**
+	 * 获取监控数据
+	 * @return
+	 */
+	public ScheduleMonitorData getScheduleMonitorData(){
+		ScheduleMonitorData data=new ScheduleMonitorData(eventDAO.queryCountOfUnExecuteEvent());
+		//TODO:补充需要的关键数据
+		//流程模板相关数据
+		Map<String, ProcessTemplate> processes = ProcessTemplateHelper.processes;
+		
+		
+		
+		return data;
+	}
+	
+	
 
 }

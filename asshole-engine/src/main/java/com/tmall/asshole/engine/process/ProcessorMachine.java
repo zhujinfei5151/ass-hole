@@ -20,6 +20,7 @@ import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.common.EventResult;
 import com.tmall.asshole.common.LoggerInitUtil;
 import com.tmall.asshole.config.MachineConfig;
+import com.tmall.asshole.engine.http.JettyServer;
 import com.tmall.asshole.schedule.IDataProcessorCallBack;
 import com.tmall.asshole.schedule.monitor.ScheduleMonitor;
 import com.tmall.asshole.schedule.node.Node;
@@ -45,8 +46,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 
 	private MachineConfig machineConfig;
 
-
-	private  ZKClient zkClient;
+	private ZKClient zkClient;
+	
 
 	private  ScheduleMonitor scheduleMonitor;
 
@@ -348,7 +349,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		zkClient = new ZKClient(iNodeChanges,zkConfig);
 		zkClient.start();
 
-	//	new JettyServer(this).start();
+		new JettyServer(this).start();
 
 
 	}

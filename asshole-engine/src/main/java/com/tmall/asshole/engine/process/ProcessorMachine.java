@@ -337,7 +337,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			return;
 		}
 
-		scheduleMonitor = new ScheduleMonitor();
+		scheduleMonitor = new ScheduleMonitor(this);
 
 		scheduleMonitor.start();
 
@@ -353,6 +353,10 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 
 
 	}
+	public ZKClient getZkClient() {
+		return zkClient;
+	}
+
 
 
 

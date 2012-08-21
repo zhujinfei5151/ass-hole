@@ -1,0 +1,26 @@
+<process name="order_card">
+  <start name="start" >
+    <transition to="order_create"/>
+  </start>
+ 
+  <node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1" hashNum="1" syn="true">
+    <transitions>
+      <transition to="order_execute" exp="a &amp;&amp; b"/>
+    </transitions>
+  </node>
+  
+  <node name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent1">
+    <transitions>
+      <transition to="order_end"/>
+    </transitions>
+  </node>
+  
+  <node foreach ="true"  name="order_end" classname="com.tmall.asshole.mock.ep.TestEvent1">
+    <transitions>
+      <transition to="end"/>
+    </transitions>
+  </node> 
+  
+  
+  <end name="end"/>
+</process>

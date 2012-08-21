@@ -1,0 +1,30 @@
+<?xml version="1.0" ?> 
+
+<process name="order_card"  
+  xmlns:xsl="http://www.w3.org/2001/XMLSchema-instance" 
+  xsl:noNamespaceSchemaLocation="D:\taobao\code\ass-hole\asshole-engine\src\main\resources\schema\processes\process_definition.xsd">
+      
+  <start name="start" > 
+    <transition to="order_create"/>     
+  </start>
+  
+  <node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1"  processorNumber="0" syn="true">
+    <transitions>
+      <transition to="order_execute"  exp="$a==$b"/>
+    </transitions>
+  </node>
+  
+  <node name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="1" syn="true">
+    <transitions>
+      <transition to="order_end"/>
+    </transitions>
+  </node>
+  
+   <node foreach ="true"  name="order_end" classname="com.tmall.asshole.mock.ep.TestEvent3" syn="true">
+    <transitions>
+      <transition to="end"/>
+    </transitions>
+  </node> 
+  
+  <end name="end"/>
+</process>

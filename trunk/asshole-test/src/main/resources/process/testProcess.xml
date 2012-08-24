@@ -14,7 +14,7 @@
     </transitions>
   </node>
   
-  <node name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="1" syn="true">
+  <node type="manu" name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="1" syn="true">
     <transitions>
     </transitions>
   </node>

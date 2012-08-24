@@ -157,6 +157,14 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
      * @throws Exception
      */
 	private EventResult invokeNextNode(Event event, Node n) throws Exception {
+		//先判断是否为自动节点，如果不是自动节点 则不往下执行
+		if(n.getType().trim().equals(Node.NODE_MANU_TYPE)){
+			logger.info("procss finished, beacause of node type is manu, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
+			EventResult result=new EventResult();
+			result.setSuccess(true);
+			return result;
+		}
+		
 		if(n.getSyn()==true){
 			//同步调用
 			//直接调用
@@ -231,12 +239,18 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	private void triggerNodeTransitions(Event event, EventContext context,
 			Node n) throws Exception, ClassNotFoundException,
 			InstantiationException, IllegalAccessException {
+		if(n.transitions==null){
+			logger.info("procss finished, no transitions, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
+			return;
+		}
+		
+		
 		for (Transition transition : n.transitions) {
 			if(trigger(context,transition.exp)){
 
 				if(StringUtils.isBlank( transition.to) || transition.to.trim().toLowerCase().equals("end")){
 					logger.info("procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
-					break;
+					continue;
 				}
 
 				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
@@ -246,11 +260,11 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 						  for (Map<String, Object> map : dataList) {
 							  callback(event, context, nextN, map);
 						  }
-						  break;
+						  continue;
 					}
 				}else{
 		           callback(event, context, nextN, context.getMap());
-				   break;
+		           continue;
 				}
 			}
 		}
@@ -273,11 +287,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setEnv(machineConfig.getEnv());
 		  newEvent.setTypeClass(nextN.getClassname());
 		  newEvent.setSynInvoke(nextN.getSyn());
-
 		  logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
-
 		  invokeNextNode(newEvent,nextN);
-		   //目前业务场景 下一个节点只有1个会执行,不排除以后多个执行
 	}
 
 

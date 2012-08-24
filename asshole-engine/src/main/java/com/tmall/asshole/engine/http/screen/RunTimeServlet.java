@@ -37,7 +37,7 @@ public class RunTimeServlet extends HttpServlet{
 			  SerializeConfig config=new SerializeConfig();
 			  config.setAsmEnable(false);
 			  
-	    	  response.getWriter().println(JSON.toJSONString(processorMachine.getScheduleMonitor().getScheduleMonitorData(),config,SerializerFeature.WriteClassName));
+	    	  response.getWriter().println(JSON.toJSONString(processorMachine.getScheduleMonitor().getScheduleMonitorData(),config));
 	        
 	        
 	    }

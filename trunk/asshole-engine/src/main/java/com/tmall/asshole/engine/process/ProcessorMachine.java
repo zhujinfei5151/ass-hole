@@ -158,7 +158,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
      */
 	private EventResult invokeNextNode(Event event, Node n) throws Exception {
 		//先判断是否为自动节点，如果不是自动节点 则不往下执行
-		if(n.getType().trim().equals(Node.NODE_MANU_TYPE)){
+		if(n.getType().trim().equals(Node.NODE_MANUAL_TYPE)){
 			logger.info("procss finished, beacause of node type is manu, name="+event.getProcessName()+",id="+event.getProcessInstanceId());
 			EventResult result=new EventResult();
 			result.setSuccess(true);

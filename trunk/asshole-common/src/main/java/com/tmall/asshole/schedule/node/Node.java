@@ -17,7 +17,7 @@ public class Node {
 	
 	public static String NODE_AUTO_TYPE="auto";
 	
-	public static String NODE_MANU_TYPE="manu";
+	public static String NODE_MANUAL_TYPE="manual";
 	
 	
 	@XStreamAsAttribute
@@ -81,7 +81,7 @@ public class Node {
 		if(StringUtils.isBlank(type)){
 			return NODE_AUTO_TYPE;
 		}
-		return NODE_MANU_TYPE;
+		return NODE_MANUAL_TYPE;
 	}
 
 	public void setType(String type) {

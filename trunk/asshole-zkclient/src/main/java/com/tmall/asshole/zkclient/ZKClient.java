@@ -61,7 +61,8 @@ public class ZKClient  implements Watcher {
 	private boolean shutdown;
 
 	private Thread protecteThread;
-
+    
+	private List<String> _children;
 
 //	private boolean needRegisterWatch;
 
@@ -169,6 +170,9 @@ public class ZKClient  implements Watcher {
 				for (INodeChange  iNodeChange: iNodeChanges) {
 					iNodeChange.onChange(children);
 				}
+				
+				//_children 为监控使用
+				_children = children;
 
 		   }
 
@@ -247,5 +251,10 @@ public class ZKClient  implements Watcher {
 	public List<Data> getParentNodeDatas() throws Exception{
 		  return getParentNodeData().getDatas();
 	}
+
+	public List<String> getChildren() {
+		return _children;
+	}
+	
 
 }

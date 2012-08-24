@@ -15,6 +15,11 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias("node")
 public class Node {
 	
+	public static String NODE_AUTO_TYPE="auto";
+	
+	public static String NODE_MANU_TYPE="manu";
+	
+	
 	@XStreamAsAttribute
 	private String classname;
 	
@@ -36,6 +41,8 @@ public class Node {
 	@XStreamAlias("transitions")
 	public List<Transition> transitions;
 	
+	@XStreamAlias("type")
+	public String type;
 	
 
 	public String getClassname() {
@@ -70,6 +77,17 @@ public class Node {
 		return foreach;
 	}
 	
+	public String getType() {
+		if(StringUtils.isBlank(type)){
+			return NODE_AUTO_TYPE;
+		}
+		return NODE_MANU_TYPE;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public boolean isForeach(){
 		if(StringUtils.isBlank(foreach)){
 			return false;

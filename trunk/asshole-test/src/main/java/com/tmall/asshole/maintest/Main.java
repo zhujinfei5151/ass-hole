@@ -7,6 +7,7 @@ import com.tmall.asshole.common.IScheduleMonitorWatcher;
 import com.tmall.asshole.common.ScheduleMonitorData;
 import com.tmall.asshole.engine.process.ProcessorMachine;
 import com.tmall.asshole.mock.ep.TestEvent1;
+import com.tmall.asshole.mock.ep.TestEvent2;
 /**
  * 
  * @author tangjinou (jiuxian.tjo)
@@ -34,9 +35,15 @@ public class Main {
 			 
 			 testEvent1.setTestVar1("testVar1");
 			 
-			 machine.createEventProcess(testEvent1, "order_card");
+			 machine.createEventProcess(testEvent1, "order_card",122334234L);
 //			 
 //			 machine.createEventProcess(testEvent1, "brandSale");
+			 
+			 TestEvent2 testEvent2 = new TestEvent2();
+			 
+			 machine.contineEventProcess(testEvent2, "order_card", "order_end", 122334234L);
+			 
+			 
 			 
 			 
 			 Thread.sleep(1000000);

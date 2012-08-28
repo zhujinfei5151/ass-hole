@@ -78,10 +78,10 @@ public class Node {
 	}
 	
 	public String getType() {
-		if(StringUtils.isBlank(type)){
-			return NODE_AUTO_TYPE;
+		if(!StringUtils.isBlank(type)){
+			return type;
 		}
-		return NODE_MANUAL_TYPE;
+		return NODE_AUTO_TYPE;
 	}
 
 	public void setType(String type) {

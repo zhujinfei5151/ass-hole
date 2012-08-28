@@ -143,7 +143,10 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setTypeClass(event.getClass().getName());
 		event.setCurrentName(n.getName());
 		event.setEnv(machineConfig.getEnv());
-
+        
+		//因为是主动调用，手动节点自动转成自动节点
+		n.setType(Node.NODE_AUTO_TYPE);
+		
 		return invokeNextNode(event, n);
 
 	}
@@ -287,7 +290,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setEnv(machineConfig.getEnv());
 		  newEvent.setTypeClass(nextN.getClassname());
 		  newEvent.setSynInvoke(nextN.getSyn());
-		  newEvent.setTypeClass(nextN.type);
+		  newEvent.setType(nextN.getType());
+		  
 		  logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		  invokeNextNode(newEvent,nextN);
 	}

@@ -68,9 +68,21 @@ public class Event {
     //private boolean assignedThread;
     
     private boolean synInvoke;
-	
+    /**
+     * 表示事件节点的类型
+     */
+    private String type;
+    
 
-    public Long getProcessInstanceId() {
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Long getProcessInstanceId() {
     	return processInstanceId;
     }
     

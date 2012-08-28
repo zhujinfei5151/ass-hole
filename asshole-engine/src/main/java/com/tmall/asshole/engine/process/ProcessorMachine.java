@@ -287,6 +287,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setEnv(machineConfig.getEnv());
 		  newEvent.setTypeClass(nextN.getClassname());
 		  newEvent.setSynInvoke(nextN.getSyn());
+		  newEvent.setTypeClass(nextN.type);
 		  logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		  invokeNextNode(newEvent,nextN);
 	}

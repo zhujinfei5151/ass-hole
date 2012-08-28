@@ -177,6 +177,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			//setHashNum(event, n, eventSchedulerProcessor);
 		    logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+" syn=true");
 		    event.setHashNum(0);
+		    event.setSynInvoke(true);
 		    EventContext context= new EventContext();
 		    try{
 		      event.setExecuteMachineIp(machineConfig.getLocalIPAddress());

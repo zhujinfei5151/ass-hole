@@ -1,6 +1,7 @@
 package com.tmall.asshole.common;
 
 import java.util.Date;
+import java.util.Map;
 
 /****
  *
@@ -73,8 +74,41 @@ public class Event {
      */
     private String type;
     
+    
+    /***
+     * 类似ThreadLocal级的context,不允许外部修改   
+     */
+	private String sessionContext;
+	
+	private Map<String,Object> session;
+    
+	
+	public String getSessionContext() {
+		return sessionContext;
+	}
 
-    public String getType() {
+	public void setSessionContext(String sessionContext) {
+		this.sessionContext = sessionContext;
+	}
+
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
+
+	public String getInstanceContext() {
+		return sessionContext;
+	}
+
+	public void setInstanceContext(String instanceContext) {
+		this.sessionContext = instanceContext;
+	}
+	
+
+	public String getType() {
 		return type;
 	}
 

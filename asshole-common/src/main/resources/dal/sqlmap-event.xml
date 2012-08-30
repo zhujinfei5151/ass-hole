@@ -27,12 +27,14 @@
 		<result property="isDelayExec" column="is_delay_exec" />
 		<result property="processorNumber" column="process_number" />
 		<result property="synInvoke" column="syn_invoke" />
+		<result property="sessionContext" column="session_context" />
+		
 	</resultMap>
 	
 
  	<sql id="query_columns" >
     id,status,env,process_logs,memo,type_class,context,execute_machine_ip,execute_machine_hash_range,gmt_create,gmt_modified,operator,hash_num,exec_count,process_instance_id,source,
-		process_name,current_name,exec_start_time,is_delay_exec,process_number,syn_invoke   
+		process_name,current_name,exec_start_time,is_delay_exec,process_number,syn_invoke, session_context  
   	</sql>
 
 	<insert id="insert" parameterClass="EventDO">
@@ -40,12 +42,12 @@
 		INSERT INTO
 		process_events(status,env,process_logs,memo,type_class,context,execute_machine_ip,
 		execute_machine_hash_range,gmt_create,gmt_modified,operator,hash_num,exec_count,process_instance_id,source,
-		process_name,current_name,exec_start_time,is_delay_exec,process_number,syn_invoke)
+		process_name,current_name,exec_start_time,is_delay_exec,process_number,syn_invoke,session_context)
 
 		VALUES
 		(#status#,#env#,#processLogs#,#memo#,#typeClass#,#context#,#executeMachineIp#,
 		#executeMachineHashRange#,now(),now(),#operator#,#hashNum#,#execCount#,#processInstanceId#,#source#,
-		#processName#,#currentName#,now(),#isDelayExec#,#processorNumber#,#synInvoke#)
+		#processName#,#currentName#,now(),#isDelayExec#,#processorNumber#,#synInvoke#,#sessionContext#)
 		<selectKey keyProperty="id" resultClass="java.lang.Long">
 			SELECT
 			LAST_INSERT_ID() AS value
@@ -150,6 +152,11 @@
 			<isNotNull property="synInvoke" prepend=",">
 				<![CDATA[
 				syn_invoke= #synInvoke#
+				]]>
+			</isNotNull>
+			<isNotNull property="sessionContext" prepend=",">
+				<![CDATA[
+				session_context= #sessionContext#
 				]]>
 			</isNotNull>
 					

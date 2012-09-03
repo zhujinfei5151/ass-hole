@@ -31,6 +31,9 @@ public class TestHandler2 extends AbstractHandler<TestEvent2,EventContext> {
 		 dataList.add(map2);
 		
 		 context.putDataList(dataList);
+		 
+		 context.putData("a", 121212);
+	     context.putData("b", 121212);
 	
 		return true;
 	}

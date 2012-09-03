@@ -41,7 +41,7 @@ public class Main {
 			 
 			 TestEvent2 testEvent2 = new TestEvent2();
 			 
-			 machine.contineEventProcess(testEvent2, "order_card", "order_end", 122334234L);
+			 machine.contineEventProcess(testEvent2, "order_card", "order_execute", 122334234L);
 			 
 			 
 			 

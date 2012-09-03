@@ -13,6 +13,9 @@ public class TestHandler3  extends AbstractHandler<TestEvent3,EventContext>{
         
 		System.out.print("execute TestHandler3, testVar3="+event.getTestVar3());
 		
+		System.out.print("execute TestHandler3, session="+context.getSession().get("session"));
+		
+		
 		return true;
 	}
 

@@ -28,4 +28,15 @@ public interface IEventDAO {
 	public Event queryEventByPrimaryKey(Long id,Integer hashNum);
 	
 	public Long queryCountOfUnExecuteEvent();
+    
+	/**
+     * 根据instanceId返回当前所有流程   倒排序
+     */
+    public List<Event> queryEventList(int processInstanceId);
+    
+    /**
+     * 根据当前节点 返回流程中上一个节点
+     */
+   // public Event queryLastNodeEvent(int processInstanceId,String currentNode);
+
 }

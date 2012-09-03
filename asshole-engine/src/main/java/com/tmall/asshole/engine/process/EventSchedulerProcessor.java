@@ -2,7 +2,9 @@ package com.tmall.asshole.engine.process;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -23,6 +25,7 @@ import com.tmall.asshole.schedule.IDataLoader;
 import com.tmall.asshole.schedule.IDataProcessor;
 import com.tmall.asshole.schedule.IDataProducer;
 import com.tmall.asshole.schedule.Schedule;
+import com.tmall.asshole.util.JsonUtil;
 
 
 /**
@@ -30,7 +33,7 @@ import com.tmall.asshole.schedule.Schedule;
  * @author tangjinou (jiuxian.tjo)
  *
  */
-public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event>,IContextCreate<EventContext>{
+public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcessor<Event,EventContext>,IDataProducer<Event>,IContextCreate<Event,EventContext>{
 
 	private final static Log logger = LoggerInitUtil.LOGGER;
 
@@ -124,6 +127,7 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 				logger.error("update status failed,"+e.getMessage());
 			throw e;
 		}  finally{
+			data.setSessionContext(JsonUtil.toJson(context.getSession()));
 			eventDAO.updateEventDO(data);
 		}
 	}
@@ -177,9 +181,16 @@ public class EventSchedulerProcessor implements IDataLoader<Event>,IDataProcesso
 		eventDAO.insertEventDO(event);
 	}
 
+
 	@Override
-	public EventContext create() {
-		return new EventContext();
+	public EventContext create(Event t) {
+		EventContext eventContext = new EventContext();
+		Map<String,Object> session = new HashMap<String,Object>();
+		if(t.getSessionContext()!=null){
+			session.putAll(JsonUtil.toJava(t.getSessionContext()));
+		}
+		eventContext.setSession(session);
+		return eventContext;
 	}
 
 }

@@ -24,7 +24,7 @@ public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>,P
 		for (String key : map.keySet()) {
 			try {
 				Field field  = null;
-				if(key.equals("id")||key.equals("status")||key.equals("env")){
+				if(excludeKeyWords(key)){
 					continue;
 				}
 				
@@ -66,7 +66,12 @@ public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>,P
 			Map<String, Object> map = new HashMap<String, Object>();
 			if (fields != null && fields.size() > 0) {
 				for (Field field : fields) {
+					
 					String key = field.getName();
+					if(excludeKeyWords(key)){
+						continue;
+					}
+					
 					field.setAccessible(true);
 					Object value = field.get(t);
 					map.put(key, value);
@@ -74,6 +79,13 @@ public class JSONProtocol<T> implements ProtocolDecoder<T> ,ProtocolEncoder<T>,P
 			}
 			
 			return JsonUtil.toJson(map).getBytes();
+	}
+	
+	private boolean excludeKeyWords(String key){
+		if(key.equals("id")||key.equals("status")||key.equals("env")){
+			return true;
+		}
+		return false;
 	}
 	
 	private boolean isClassContainsFiled(String name,Field[] declaredFields){

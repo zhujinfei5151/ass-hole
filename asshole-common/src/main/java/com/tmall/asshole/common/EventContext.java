@@ -16,6 +16,8 @@ public class EventContext  implements IScheduleContext{
 	
 	private String operator;
 	
+	private Map<String,Object> session = new HashMap<String,Object>();
+	
 	private Map<String,Object> map = new HashMap<String,Object>();
 	
 	private List<Map<String,Object>> dataList = new ArrayList<Map<String,Object>>();
@@ -55,7 +57,13 @@ public class EventContext  implements IScheduleContext{
 	public List<Map<String, Object>> getDataList() {
 		return dataList;
 	}
-	
-	
+
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
 
 }

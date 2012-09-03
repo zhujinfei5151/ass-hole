@@ -22,7 +22,7 @@ public class Schedule<T,C> extends Job {
 	protected SchedulerThreadPoolExecutor threadPool;
 	protected final IDataLoader<T> dataLoader;
 	protected final IDataProcessor<T,C> dataProcessor;
-	protected final IContextCreate<C> contextCreate;
+	protected final IContextCreate<T,C> contextCreate;
 
 	protected IDataProcessorCallBack<T,C> dataProcessorCallBack;
 
@@ -42,7 +42,7 @@ public class Schedule<T,C> extends Job {
 //	protected ScheduleFgetcPolicyFactory scheduleFgetcPolicyFactory;
 
 
-	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T,C> dataProcessor, IContextCreate<C> contextCreate , ProcessorConfig config) {
+	public Schedule(IDataLoader<T> dataLoader, IDataProcessor<T,C> dataProcessor, IContextCreate<T,C> contextCreate , ProcessorConfig config) {
 		this.dataLoader = dataLoader;
 		this.dataProcessor = dataProcessor;
 		this.envionmentGroup = config.getEnvionmentGroup();
@@ -140,7 +140,7 @@ public class Schedule<T,C> extends Job {
 				public void run() {
 					try {
 						for (T t : dataList) {
-					           C c = contextCreate.create();
+					           C c = contextCreate.create(t);
 							try {
 								dataProcessor.process(t,c);
 							} catch (Throwable e) {

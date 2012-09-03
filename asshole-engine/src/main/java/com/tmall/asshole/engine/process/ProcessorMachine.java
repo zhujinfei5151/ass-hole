@@ -143,6 +143,11 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setTypeClass(event.getClass().getName());
 		event.setCurrentName(n.getName());
 		event.setEnv(machineConfig.getEnv());
+		
+		//copy 全局的session
+		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
+		Event lastNodeEvent = eventSchedulerProcessor.getEventDAO().queryLastNodeEvent(processInstanceID, n.getName());
+		event.setSessionContext(lastNodeEvent.getSessionContext());
         
 		//因为是主动调用，手动节点自动转成自动节点
 		n.setType(Node.NODE_AUTO_TYPE);
@@ -178,7 +183,9 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		    logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+" syn=true");
 		    event.setHashNum(0);
 		    event.setSynInvoke(true);
-		    EventContext context= new EventContext();
+		    
+		    EventContext context = eventSchedulerProcessor.create(event);
+		    
 		    try{
 		      event.setExecuteMachineIp(machineConfig.getLocalIPAddress());
 		      eventSchedulerProcessor.addData(event);
@@ -292,6 +299,9 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setTypeClass(nextN.getClassname());
 		  newEvent.setSynInvoke(nextN.getSyn());
 		  newEvent.setType(nextN.getType());
+		  
+		  //copy 全局的session context
+		  newEvent.setSessionContext(event.getSessionContext());
 		  
 		  logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		  invokeNextNode(newEvent,nextN);

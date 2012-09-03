@@ -80,7 +80,6 @@ public class Event {
      */
 	private String sessionContext;
 	
-	private Map<String,Object> session;
     
 	
 	public String getSessionContext() {
@@ -91,13 +90,6 @@ public class Event {
 		this.sessionContext = sessionContext;
 	}
 
-	public Map<String, Object> getSession() {
-		return session;
-	}
-
-	public void setSession(Map<String, Object> session) {
-		this.session = session;
-	}
 
 	public String getInstanceContext() {
 		return sessionContext;

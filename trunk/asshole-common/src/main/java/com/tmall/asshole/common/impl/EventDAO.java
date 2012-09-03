@@ -86,20 +86,7 @@ public class EventDAO extends SqlMapClientDaoSupport implements IEventDAO {
 		if(queryEvents.isEmpty()){//没有符合节点 返回为null
 			return null;
 		}
-		int currentNodeIndex = 0;
-		for(int i =0; i< queryEvents.size();i++){
-			if(!queryEvents.get(i).getCurrentName().equals(currentNode)){
-				currentNodeIndex++;//不匹配 往下找
-			}
-		}
-		if((currentNodeIndex+1)< queryEvents.size()){//如果存在上一个节点 返回该节点
-			return queryEvents.get(currentNodeIndex+1);
-		}else{//该节点已经是第一个节点 返回节点本身  此处调用时需要判断
-			return queryEvents.get(currentNodeIndex);
-		}
-		
-		
-		
+		return queryEvents.get(0);//以最近的一个节点作为返回 
 	}
 
 

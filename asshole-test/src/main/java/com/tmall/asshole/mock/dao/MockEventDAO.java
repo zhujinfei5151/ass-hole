@@ -55,4 +55,14 @@ public class MockEventDAO implements IEventDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public List<Event> queryEventList(Long processInstanceId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Event queryLastNodeEvent(Long processInstanceId, String currentNode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

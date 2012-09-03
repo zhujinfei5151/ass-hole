@@ -9,12 +9,12 @@
   </start>
   
   <node name="order_create"  classname="com.tmall.asshole.mock.ep.TestEvent1"  processorNumber="0" syn="true">
-    <transitions>
-      <transition to="order_execute"  exp="$a==$b"/>
-    </transitions>
   </node>
   
   <node type="manual" name="order_execute" classname="com.tmall.asshole.mock.ep.TestEvent2"  processorNumber="1" syn="true">
+    <transitions>
+      <transition to="order_end"  exp="$a==$b"/>
+    </transitions>
   </node>
   
    <node foreach ="true"  name="order_end" classname="com.tmall.asshole.mock.ep.TestEvent3" syn="true">

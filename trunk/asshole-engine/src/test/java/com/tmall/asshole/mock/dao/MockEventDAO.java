@@ -53,4 +53,16 @@ public class MockEventDAO implements IEventDAO {
 	public Long queryCountOfUnExecuteEvent() {
 		return 1L;
 	}
+
+	@Override
+	public List<Event> queryEventList(Long processInstanceId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Event queryLastNodeEvent(Long processInstanceId, String currentNode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

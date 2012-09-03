@@ -198,7 +198,7 @@
 	 </select>
 	 
      <!-- 	 返回同一个processInstenceId所对应的整个流程    2012-9-3 -->
-	 <select id="queryEventListByProcIncId" resultClass="eventsDOResultMap">
+	 <select id="queryEventListByProcIncId" resultMap="eventsDOResultMap">
 	   SELECT 
 	   <include refid="query_columns" />
 	   FROM process_events  WHERE process_instance_id = #processInstanceId# order by gmt_create desc

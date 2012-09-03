@@ -32,7 +32,7 @@ public interface IEventDAO {
 	/**
      * 根据instanceId返回当前所有流程   倒排序
      */
-    public List<Event> queryEventList(int processInstanceId);
+    public List<Event> queryEventList(Long processInstanceId);
     
     /**
      * 根据当前节点 返回流程中上一个节点 
@@ -40,6 +40,6 @@ public interface IEventDAO {
      * <br>如果当前节点已经是第一个节点，返回本身；</br>
      * <br>如果当前节点不存在，返回null</br>
      */
-    public Event queryLastNodeEvent(int processInstanceId,String currentNode);
+    public Event queryLastNodeEvent(Long processInstanceId,String currentNode);
 
 }

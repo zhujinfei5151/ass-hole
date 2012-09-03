@@ -72,7 +72,7 @@ public class EventDAO extends SqlMapClientDaoSupport implements IEventDAO {
 	 * 返回同一个processInstanceId对应的整个流程  按照时间逆序排列
 	 */
 	@Override
-	public List<Event> queryEventList(int processInstanceId) {
+	public List<Event> queryEventList(Long processInstanceId) {
 		Map param = new HashMap<String,Integer>();
 		param.put("processInstanceId", processInstanceId);
 		List<Event> allEvents = getSqlMapClientTemplate().queryForList("Event.queryEventListByProcIncId",param);
@@ -81,7 +81,7 @@ public class EventDAO extends SqlMapClientDaoSupport implements IEventDAO {
 	}
 	
 	@Override
-	public Event queryLastNodeEvent(int processInstanceId, String currentNode) {
+	public Event queryLastNodeEvent(Long processInstanceId, String currentNode) {
 		List<Event> queryEvents = queryEventList(processInstanceId);
 		if(queryEvents.isEmpty()){//没有符合节点 返回为null
 			return null;

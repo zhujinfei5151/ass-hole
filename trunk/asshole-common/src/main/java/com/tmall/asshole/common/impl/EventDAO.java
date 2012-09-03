@@ -68,6 +68,17 @@ public class EventDAO extends SqlMapClientDaoSupport implements IEventDAO {
 		Long count = (Long)getSqlMapClientTemplate().queryForObject("Event.countOfUnExecuteEvent");
 		return count;
 	}
+	/**
+	 * 返回同一个processInstanceId对应的整个流程
+	 */
+	@Override
+	public List<Event> queryEventList(int processInstanceId) {
+		Map param = new HashMap<String,Integer>();
+		param.put("processInstanceId", processInstanceId);
+		List<Event> allEvents = getSqlMapClientTemplate().queryForList("Event.queryEventListByProcIncId",param);
+		
+		return allEvents;
+	}
 
 
 

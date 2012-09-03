@@ -36,9 +36,8 @@ public interface IEventDAO {
     
     /**
      * 根据当前节点 返回流程中上一个节点 
-     * <br>如果上一个节点存在，则正常返回 ；</br>
-     * <br>如果当前节点已经是第一个节点，返回本身；</br>
      * <br>如果当前节点不存在，返回null</br>
+     * <br>否则返回按时间逆序最近的一个节点 ；</br>
      */
     public Event queryLastNodeEvent(Long processInstanceId,String currentNode);
 

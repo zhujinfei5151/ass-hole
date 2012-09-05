@@ -18,6 +18,7 @@ import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventConstant;
 import com.tmall.asshole.common.EventContext;
 import com.tmall.asshole.common.EventResult;
+import com.tmall.asshole.common.EventStatus;
 import com.tmall.asshole.common.LoggerInitUtil;
 import com.tmall.asshole.config.MachineConfig;
 import com.tmall.asshole.engine.http.JettyServer;
@@ -232,12 +233,21 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 
 
 	public void callback(Event event,EventContext context) throws Exception {
+		
+		Node n = ProcessTemplateHelper.find(event.getProcessName(), event.getCurrentName());
+		
+		//当执行失败 并且小于重试次数 
+		if(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode()) 
+				&& event.getExecCount() <= Integer.parseInt(n.retry) ){
+			callback(event, context, n, context.getMap());
+		}
+		
+		
 		if(event.getStatus()!=EventConstant.EVENT_STATUS_SUCCESS){
 			logger.error("due to node "+event.getCurrentName()+" execute not success, procss "+event.getProcessName()+" finished, process id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 		    return;
 		}
 
-		Node n = ProcessTemplateHelper.find(event.getProcessName(), event.getCurrentName());
 		if(n.transitions==null || n.transitions.size()==0){
 			logger.info("no transitions ,procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 			return;
@@ -250,11 +260,16 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	private void triggerNodeTransitions(Event event, EventContext context,
 			Node n) throws Exception, ClassNotFoundException,
 			InstantiationException, IllegalAccessException {
+		//对于同步来说 同样需要重试
+		if(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode()) 
+				&& event.getExecCount() <= Integer.parseInt(n.retry) ){
+			callback(event, context, n, context.getMap());
+		}
+		
 		if(n.transitions==null){
 			logger.info("procss finished, no transitions, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 			return;
 		}
-		
 		
 		for (Transition transition : n.transitions) {
 			if(trigger(context,transition.exp)){
@@ -299,7 +314,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setTypeClass(nextN.getClassname());
 		  newEvent.setSynInvoke(nextN.getSyn());
 		  newEvent.setType(nextN.getType());
-		  
+		  newEvent.setExecCount(event.getExecCount());//重试次数
 		  //copy 全局的session context
 		  newEvent.setSessionContext(event.getSessionContext());
 		  

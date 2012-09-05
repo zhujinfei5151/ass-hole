@@ -44,6 +44,20 @@ public class Node {
 	@XStreamAlias("type")
 	public String type;
 	
+	@XStreamAsAttribute
+	public String retry;
+	
+
+	public String getRetry() {
+		if(StringUtils.isBlank(retry)){
+			return "0";
+		}
+		return retry;
+	}
+
+	public void setRetry(String retry) {
+		this.retry = retry;
+	}
 
 	public String getClassname() {
 		return classname;
@@ -115,6 +129,9 @@ public class Node {
 		this.hashNum = hashNum;
 	}
 
+	
+	
+	
 	@Override
 	public String toString() {
 		return "Node [name=" + name + ","+"classname="+classname +", + transitions=" + transitions + "]";

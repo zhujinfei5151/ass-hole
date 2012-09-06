@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.stereotype.Component;
 
@@ -34,8 +35,13 @@ public class TestHandler2 extends AbstractHandler<TestEvent2,EventContext> {
 		 
 		 context.putData("a", 121212);
 	     context.putData("b", 121212);
-	
-		return true;
+	     
+	     //ÓÃÓÚ²âÊÔ Ê§°Ü×´Ì¬
+	     Random r = new Random();
+	     if(r.nextInt(100)>20)
+	    	 return false;
+	     else
+	    	 return true;
 	}
 
 

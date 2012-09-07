@@ -3,9 +3,8 @@ package com.tmall.asshole.maintest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.tmall.asshole.common.IScheduleMonitorWatcher;
-import com.tmall.asshole.common.ScheduleMonitorData;
 import com.tmall.asshole.engine.process.ProcessorMachine;
+import com.tmall.asshole.mock.ep.HelloWorldEvent;
 import com.tmall.asshole.mock.ep.TestEvent1;
 import com.tmall.asshole.mock.ep.TestEvent2;
 /**
@@ -24,19 +23,26 @@ public class Main {
 			 ProcessorMachine   machine= (ProcessorMachine)context.getBean("processorMachine");
 			 
 			 
-			 machine.getScheduleMonitor().addWatcher(new IScheduleMonitorWatcher() {
-				public void onChange(ScheduleMonitorData data) {
-					System.err.println("countOfUnExecuteEvent"+data.getCountOfUnExecuteEvent());
-					
-				}
-			});
+//			 machine.getScheduleMonitor().addWatcher(new IScheduleMonitorWatcher() {
+//				public void onChange(ScheduleMonitorData data) {
+//					System.err.println("countOfUnExecuteEvent"+data.getCountOfUnExecuteEvent());
+//					
+//				}
+//			});
 			 
 			 TestEvent1 testEvent1 = new TestEvent1();
-			 
-			 testEvent1.setTestVar1("testVar1");
-			 
-			 machine.createEventProcess(testEvent1, "order_card",122334234L);
+////			 testEvent1.setTestVar1("testVar1");
+////			 machine.createEventProcess(testEvent1, "order_card");
 //			 
+//			 HelloWorldEvent helloWorldEvent = new HelloWorldEvent();
+//			 helloWorldEvent.setSayHello("hello_world");
+//			 machine.createEventProcess(helloWorldEvent, "hello_world_process");
+
+//			 
+			 
+//			 machine.createEventProcess(testEvent1, "order_card");
+			 machine.createEventProcess(testEvent1, "order_card",122334234L);
+
 //			 machine.createEventProcess(testEvent1, "brandSale");
 			 
 			 TestEvent2 testEvent2 = new TestEvent2();

@@ -299,6 +299,12 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 				}
 
 				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
+                
+				//如果是人工节点 就暂时不触发执行
+				if(nextN.getType().trim().equals(Node.NODE_MANUAL_TYPE)){
+					continue;
+				}
+				
 				if(nextN.isForeach()){
 					if(context.getDataList()!=null){
 						  List<Map<String, Object>> dataList = context.getDataList();
@@ -307,7 +313,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 						  }
 						  continue;
 					}
-				}else{
+				}
+				else{
 		           callback(event, context, nextN, context.getMap(),false);
 		           continue;
 				}

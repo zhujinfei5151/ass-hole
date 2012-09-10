@@ -148,10 +148,12 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		//copy 全局的session
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
 		Event lastNodeEvent = eventSchedulerProcessor.getEventDAO().queryLastNodeEvent(processInstanceID, n.getName());
-		//如果上一个节点失败   则是否继续  上层业务保证  
-		//
-		
-		event.setSessionContext(lastNodeEvent.getSessionContext());
+
+        //如果上一个节点失败   则是否继续  上层业务保证  
+        //
+        if(lastNodeEvent!=null){
+		  event.setSessionContext(lastNodeEvent.getSessionContext());
+		}
         
 		//因为是主动调用，手动节点自动转成自动节点
 		n.setType(Node.NODE_AUTO_TYPE);

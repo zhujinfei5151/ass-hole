@@ -8,45 +8,45 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
- * 
+ *
  * @author tangjinou (jiuxian.tjo)
  *
  */
 @XStreamAlias("node")
 public class Node {
-	
+
 	public static String NODE_AUTO_TYPE="auto";
-	
+
 	public static String NODE_MANUAL_TYPE="manual";
-	
-	
+
+
 	@XStreamAsAttribute
 	private String classname;
-	
+
 	@XStreamAsAttribute
 	private String name;
-	
+
 	@XStreamAsAttribute
 	private String processorNumber;
-	
+
 	@XStreamAsAttribute
 	private String foreach;
-	
+
 	@XStreamAsAttribute
 	private String hashNum;
-	
+
 	@XStreamAsAttribute
 	private Boolean syn;
-	
+
 	@XStreamAlias("transitions")
 	public List<Transition> transitions;
-	
-	@XStreamAlias("type")
+
+	@XStreamAsAttribute
 	private String type;
-	
+
 	@XStreamAsAttribute
 	private String retry;
-	
+
 
 	public String getRetry() {
 		if(StringUtils.isBlank(retry)){
@@ -66,7 +66,7 @@ public class Node {
 	public void setClassname(String className) {
 		this.classname = className;
 	}
-	
+
 	public String getProcessorNumber() {
 		//Ä¬ÈÏÎª0
 		if(StringUtils.isBlank(processorNumber)){
@@ -86,11 +86,11 @@ public class Node {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getForeach() {
 		return foreach;
 	}
-	
+
 	public String getType() {
 		if(!StringUtils.isBlank(type)){
 			return type;
@@ -108,11 +108,11 @@ public class Node {
 		}
 		return foreach.trim().equals("true");
 	}
-	
+
 	public void setForeach(String foreach) {
 		this.foreach = foreach;
 	}
-	
+
 	public Boolean getSyn() {
 		return syn==null?false:syn;
 	}
@@ -129,9 +129,9 @@ public class Node {
 		this.hashNum = hashNum;
 	}
 
-	
-	
-	
+
+
+
 	@Override
 	public String toString() {
 		return "Node [name=" + name + ","+"classname="+classname +", + transitions=" + transitions + "]";

@@ -45,7 +45,7 @@ public class Node {
 	public String type;
 	
 	@XStreamAsAttribute
-	public String retry;
+	private String retry;
 	
 
 	public String getRetry() {

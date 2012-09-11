@@ -150,15 +150,21 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		Event lastNodeEvent = eventSchedulerProcessor.getEventDAO().queryLastNodeEvent(processInstanceID, n.getName());
 
         //如果上一个节点失败   则是否继续  上层业务保证
-        //
         if(lastNodeEvent!=null){
 		  event.setSessionContext(lastNodeEvent.getSessionContext());
 		}
 
-		//因为是主动调用，手动节点自动转成自动节点
-//		n.setType(Node.NODE_AUTO_TYPE);
-
-		return invokeNextNode(event, n);
+		Node tmpAutoNode = new Node();
+		tmpAutoNode.setClassname(n.getClassname());
+		tmpAutoNode.setForeach(n.getForeach());
+		tmpAutoNode.setHashNum(n.getHashNum());
+		tmpAutoNode.setName(n.getName());
+		tmpAutoNode.setProcessorNumber(n.getProcessorNumber());
+		tmpAutoNode.setRetry(n.getRetry());
+		tmpAutoNode.setSyn(n.getSyn());
+		tmpAutoNode.setType(Node.NODE_AUTO_TYPE);  //设置成auto
+		
+		return invokeNextNode(event, tmpAutoNode);
 
 	}
 

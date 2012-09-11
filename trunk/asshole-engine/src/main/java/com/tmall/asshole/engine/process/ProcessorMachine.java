@@ -13,6 +13,7 @@ import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
+import org.springframework.beans.BeanUtils;
 
 import com.tmall.asshole.common.Event;
 import com.tmall.asshole.common.EventConstant;
@@ -155,15 +156,10 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		}
 
 		Node tmpAutoNode = new Node();
-		tmpAutoNode.setClassname(n.getClassname());
-		tmpAutoNode.setForeach(n.getForeach());
-		tmpAutoNode.setHashNum(n.getHashNum());
-		tmpAutoNode.setName(n.getName());
-		tmpAutoNode.setProcessorNumber(n.getProcessorNumber());
-		tmpAutoNode.setRetry(n.getRetry());
-		tmpAutoNode.setSyn(n.getSyn());
+
+		BeanUtils.copyProperties(n, tmpAutoNode);
 		tmpAutoNode.setType(Node.NODE_AUTO_TYPE);  //ÉèÖÃ³Éauto
-		
+
 		return invokeNextNode(event, tmpAutoNode);
 
 	}

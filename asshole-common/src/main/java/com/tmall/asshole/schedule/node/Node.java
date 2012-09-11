@@ -39,7 +39,7 @@ public class Node {
 	private Boolean syn;
 
 	@XStreamAlias("transitions")
-	public List<Transition> transitions;
+	private List<Transition> transitions;
 
 	@XStreamAsAttribute
 	private String type;

@@ -222,7 +222,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	        //同步调用也需要记录IP
 	        
 	        while(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode()) 
-	        		&& event.getExecCount() <= Integer.parseInt(n.retry) ){
+	        		&& event.getExecCount() <= Integer.parseInt(n.getRetry()) ){
 	        	event.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode());//标记为未执行
 	        	event.setContext(null);
 	        	event.setSessionContext(null);//清空session
@@ -263,7 +263,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		
 		//当执行失败 并且小于重试次数 
 		if(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode()) 
-				&& event.getExecCount() <= Integer.parseInt(n.retry) ){
+				&& event.getExecCount() <= Integer.parseInt(n.getRetry())){
 			callback(event, context, n, context.getMap(),true);
 		}
 		

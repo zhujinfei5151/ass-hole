@@ -42,7 +42,7 @@ public class Node {
 	public List<Transition> transitions;
 	
 	@XStreamAlias("type")
-	public String type;
+	private String type;
 	
 	@XStreamAsAttribute
 	private String retry;

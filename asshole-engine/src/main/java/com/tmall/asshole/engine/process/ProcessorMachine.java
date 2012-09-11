@@ -48,7 +48,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	private MachineConfig machineConfig;
 
 	private ZKClient zkClient;
-	
+
 
 	private  ScheduleMonitor scheduleMonitor;
 
@@ -144,20 +144,20 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		event.setTypeClass(event.getClass().getName());
 		event.setCurrentName(n.getName());
 		event.setEnv(machineConfig.getEnv());
-		
+
 		//copy 全局的session
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
 		Event lastNodeEvent = eventSchedulerProcessor.getEventDAO().queryLastNodeEvent(processInstanceID, n.getName());
 
-        //如果上一个节点失败   则是否继续  上层业务保证  
+        //如果上一个节点失败   则是否继续  上层业务保证
         //
         if(lastNodeEvent!=null){
 		  event.setSessionContext(lastNodeEvent.getSessionContext());
 		}
-        
+
 		//因为是主动调用，手动节点自动转成自动节点
-		n.setType(Node.NODE_AUTO_TYPE);
-		
+//		n.setType(Node.NODE_AUTO_TYPE);
+
 		return invokeNextNode(event, n);
 
 	}
@@ -178,7 +178,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			result.setSuccess(true);
 			return result;
 		}
-		
+
 		if(n.getSyn()==true){
 			//同步调用
 			//直接调用
@@ -197,31 +197,31 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 			return result;
 		}
 	}
-	
+
 	/**
 	 * 同步执行
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public EventResult synExecute(Event event, Node n) throws Exception{
-		
+
 		EventResult result=new EventResult();
 		result.setSynInvoke(true);
-		
+
 		EventSchedulerProcessor eventSchedulerProcessor = getEventSchedulerProcessor(Integer.parseInt(n.getProcessorNumber()));
 		//setHashNum(event, n, eventSchedulerProcessor);
 	    logger.info("procss start, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+" syn=true");
 	    event.setHashNum(0);
 	    event.setSynInvoke(true);
-	    
+
 	    EventContext context = eventSchedulerProcessor.create(event);
-	    
+
 	    try{
 	        event.setExecuteMachineIp(machineConfig.getLocalIPAddress());
 	        eventSchedulerProcessor.addData(event);
 	        eventSchedulerProcessor.process(event, context);
 	        //同步调用也需要记录IP
-	        
-	        while(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode()) 
+
+	        while(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode())
 	        		&& event.getExecCount() <= Integer.parseInt(n.getRetry()) ){
 	        	event.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode());//标记为未执行
 	        	event.setContext(null);
@@ -229,10 +229,10 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	        	eventSchedulerProcessor.addData(event);
 	        	eventSchedulerProcessor.process(event, context);
 	        }
-	        
+
 	        result.setSuccess(event.getStatus().intValue()==EventConstant.EVENT_STATUS_SUCCESS?true:false);
 	        result.setErrorMsg(event.getMemo());
-	   
+
 	    }catch (Exception e) {
 	    	result.setSuccess(false);
 	    	result.setErrorMsg(e.getMessage());
@@ -242,8 +242,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	    triggerNodeTransitions(event, context, n);
 	    return result;
 	}
-	
-	
+
+
 	private void setHashNum(Event event, Node n,
 			EventSchedulerProcessor eventSchedulerProcessor) {
 		//如果设定了hash值则不会修改
@@ -258,15 +258,15 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 
 
 	public void callback(Event event,EventContext context) throws Exception {
-		
+
 		Node n = ProcessTemplateHelper.find(event.getProcessName(), event.getCurrentName());
-		
-		//当执行失败 并且小于重试次数 
-		if(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode()) 
+
+		//当执行失败 并且小于重试次数
+		if(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode())
 				&& event.getExecCount() <= Integer.parseInt(n.getRetry())){
 			callback(event, context, n, context.getMap(),true);
 		}
-		
+
 		if(event.getStatus()!=EventConstant.EVENT_STATUS_SUCCESS){
 			logger.error("due to node "+event.getCurrentName()+" execute not success, procss "+event.getProcessName()+" finished, process id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 		    return;
@@ -284,12 +284,12 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	private void triggerNodeTransitions(Event event, EventContext context,
 			Node n) throws Exception, ClassNotFoundException,
 			InstantiationException, IllegalAccessException {
-		
+
 		if(n.transitions==null){
 			logger.info("procss finished, no transitions, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 			return;
 		}
-		
+
 		for (Transition transition : n.transitions) {
 			if(trigger(context,transition.exp)){
 
@@ -299,12 +299,12 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 				}
 
 				Node nextN = ProcessTemplateHelper.find(event.getProcessName(), transition.to);
-                
+
 				//如果是人工节点 就暂时不触发执行
 				if(nextN.getType().trim().equals(Node.NODE_MANUAL_TYPE)){
 					continue;
 				}
-				
+
 				if(nextN.isForeach()){
 					if(context.getDataList()!=null){
 						  List<Map<String, Object>> dataList = context.getDataList();
@@ -322,8 +322,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		}
 	}
 
-  
-	
+
+
 
 	private void callback(Event event, EventContext context, Node nextN,Map<String, Object> map, boolean isRetry)
 			throws Exception, ClassNotFoundException, InstantiationException,
@@ -341,12 +341,12 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setTypeClass(nextN.getClassname());
 		  newEvent.setSynInvoke(nextN.getSyn());
 		  newEvent.setType(nextN.getType());
-		  if(isRetry){//如果是重试 需要记录当前已经执行了几次 
+		  if(isRetry){//如果是重试 需要记录当前已经执行了几次
 			 newEvent.setExecCount(event.getExecCount());
 		  }
 		  //copy 全局的session context
 		  newEvent.setSessionContext(event.getSessionContext());
-		  
+
 		  logger.info("procss excute, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
 		  invokeNextNode(newEvent,nextN);
 	}

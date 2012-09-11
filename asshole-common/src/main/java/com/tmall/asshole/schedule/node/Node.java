@@ -47,6 +47,13 @@ public class Node {
 	@XStreamAsAttribute
 	private String retry;
 
+	public List<Transition> getTransitions() {
+		return transitions;
+	}
+
+	public void setTransitions(List<Transition> transitions) {
+		this.transitions = transitions;
+	}
 
 	public String getRetry() {
 		if(StringUtils.isBlank(retry)){

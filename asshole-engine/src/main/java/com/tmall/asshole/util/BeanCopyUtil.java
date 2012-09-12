@@ -14,8 +14,12 @@ public class BeanCopyUtil {
 		
 		for (Entry<String, Object> entry :map.entrySet()) {
 				try{
-					// 现在只拷贝一级
-					Field field = o.getClass().getDeclaredField(entry.getKey());
+					
+					Field field  = null;
+					
+					if(isClassContainsFiled(entry.getKey(),o.getClass().getDeclaredFields())){
+						field  = o.getClass().getDeclaredField(entry.getKey());
+					}
 					
 					Class<?> parent =  o.getClass();
 					while(field ==null && parent.getSuperclass()!=null){
@@ -37,7 +41,7 @@ public class BeanCopyUtil {
 						field.set(o, value);
 					}
 				}catch (Exception e) {
-					
+					e.printStackTrace();
 				}
 		}
 		

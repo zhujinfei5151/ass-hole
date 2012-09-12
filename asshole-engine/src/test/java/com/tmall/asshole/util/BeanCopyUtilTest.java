@@ -25,5 +25,20 @@ public class BeanCopyUtilTest {
          Assert.assertEquals("hello world", testEvent1.getTestVar1());		 
 		
 	}
+	
+	@Test
+    public void testCopy2(){
+		BeanCopySonEvent beanCopySonEvent = new BeanCopySonEvent();
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("name", "hello world");
+		BeanCopyUtil.copy(beanCopySonEvent, map);
+		
+		Assert.assertEquals("hello world", beanCopySonEvent.getName());		 
+		
+		
+	}
+	
+	
 
 }

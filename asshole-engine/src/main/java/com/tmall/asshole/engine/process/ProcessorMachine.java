@@ -225,8 +225,11 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 
 	        while(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode())
 	        		&& event.getExecCount() <= Integer.parseInt(n.getRetry()) ){
+	        	event.setContext(null);
+	        	event.setProcessLogs(null);
 	        	event.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode());//标记为未执行
 	        	eventSchedulerProcessor.addData(event);
+	        	context = eventSchedulerProcessor.create(event);
 	        	eventSchedulerProcessor.process(event, context);
 	        }
 
@@ -237,6 +240,16 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	    	result.setSuccess(false);
 	    	result.setErrorMsg(e.getMessage());
 	    	//throw e;
+		}
+	    
+	    if(event.getStatus()!=EventConstant.EVENT_STATUS_SUCCESS){
+			logger.error("due to node "+event.getCurrentName()+" execute not success, procss "+event.getProcessName()+" finished, process id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
+		    return result;
+		}
+
+		if(n.getTransitions()==null || n.getTransitions().size()==0){
+			logger.info("no transitions ,procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
+			return result;
 		}
 
 	    triggerNodeTransitions(event, context, n);
@@ -299,7 +312,13 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  event.setSessionContext(event.getSessionContext());
 		  //需要修改为没有执行
 		  event.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED);
-		  invokeNextNode(event,nextN);
+		  
+		  
+		  //因为重试 不管是不是人工节点都要当作自动节点处理
+		  Node tmpAutoNode = new Node();
+		  BeanUtils.copyProperties(nextN, tmpAutoNode);
+		   tmpAutoNode.setType(Node.NODE_AUTO_TYPE);  //设置成auto
+		  invokeNextNode(event,tmpAutoNode);
 	}
 
 	private void triggerNodeTransitions(Event event, EventContext context,

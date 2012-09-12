@@ -226,8 +226,6 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 	        while(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode())
 	        		&& event.getExecCount() <= Integer.parseInt(n.getRetry()) ){
 	        	event.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED.getCode());//标记为未执行
-	        	event.setContext(null);
-	        	event.setSessionContext(null);//清空session
 	        	eventSchedulerProcessor.addData(event);
 	        	eventSchedulerProcessor.process(event, context);
 	        }
@@ -266,7 +264,8 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		//当执行失败 并且小于重试次数
 		if(event.getStatus().equals(EventStatus.EVENT_STATUS_FAILED.getCode())
 				&& event.getExecCount() <= Integer.parseInt(n.getRetry())){
-			callback(event, context, n, context.getMap(),true);
+			retry(event,n);
+			return;
 		}
 
 		if(event.getStatus()!=EventConstant.EVENT_STATUS_SUCCESS){
@@ -274,7 +273,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		    return;
 		}
 
-		if(n.transitions==null || n.transitions.size()==0){
+		if(n.getTransitions()==null || n.getTransitions().size()==0){
 			logger.info("no transitions ,procss finished, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 			return;
 		}
@@ -282,17 +281,37 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		return;
 	}
 
+	private void retry(Event event, Node nextN) throws Exception {
+		  //event.setExecCount(event.getExecCount());
+		  logger.info("procss excute retry, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",current node name="+event.getCurrentName());
+		  event.setId(null);
+		  
+		//关键属性需要copy
+		  event.setProcessName(event.getProcessName());
+		  event.setCurrentName(nextN.getName());
+		  event.setProcessInstanceId(event.getProcessInstanceId());
+		  event.setProcessorNumber(Integer.parseInt(nextN.getProcessorNumber()));
+		  event.setEnv(machineConfig.getEnv());
+		  event.setTypeClass(nextN.getClassname());
+		  event.setSynInvoke(nextN.getSyn());
+		  event.setType(nextN.getType());
+		  //copy 全局的session context
+		  event.setSessionContext(event.getSessionContext());
+		  //需要修改为没有执行
+		  event.setStatus(EventStatus.EVENT_STATUS_UNEXECUTED);
+		  invokeNextNode(event,nextN);
+	}
 
 	private void triggerNodeTransitions(Event event, EventContext context,
 			Node n) throws Exception, ClassNotFoundException,
 			InstantiationException, IllegalAccessException {
 
-		if(n.transitions==null){
+		if(n.getTransitions()==null){
 			logger.info("procss finished, no transitions, name="+event.getProcessName()+",id="+event.getProcessInstanceId()+",last node name="+event.getCurrentName());
 			return;
 		}
 
-		for (Transition transition : n.transitions) {
+		for (Transition transition : n.getTransitions()) {
 			if(trigger(context,transition.exp)){
 
 				if(StringUtils.isBlank( transition.to) || transition.to.trim().toLowerCase().equals("end")){
@@ -311,13 +330,13 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 					if(context.getDataList()!=null){
 						  List<Map<String, Object>> dataList = context.getDataList();
 						  for (Map<String, Object> map : dataList) {
-							  callback(event, context, nextN, map,false);
+							  callback(event, context, nextN, map);
 						  }
 						  continue;
 					}
 				}
 				else{
-		           callback(event, context, nextN, context.getMap(),false);
+		           callback(event, context, nextN, context.getMap());
 		           continue;
 				}
 			}
@@ -327,7 +346,7 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 
 
 
-	private void callback(Event event, EventContext context, Node nextN,Map<String, Object> map, boolean isRetry)
+	private void callback(Event event, EventContext context, Node nextN,Map<String, Object> map)
 			throws Exception, ClassNotFoundException, InstantiationException,
 			IllegalAccessException {
 		  Class<?> eventName = Class.forName(nextN.getClassname());
@@ -343,9 +362,6 @@ public class ProcessorMachine implements IDataProcessorCallBack<Event,EventConte
 		  newEvent.setTypeClass(nextN.getClassname());
 		  newEvent.setSynInvoke(nextN.getSyn());
 		  newEvent.setType(nextN.getType());
-		  if(isRetry){//如果是重试 需要记录当前已经执行了几次
-			 newEvent.setExecCount(event.getExecCount());
-		  }
 		  //copy 全局的session context
 		  newEvent.setSessionContext(event.getSessionContext());
 
